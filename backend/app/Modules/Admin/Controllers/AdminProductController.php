@@ -3,6 +3,7 @@
 namespace App\Modules\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\HttpResponse;
 use App\Modules\Admin\Requests\CreateCardRequest;
 use App\Modules\Admin\Requests\UpdateCardRequest;
 use App\Modules\Admin\Requests\UpdateStockRequest;
@@ -16,6 +17,8 @@ use Illuminate\Http\JsonResponse;
 
 class AdminProductController extends Controller
 {
+    use HttpResponse;
+
     public function __construct(private AdminProductService $service) {}
 
     // Cards
@@ -23,10 +26,7 @@ class AdminProductController extends Controller
     {
         $card = $this->service->createCard($request->validated());
 
-        return response()->json([
-            'message' => 'Card created.',
-            'data'    => $card->load('set'),
-        ], 201);
+        return $this->success($card->load('set'), 'Card created.', 201);
     }
 
     public function updateCard(UpdateCardRequest $request, int $id): JsonResponse
@@ -34,7 +34,7 @@ class AdminProductController extends Controller
         $card = Card::findOrFail($id);
         $card = $this->service->updateCard($card, $request->validated());
 
-        return response()->json(['message' => 'Card updated.', 'data' => $card]);
+        return $this->success($card, 'Card updated.');
     }
 
     public function deactivateCard(int $id): JsonResponse
@@ -42,7 +42,7 @@ class AdminProductController extends Controller
         $card = Card::findOrFail($id);
         $card = $this->service->deactivateCard($card);
 
-        return response()->json(['message' => 'Card deactivated.', 'data' => $card]);
+        return $this->success($card, 'Card deactivated.');
     }
 
     public function updateStock(UpdateStockRequest $request, int $id): JsonResponse
@@ -50,7 +50,7 @@ class AdminProductController extends Controller
         $card = Card::findOrFail($id);
         $card = $this->service->updateStock($card, $request->input('stock'), auth('api')->user());
 
-        return response()->json(['message' => 'Stock updated.', 'data' => $card]);
+        return $this->success($card, 'Stock updated.');
     }
 
     // Sets
@@ -58,7 +58,7 @@ class AdminProductController extends Controller
     {
         $set = $this->service->createSet($request->validated());
 
-        return response()->json(['message' => 'Set created.', 'data' => $set], 201);
+        return $this->success($set, 'Set created.', 201);
     }
 
     public function updateSet(UpdateSetRequest $request, int $id): JsonResponse
@@ -66,7 +66,7 @@ class AdminProductController extends Controller
         $set = Set::findOrFail($id);
         $set = $this->service->updateSet($set, $request->validated());
 
-        return response()->json(['message' => 'Set updated.', 'data' => $set]);
+        return $this->success($set, 'Set updated.');
     }
 
     public function deactivateSet(int $id): JsonResponse
@@ -74,7 +74,7 @@ class AdminProductController extends Controller
         $set = Set::findOrFail($id);
         $set = $this->service->deactivateSet($set);
 
-        return response()->json(['message' => 'Set deactivated.', 'data' => $set]);
+        return $this->success($set, 'Set deactivated.');
     }
 
     // Dashboard
@@ -85,6 +85,6 @@ class AdminProductController extends Controller
             $request->input('end_date'),
         );
 
-        return response()->json(['data' => $data]);
+        return $this->success($data);
     }
 }
