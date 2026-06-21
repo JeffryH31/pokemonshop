@@ -3,6 +3,7 @@
 namespace App\Modules\Admin\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\HttpResponse;
 use App\Modules\Admin\Requests\UpdateOrderStatusRequest;
 use App\Modules\Order\Models\Order;
 use App\Modules\Order\Services\OrderService;
@@ -11,6 +12,8 @@ use Illuminate\Http\Request;
 
 class AdminOrderController extends Controller
 {
+    use HttpResponse;
+
     public function __construct(private OrderService $orderService) {}
 
     public function index(Request $request): JsonResponse
@@ -27,9 +30,9 @@ class AdminOrderController extends Controller
 
         $paginator = $query->paginate(20);
 
-        return response()->json([
-            'data' => $paginator->items(),
-            'meta' => [
+        return $this->success([
+            'items' => $paginator->items(),
+            'meta'  => [
                 'current_page' => $paginator->currentPage(),
                 'total'        => $paginator->total(),
                 'per_page'     => $paginator->perPage(),
@@ -48,10 +51,7 @@ class AdminOrderController extends Controller
             trackingNumber: $request->input('tracking_number'),
         );
 
-        return response()->json([
-            'message' => 'Order status updated.',
-            'data'    => $order,
-        ]);
+        return $this->success($order, 'Order status updated.');
     }
 
     public function cancel(int $id): JsonResponse
@@ -59,17 +59,13 @@ class AdminOrderController extends Controller
         $order = Order::with('items')->findOrFail($id);
 
         if (!$order->isCancellable()) {
-            return response()->json([
-                'message' => 'Order cannot be cancelled.',
-                'errors'  => ['status' => ['Only orders with status pending_payment or paid can be cancelled.']],
-            ], 422);
+            return $this->error('Order cannot be cancelled.', 422, [
+                'status' => ['Only orders with status pending_payment or paid can be cancelled.'],
+            ]);
         }
 
         $order = $this->orderService->updateStatus($order, Order::STATUS_CANCELLED);
 
-        return response()->json([
-            'message' => 'Order cancelled.',
-            'data'    => $order,
-        ]);
+        return $this->success($order, 'Order cancelled.');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Modules\Cart\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\HttpResponse;
 use App\Modules\Cart\Requests\AddCartItemRequest;
 use App\Modules\Cart\Requests\UpdateCartItemRequest;
 use App\Modules\Cart\Services\CartService;
@@ -10,13 +11,15 @@ use Illuminate\Http\JsonResponse;
 
 class CartController extends Controller
 {
+    use HttpResponse;
+
     public function __construct(private CartService $cartService) {}
 
     public function index(): JsonResponse
     {
         $cart = $this->cartService->getCart(auth('api')->user());
 
-        return response()->json(['data' => $this->formatCart($cart)]);
+        return $this->success($this->formatCart($cart));
     }
 
     public function addItem(AddCartItemRequest $request): JsonResponse
@@ -27,7 +30,7 @@ class CartController extends Controller
             quantity: $request->input('quantity'),
         );
 
-        return response()->json(['message' => 'Item added.', 'data' => $this->formatCart($cart)], 201);
+        return $this->success($this->formatCart($cart), 'Item added.', 201);
     }
 
     public function updateItem(UpdateCartItemRequest $request, int $cardId): JsonResponse
@@ -38,14 +41,14 @@ class CartController extends Controller
             quantity: $request->input('quantity'),
         );
 
-        return response()->json(['message' => 'Cart updated.', 'data' => $this->formatCart($cart)]);
+        return $this->success($this->formatCart($cart), 'Cart updated.');
     }
 
     public function removeItem(int $cardId): JsonResponse
     {
         $cart = $this->cartService->removeItem(auth('api')->user(), $cardId);
 
-        return response()->json(['message' => 'Item removed.', 'data' => $this->formatCart($cart)]);
+        return $this->success($this->formatCart($cart), 'Item removed.');
     }
 
     private function formatCart($cart): array

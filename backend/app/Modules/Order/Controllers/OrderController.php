@@ -3,12 +3,15 @@
 namespace App\Modules\Order\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\HttpResponse;
 use App\Modules\Order\Requests\CheckoutRequest;
 use App\Modules\Order\Services\OrderService;
 use Illuminate\Http\JsonResponse;
 
 class OrderController extends Controller
 {
+    use HttpResponse;
+
     public function __construct(private OrderService $orderService) {}
 
     public function checkout(CheckoutRequest $request): JsonResponse
@@ -18,26 +21,21 @@ class OrderController extends Controller
             shippingData: $request->validated(),
         );
 
-        return response()->json([
-            'message' => 'Order created successfully.',
-            'data'    => $this->formatOrder($order),
-        ], 201);
+        return $this->success($this->formatOrder($order), 'Order created successfully.', 201);
     }
 
     public function index(): JsonResponse
     {
         $orders = $this->orderService->getUserOrders(auth('api')->user());
 
-        return response()->json([
-            'data' => $orders->map(fn($o) => $this->formatOrderSummary($o)),
-        ]);
+        return $this->success($orders->map(fn($o) => $this->formatOrderSummary($o)));
     }
 
     public function show(int $id): JsonResponse
     {
         $order = $this->orderService->getUserOrder(auth('api')->user(), $id);
 
-        return response()->json(['data' => $this->formatOrder($order)]);
+        return $this->success($this->formatOrder($order));
     }
 
     private function formatOrder($order): array

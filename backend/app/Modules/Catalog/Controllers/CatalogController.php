@@ -3,6 +3,7 @@
 namespace App\Modules\Catalog\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Traits\HttpResponse;
 use App\Modules\Catalog\Requests\ListCardsRequest;
 use App\Modules\Catalog\Services\CatalogService;
 use Illuminate\Http\JsonResponse;
@@ -10,15 +11,17 @@ use Illuminate\Http\Request;
 
 class CatalogController extends Controller
 {
+    use HttpResponse;
+
     public function __construct(private CatalogService $catalogService) {}
 
     public function index(ListCardsRequest $request): JsonResponse
     {
         $paginator = $this->catalogService->listCards($request->validated());
 
-        return response()->json([
-            'data' => $paginator->items(),
-            'meta' => [
+        return $this->success([
+            'items' => $paginator->items(),
+            'meta'  => [
                 'current_page' => $paginator->currentPage(),
                 'total'        => $paginator->total(),
                 'per_page'     => $paginator->perPage(),
@@ -35,9 +38,9 @@ class CatalogController extends Controller
 
         $paginator = $this->catalogService->searchCards($request->input('q'));
 
-        return response()->json([
-            'data' => $paginator->items(),
-            'meta' => [
+        return $this->success([
+            'items' => $paginator->items(),
+            'meta'  => [
                 'current_page' => $paginator->currentPage(),
                 'total'        => $paginator->total(),
                 'per_page'     => $paginator->perPage(),
@@ -50,18 +53,16 @@ class CatalogController extends Controller
     {
         $card = $this->catalogService->getCard($id);
 
-        return response()->json(['data' => $card->append('is_available')]);
+        return $this->success($card->append('is_available'));
     }
 
     public function sets(): JsonResponse
     {
-        $sets = $this->catalogService->listSets();
-
-        return response()->json(['data' => $sets]);
+        return $this->success($this->catalogService->listSets());
     }
 
     public function rarities(): JsonResponse
     {
-        return response()->json(['data' => $this->catalogService->getRarities()]);
+        return $this->success($this->catalogService->getRarities());
     }
 }
