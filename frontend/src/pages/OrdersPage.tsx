@@ -14,7 +14,7 @@ export default function OrdersPage() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <h1 className="font-display text-2xl font-bold text-[#f0ece4] mb-8">My Orders</h1>
+      <h1 className="font-display text-2xl font-bold text-[#f0ece4] mb-8">Pesanan Saya</h1>
 
       {isLoading ? (
         <div className="space-y-3">
@@ -27,10 +27,10 @@ export default function OrdersPage() {
           <div className="w-16 h-16 rounded-full bg-[#1c1c28] flex items-center justify-center mb-4">
             <Package size={24} className="text-[#5a5550]" />
           </div>
-          <p className="text-[#a09a8e] font-medium">No orders yet</p>
-          <p className="text-sm text-[#5a5550] mt-1">Your placed orders will appear here</p>
+          <p className="text-[#a09a8e] font-medium">Belum ada pesanan</p>
+          <p className="text-sm text-[#5a5550] mt-1">Pesanan yang kamu buat akan muncul di sini</p>
           <Link to="/cards" className="text-sm text-[#e5b13a] hover:underline mt-4">
-            Browse cards →
+            Lihat koleksi kartu →
           </Link>
         </div>
       ) : (
@@ -63,7 +63,7 @@ export default function OrdersPage() {
                     </span>
                   </div>
                   <p className="text-xs text-[#5a5550] mt-0.5">
-                    {order.items?.length ?? 0} item{order.items?.length !== 1 ? 's' : ''} · {formatDate(order.created_at)}
+                    {order.items?.length ?? 0} item · {formatDate(order.created_at)}
                   </p>
                 </div>
                 <div className="text-right shrink-0">

@@ -36,27 +36,27 @@ export default function AdminCards() {
 
   const { mutate: createCard, isPending: creating } = useMutation({
     mutationFn: (payload: any) => api.post('/admin/cards', payload).then((r) => r.data),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin', 'cards'] }); qc.invalidateQueries({ queryKey: ['cards'] }); resetForm(); toast.success('Card created!') },
-    onError: (e: any) => toast.error(e?.response?.data?.message || 'Failed to create card'),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin', 'cards'] }); qc.invalidateQueries({ queryKey: ['cards'] }); resetForm(); toast.success('Kartu berhasil dibuat!') },
+    onError: (e: any) => toast.error(e?.response?.data?.message || 'Gagal membuat kartu'),
   })
 
   const { mutate: updateCard, isPending: updating } = useMutation({
     mutationFn: ({ id, payload }: { id: number; payload: any }) =>
       api.put(`/admin/cards/${id}`, payload).then((r) => r.data),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin', 'cards'] }); qc.invalidateQueries({ queryKey: ['cards'] }); resetForm(); toast.success('Card updated!') },
-    onError: (e: any) => toast.error(e?.response?.data?.message || 'Failed to update card'),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin', 'cards'] }); qc.invalidateQueries({ queryKey: ['cards'] }); resetForm(); toast.success('Kartu berhasil diperbarui!') },
+    onError: (e: any) => toast.error(e?.response?.data?.message || 'Gagal memperbarui kartu'),
   })
 
   const { mutate: deleteCard } = useMutation({
     mutationFn: (id: number) => api.delete(`/admin/cards/${id}`),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin', 'cards'] }); qc.invalidateQueries({ queryKey: ['cards'] }); toast.success('Card deactivated') },
-    onError: () => toast.error('Failed to deactivate card'),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin', 'cards'] }); qc.invalidateQueries({ queryKey: ['cards'] }); toast.success('Kartu dinonaktifkan') },
+    onError: () => toast.error('Gagal menonaktifkan kartu'),
   })
 
   const { mutate: updateStock } = useMutation({
     mutationFn: ({ id, stock }: { id: number; stock: number }) =>
       api.patch(`/admin/cards/${id}/stock`, { stock }),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin', 'cards'] }); qc.invalidateQueries({ queryKey: ['cards'] }); toast.success('Stock updated') },
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin', 'cards'] }); qc.invalidateQueries({ queryKey: ['cards'] }); toast.success('Stok diperbarui') },
   })
 
   const resetForm = () => { setForm(EMPTY_FORM); setEditing(null); setShowForm(false) }
@@ -83,66 +83,56 @@ export default function AdminCards() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="font-display text-2xl font-bold text-[#f0ece4]">Cards</h1>
+        <h1 className="font-display text-2xl font-bold text-[#f0ece4]">Kartu</h1>
         <Button onClick={() => { resetForm(); setShowForm(!showForm) }} size="sm">
           <Plus size={14} />
-          Add Card
+          Tambah Kartu
         </Button>
       </div>
 
-      {/* Form */}
       {showForm && (
         <form
           onSubmit={handleSubmit}
           className="bg-[#16161f] border border-[#2a2a38] rounded-xl p-5 mb-6 grid grid-cols-2 md:grid-cols-3 gap-4"
         >
-          <Input label="Card Name" value={form.name} onChange={(e) => f('name', e.target.value)} required />
+          <Input label="Nama Kartu" value={form.name} onChange={(e) => f('name', e.target.value)} required />
           <Select label="Set" value={form.set_id} onChange={(e) => f('set_id', e.target.value)} required
-            placeholder="Select set"
+            placeholder="Pilih set"
             options={(sets ?? []).map((s) => ({ value: s.id, label: s.name }))}
           />
-          <Select label="Rarity" value={form.rarity} onChange={(e) => f('rarity', e.target.value)}
+          <Select label="Kelangkaan" value={form.rarity} onChange={(e) => f('rarity', e.target.value)}
             options={RARITIES.map((r) => ({ value: r, label: r }))}
           />
-          <Select label="Condition" value={form.condition} onChange={(e) => f('condition', e.target.value)}
+          <Select label="Kondisi" value={form.condition} onChange={(e) => f('condition', e.target.value)}
             options={CONDITIONS.map((c) => ({ value: c, label: c }))}
           />
-          <Input label="Price ($)" type="number" step="0.01" value={form.price} onChange={(e) => f('price', e.target.value)} required />
-          <Input label="Stock" type="number" value={form.stock} onChange={(e) => f('stock', e.target.value)} required />
-          <Input label="Image URL" value={form.image_url} onChange={(e) => f('image_url', e.target.value)} className="col-span-2" />
-          <Input label="Description" value={form.description} onChange={(e) => f('description', e.target.value)} className="col-span-2 md:col-span-3" />
+          <Input label="Harga (Rp)" type="number" step="1" value={form.price} onChange={(e) => f('price', e.target.value)} required />
+          <Input label="Stok" type="number" value={form.stock} onChange={(e) => f('stock', e.target.value)} required />
+          <Input label="URL Gambar" value={form.image_url} onChange={(e) => f('image_url', e.target.value)} className="col-span-2" />
+          <Input label="Deskripsi" value={form.description} onChange={(e) => f('description', e.target.value)} className="col-span-2 md:col-span-3" />
 
           <div className="col-span-2 md:col-span-3 flex gap-3">
             <Button type="submit" loading={creating || updating}>
-              {editing ? 'Update' : 'Create'} Card
+              {editing ? 'Perbarui' : 'Buat'} Kartu
             </Button>
-            <Button type="button" variant="ghost" onClick={resetForm}>Cancel</Button>
+            <Button type="button" variant="ghost" onClick={resetForm}>Batal</Button>
           </div>
         </form>
       )}
 
-      {/* Table */}
       <div className="bg-[#16161f] border border-[#2a2a38] rounded-xl overflow-hidden">
         <table className="w-full text-sm">
           <thead className="border-b border-[#2a2a38]">
             <tr>
-              {['Card', 'Set', 'Rarity', 'Condition', 'Price', 'Stock', 'Actions'].map((h) => (
-                <th key={h} className="px-4 py-3 text-left text-xs text-[#5a5550] uppercase tracking-wide font-semibold">
-                  {h}
-                </th>
+              {['Kartu', 'Set', 'Kelangkaan', 'Kondisi', 'Harga', 'Stok', 'Aksi'].map((h) => (
+                <th key={h} className="px-4 py-3 text-left text-xs text-[#5a5550] uppercase tracking-wide font-semibold">{h}</th>
               ))}
             </tr>
           </thead>
           <tbody className="divide-y divide-[#1e1e2a]">
             {isLoading
               ? Array.from({ length: 6 }).map((_, i) => (
-                  <tr key={i}>
-                    {Array.from({ length: 7 }).map((_, j) => (
-                      <td key={j} className="px-4 py-3">
-                        <Skeleton className="h-4 w-full" />
-                      </td>
-                    ))}
-                  </tr>
+                  <tr key={i}>{Array.from({ length: 7 }).map((_, j) => <td key={j} className="px-4 py-3"><Skeleton className="h-4 w-full" /></td>)}</tr>
                 ))
               : data?.data.map((card) => (
                   <tr key={card.id} className="hover:bg-[#1c1c28] transition-colors group">
@@ -167,7 +157,7 @@ export default function AdminCards() {
                         <span className={`text-sm ${card.stock === 0 ? 'text-red-400' : 'text-[#f0ece4]'}`}>{card.stock}</span>
                         <button
                           onClick={() => {
-                            const newStock = prompt('New stock quantity:', String(card.stock))
+                            const newStock = prompt('Jumlah stok baru:', String(card.stock))
                             if (newStock !== null) updateStock({ id: card.id, stock: parseInt(newStock) })
                           }}
                           className="opacity-0 group-hover:opacity-100 ml-1 text-xs text-[#e5b13a] hover:underline transition-opacity"
@@ -181,7 +171,7 @@ export default function AdminCards() {
                         <button onClick={() => openEdit(card)} className="p-1.5 rounded text-[#5a5550] hover:text-[#e5b13a] hover:bg-[#e5b13a11] transition-all">
                           <Edit2 size={13} />
                         </button>
-                        <button onClick={() => { if (confirm('Deactivate this card?')) deleteCard(card.id) }} className="p-1.5 rounded text-[#5a5550] hover:text-red-400 hover:bg-red-500/10 transition-all">
+                        <button onClick={() => { if (confirm('Nonaktifkan kartu ini?')) deleteCard(card.id) }} className="p-1.5 rounded text-[#5a5550] hover:text-red-400 hover:bg-red-500/10 transition-all">
                           <Trash2 size={13} />
                         </button>
                       </div>
@@ -193,12 +183,10 @@ export default function AdminCards() {
 
         {data && data.last_page > 1 && (
           <div className="px-4 py-3 border-t border-[#2a2a38] flex items-center justify-between">
-            <span className="text-xs text-[#5a5550]">
-              {data.from}–{data.to} of {data.total}
-            </span>
+            <span className="text-xs text-[#5a5550]">{data.from}–{data.to} dari {data.total}</span>
             <div className="flex gap-2">
-              <Button variant="secondary" size="sm" disabled={page === 1} onClick={() => setPage(page - 1)}>Prev</Button>
-              <Button variant="secondary" size="sm" disabled={page === data.last_page} onClick={() => setPage(page + 1)}>Next</Button>
+              <Button variant="secondary" size="sm" disabled={page === 1} onClick={() => setPage(page - 1)}>Sebelumnya</Button>
+              <Button variant="secondary" size="sm" disabled={page === data.last_page} onClick={() => setPage(page + 1)}>Berikutnya</Button>
             </div>
           </div>
         )}

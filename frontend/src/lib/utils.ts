@@ -7,10 +7,11 @@ export function cn(...inputs: ClassValue[]) {
 
 export function formatPrice(price: number | string): string {
   const num = typeof price === 'string' ? parseFloat(price) : price
-  return new Intl.NumberFormat('en-US', {
+  return new Intl.NumberFormat('id-ID', {
     style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
+    currency: 'IDR',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   }).format(num)
 }
 
@@ -59,5 +60,14 @@ export function getStatusColor(status: string): string {
 }
 
 export function getStatusLabel(status: string): string {
-  return status.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+  const labels: Record<string, string> = {
+    pending_payment: 'Menunggu Bayar',
+    paid: 'Sudah Dibayar',
+    processing: 'Diproses',
+    shipped: 'Dikirim',
+    delivered: 'Diterima',
+    cancelled: 'Dibatalkan',
+    expired: 'Kedaluwarsa',
+  }
+  return labels[status] ?? status.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
 }

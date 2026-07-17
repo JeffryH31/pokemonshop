@@ -37,6 +37,8 @@ class Card extends Model
         'is_active',
     ];
 
+    protected $appends = ['is_available'];
+
     protected function casts(): array
     {
         return [

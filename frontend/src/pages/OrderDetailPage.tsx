@@ -8,6 +8,16 @@ import { Skeleton } from '../components/ui/Skeleton'
 
 const ORDER_STEPS = ['pending_payment', 'paid', 'processing', 'shipped', 'delivered']
 
+const STEP_LABELS: Record<string, string> = {
+  pending_payment: 'Menunggu Bayar',
+  paid: 'Sudah Dibayar',
+  processing: 'Diproses',
+  shipped: 'Dikirim',
+  delivered: 'Diterima',
+  cancelled: 'Dibatalkan',
+  expired: 'Kedaluwarsa',
+}
+
 export default function OrderDetailPage() {
   const { id } = useParams<{ id: string }>()
   const { isAuthenticated } = useAuthStore()
@@ -28,8 +38,8 @@ export default function OrderDetailPage() {
   if (!order) {
     return (
       <div className="flex flex-col items-center py-24 text-center">
-        <p className="text-[#a09a8e]">Order not found</p>
-        <Link to="/orders" className="text-sm text-[#e5b13a] mt-2 hover:underline">Back to orders</Link>
+        <p className="text-[#a09a8e]">Pesanan tidak ditemukan</p>
+        <Link to="/orders" className="text-sm text-[#e5b13a] mt-2 hover:underline">Kembali ke pesanan</Link>
       </div>
     )
   }
@@ -44,7 +54,7 @@ export default function OrderDetailPage() {
         className="inline-flex items-center gap-2 text-sm text-[#5a5550] hover:text-[#a09a8e] transition-colors mb-6"
       >
         <ArrowLeft size={14} />
-        Back to orders
+        Kembali ke pesanan
       </Link>
 
       <motion.div
@@ -57,9 +67,9 @@ export default function OrderDetailPage() {
         <div className="bg-[#16161f] border border-[#2a2a38] rounded-xl p-5">
           <div className="flex items-start justify-between flex-wrap gap-3">
             <div>
-              <p className="text-xs text-[#5a5550] uppercase tracking-wide">Order Number</p>
+              <p className="text-xs text-[#5a5550] uppercase tracking-wide">Nomor Pesanan</p>
               <p className="font-display text-lg font-bold text-[#f0ece4] mt-0.5">{order.order_number}</p>
-              <p className="text-xs text-[#5a5550] mt-1">Placed on {formatDate(order.created_at)}</p>
+              <p className="text-xs text-[#5a5550] mt-1">Dipesan pada {formatDate(order.created_at)}</p>
             </div>
             <div className="text-right">
               <span
@@ -69,7 +79,7 @@ export default function OrderDetailPage() {
                   background: `${getStatusColor(order.status)}22`,
                 }}
               >
-                {getStatusLabel(order.status)}
+                {STEP_LABELS[order.status] ?? getStatusLabel(order.status)}
               </span>
               <p className="text-2xl font-bold text-[#e5b13a] mt-2">{formatPrice(order.total_amount)}</p>
             </div>
@@ -87,23 +97,18 @@ export default function OrderDetailPage() {
                       {i > 0 && (
                         <div
                           className="absolute left-[-50%] right-[50%] h-0.5 top-3 -translate-y-1/2 z-0"
-                          style={{
-                            background: done ? '#e5b13a' : '#2a2a38',
-                            transition: 'background 0.3s',
-                          }}
+                          style={{ background: done ? '#e5b13a' : '#2a2a38', transition: 'background 0.3s' }}
                         />
                       )}
                       <div
                         className={`w-6 h-6 rounded-full flex items-center justify-center z-10 border-2 transition-all ${
-                          done
-                            ? 'bg-[#e5b13a] border-[#e5b13a]'
-                            : 'bg-[#16161f] border-[#2a2a38]'
+                          done ? 'bg-[#e5b13a] border-[#e5b13a]' : 'bg-[#16161f] border-[#2a2a38]'
                         } ${active ? 'ring-2 ring-[#e5b13a44]' : ''}`}
                       >
                         {done && <div className="w-2 h-2 rounded-full bg-[#0a0a0f]" />}
                       </div>
                       <span className="text-[9px] text-[#5a5550] mt-1.5 text-center leading-tight hidden sm:block">
-                        {getStatusLabel(step)}
+                        {STEP_LABELS[step]}
                       </span>
                     </div>
                   )
@@ -113,30 +118,30 @@ export default function OrderDetailPage() {
           )}
         </div>
 
-        {/* Shipping info */}
+        {/* Info pengiriman */}
         <div className="bg-[#16161f] border border-[#2a2a38] rounded-xl p-5">
           <div className="flex items-center gap-2 mb-4">
             <MapPin size={15} className="text-[#e5b13a]" />
-            <h2 className="text-sm font-semibold text-[#f0ece4]">Shipping Info</h2>
+            <h2 className="text-sm font-semibold text-[#f0ece4]">Info Pengiriman</h2>
           </div>
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
-              <p className="text-xs text-[#5a5550] mb-0.5">Recipient</p>
+              <p className="text-xs text-[#5a5550] mb-0.5">Penerima</p>
               <p className="text-[#f0ece4]">{order.recipient_name}</p>
             </div>
             <div>
-              <p className="text-xs text-[#5a5550] mb-0.5">City</p>
+              <p className="text-xs text-[#5a5550] mb-0.5">Kota</p>
               <p className="text-[#f0ece4]">{order.city}</p>
             </div>
             <div className="col-span-2">
-              <p className="text-xs text-[#5a5550] mb-0.5">Address</p>
+              <p className="text-xs text-[#5a5550] mb-0.5">Alamat</p>
               <p className="text-[#f0ece4]">{order.street_address}, {order.postal_code}</p>
             </div>
             {order.tracking_number && (
               <div className="col-span-2">
                 <div className="flex items-center gap-2">
                   <Truck size={12} className="text-[#e5b13a]" />
-                  <p className="text-xs text-[#5a5550]">Tracking</p>
+                  <p className="text-xs text-[#5a5550]">Nomor Resi</p>
                 </div>
                 <p className="text-[#e5b13a] font-mono text-sm">{order.tracking_number}</p>
               </div>
@@ -144,11 +149,11 @@ export default function OrderDetailPage() {
           </div>
         </div>
 
-        {/* Items */}
+        {/* Item pesanan */}
         <div className="bg-[#16161f] border border-[#2a2a38] rounded-xl p-5">
           <div className="flex items-center gap-2 mb-4">
             <Package size={15} className="text-[#e5b13a]" />
-            <h2 className="text-sm font-semibold text-[#f0ece4]">Items ({order.items.length})</h2>
+            <h2 className="text-sm font-semibold text-[#f0ece4]">Item Pesanan ({order.items.length})</h2>
           </div>
 
           <ul className="divide-y divide-[#1e1e2a]">

@@ -3,6 +3,8 @@ import AnnouncementBar from './AnnouncementBar'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import CartDrawer from './CartDrawer'
+import WhatsAppPopup from '../WhatsAppPopup'
+import WhatsAppFAB from '../WhatsAppFAB'
 import { useCart } from '../../hooks/useCart'
 import { useAuthStore } from '../../store/authStore'
 
@@ -20,6 +22,9 @@ export default function Layout() {
       </main>
       <Footer />
       {isAuthenticated && <CartDrawer />}
+      {/* WhatsApp — always visible */}
+      <WhatsAppFAB />
+      <WhatsAppPopup />
     </div>
   )
 }

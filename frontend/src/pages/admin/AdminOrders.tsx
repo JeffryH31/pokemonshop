@@ -5,12 +5,22 @@ import { Eye } from 'lucide-react'
 import toast from 'react-hot-toast'
 import api from '../../lib/api'
 import type { Order, PaginatedResponse } from '../../types'
-import { formatPrice, formatDate, getStatusColor, getStatusLabel } from '../../lib/utils'
+import { formatPrice, formatDate, getStatusColor } from '../../lib/utils'
 import Select from '../../components/ui/Select'
 import Button from '../../components/ui/Button'
 import { Skeleton } from '../../components/ui/Skeleton'
 
 const STATUSES = ['pending_payment', 'paid', 'processing', 'shipped', 'delivered', 'cancelled', 'expired']
+
+const STATUS_ID: Record<string, string> = {
+  pending_payment: 'Menunggu Bayar',
+  paid: 'Sudah Dibayar',
+  processing: 'Diproses',
+  shipped: 'Dikirim',
+  delivered: 'Diterima',
+  cancelled: 'Dibatalkan',
+  expired: 'Kedaluwarsa',
+}
 
 export default function AdminOrders() {
   const qc = useQueryClient()
@@ -27,26 +37,26 @@ export default function AdminOrders() {
   const { mutate: updateStatus } = useMutation({
     mutationFn: ({ id, status }: { id: number; status: string }) =>
       api.patch(`/admin/orders/${id}/status`, { status }),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin', 'orders'] }); toast.success('Status updated') },
-    onError: (e: any) => toast.error(e?.response?.data?.message || 'Failed to update status'),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin', 'orders'] }); toast.success('Status diperbarui') },
+    onError: (e: any) => toast.error(e?.response?.data?.message || 'Gagal memperbarui status'),
   })
 
   const { mutate: cancelOrder } = useMutation({
     mutationFn: (id: number) => api.patch(`/admin/orders/${id}/cancel`),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin', 'orders'] }); toast.success('Order cancelled') },
-    onError: () => toast.error('Cannot cancel this order'),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin', 'orders'] }); toast.success('Pesanan dibatalkan') },
+    onError: () => toast.error('Tidak dapat membatalkan pesanan ini'),
   })
 
   return (
     <div>
       <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
-        <h1 className="font-display text-2xl font-bold text-[#f0ece4]">Orders</h1>
+        <h1 className="font-display text-2xl font-bold text-[#f0ece4]">Pesanan</h1>
         <Select
           value={statusFilter}
           onChange={(e) => { setStatusFilter(e.target.value); setPage(1) }}
-          placeholder="All Statuses"
-          options={STATUSES.map((s) => ({ value: s, label: getStatusLabel(s) }))}
-          className="w-44"
+          placeholder="Semua Status"
+          options={STATUSES.map((s) => ({ value: s, label: STATUS_ID[s] ?? s }))}
+          className="w-48"
         />
       </div>
 
@@ -54,7 +64,7 @@ export default function AdminOrders() {
         <table className="w-full text-sm">
           <thead className="border-b border-[#2a2a38]">
             <tr>
-              {['Order #', 'Customer', 'Status', 'Total', 'Date', 'Actions'].map((h) => (
+              {['No. Pesanan', 'Pelanggan', 'Status', 'Total', 'Tanggal', 'Aksi'].map((h) => (
                 <th key={h} className="px-4 py-3 text-left text-xs text-[#5a5550] uppercase tracking-wide font-semibold">{h}</th>
               ))}
             </tr>
@@ -72,8 +82,8 @@ export default function AdminOrders() {
                       <Select
                         value={order.status}
                         onChange={(e) => updateStatus({ id: order.id, status: e.target.value })}
-                        options={STATUSES.map((s) => ({ value: s, label: getStatusLabel(s) }))}
-                        className="!py-1 !px-2 text-xs w-36"
+                        options={STATUSES.map((s) => ({ value: s, label: STATUS_ID[s] ?? s }))}
+                        className="!py-1 !px-2 text-xs w-40"
                         style={{ color: getStatusColor(order.status) } as any}
                       />
                     </td>
@@ -86,10 +96,10 @@ export default function AdminOrders() {
                         </Link>
                         {(order.status === 'pending_payment' || order.status === 'paid') && (
                           <button
-                            onClick={() => { if (confirm('Cancel this order?')) cancelOrder(order.id) }}
+                            onClick={() => { if (confirm('Batalkan pesanan ini?')) cancelOrder(order.id) }}
                             className="text-xs text-red-400 hover:underline"
                           >
-                            Cancel
+                            Batalkan
                           </button>
                         )}
                       </div>
@@ -101,10 +111,10 @@ export default function AdminOrders() {
 
         {data && data.last_page > 1 && (
           <div className="px-4 py-3 border-t border-[#2a2a38] flex items-center justify-between">
-            <span className="text-xs text-[#5a5550]">{data.from}–{data.to} of {data.total}</span>
+            <span className="text-xs text-[#5a5550]">{data.from}–{data.to} dari {data.total}</span>
             <div className="flex gap-2">
-              <Button variant="secondary" size="sm" disabled={page === 1} onClick={() => setPage(page - 1)}>Prev</Button>
-              <Button variant="secondary" size="sm" disabled={page === data.last_page} onClick={() => setPage(page + 1)}>Next</Button>
+              <Button variant="secondary" size="sm" disabled={page === 1} onClick={() => setPage(page - 1)}>Sebelumnya</Button>
+              <Button variant="secondary" size="sm" disabled={page === data.last_page} onClick={() => setPage(page + 1)}>Berikutnya</Button>
             </div>
           </div>
         )}

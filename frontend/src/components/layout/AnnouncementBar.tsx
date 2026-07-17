@@ -1,11 +1,12 @@
 export default function AnnouncementBar() {
   const items = [
-    '✦ Free shipping on orders over $150',
-    '✦ New sets added weekly',
-    '✦ Mint condition guaranteed',
-    '✦ Secure checkout with JWT auth',
-    '✦ Authentic Pokémon TCG singles',
-    '✦ Fast & safe delivery worldwide',
+    '✦ Wonderplays — Wonderful Place for All Collectors',
+    '✦ Buka Setiap Hari 12.00 – 24.00 WIB',
+    '✦ Produk 100% Asli & Bergaransi',
+    '✦ Pengiriman Seluruh Indonesia • Packing Tebal & Aman',
+    '✦ Ongkir Flat Rp 25.000 per Kilogram',
+    '✦ Terpercaya Sejak 2023 • Ribuan Produk Terjual',
+    '✦ Order Langsung via WhatsApp dengan Owner & Admin',
   ]
 
   const repeated = [...items, ...items]

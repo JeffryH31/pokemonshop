@@ -19,11 +19,11 @@ export default function RegisterPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     const newErrors: Record<string, string> = {}
-    if (!form.name.trim()) newErrors.name = 'Name is required'
-    if (!form.email) newErrors.email = 'Email is required'
-    if (!form.password || form.password.length < 8) newErrors.password = 'Min 8 characters'
+    if (!form.name.trim()) newErrors.name = 'Nama wajib diisi'
+    if (!form.email) newErrors.email = 'Email wajib diisi'
+    if (!form.password || form.password.length < 8) newErrors.password = 'Minimal 8 karakter'
     if (form.password !== form.password_confirmation)
-      newErrors.password_confirmation = 'Passwords do not match'
+      newErrors.password_confirmation = 'Password tidak cocok'
     if (Object.keys(newErrors).length > 0) return setErrors(newErrors)
     setErrors({})
     register(form)
@@ -48,8 +48,8 @@ export default function RegisterPage() {
           <div className="w-12 h-12 rounded-xl bg-[#e5b13a] flex items-center justify-center mb-3 shadow-lg shadow-[#e5b13a22]">
             <span className="text-[#0a0a0f] font-bold text-xl font-display">P</span>
           </div>
-          <h1 className="font-display text-2xl font-bold text-[#f0ece4]">Create account</h1>
-          <p className="text-sm text-[#5a5550] mt-1">Join PokéShop and start collecting</p>
+          <h1 className="font-display text-2xl font-bold text-[#f0ece4]">Buat akun baru</h1>
+          <p className="text-sm text-[#5a5550] mt-1">Bergabung dengan PokéShop dan mulai koleksi</p>
         </div>
 
         <form
@@ -57,7 +57,7 @@ export default function RegisterPage() {
           className="bg-[#16161f] border border-[#2a2a38] rounded-2xl p-6 space-y-4"
         >
           <Input
-            label="Full Name"
+            label="Nama Lengkap"
             type="text"
             placeholder="Ash Ketchum"
             value={form.name}
@@ -69,7 +69,7 @@ export default function RegisterPage() {
           <Input
             label="Email"
             type="email"
-            placeholder="you@example.com"
+            placeholder="kamu@email.com"
             value={form.email}
             onChange={(e) => field('email', e.target.value)}
             error={errors.email}
@@ -79,7 +79,7 @@ export default function RegisterPage() {
           <Input
             label="Password"
             type="password"
-            placeholder="Min. 8 characters"
+            placeholder="Min. 8 karakter"
             value={form.password}
             onChange={(e) => field('password', e.target.value)}
             error={errors.password}
@@ -87,9 +87,9 @@ export default function RegisterPage() {
             autoComplete="new-password"
           />
           <Input
-            label="Confirm Password"
+            label="Konfirmasi Password"
             type="password"
-            placeholder="Repeat password"
+            placeholder="Ulangi password"
             value={form.password_confirmation}
             onChange={(e) => field('password_confirmation', e.target.value)}
             error={errors.password_confirmation}
@@ -98,14 +98,14 @@ export default function RegisterPage() {
           />
 
           <Button type="submit" loading={isPending} className="w-full" size="lg">
-            Create Account
+            Buat Akun
           </Button>
         </form>
 
         <p className="text-center text-sm text-[#5a5550] mt-5">
-          Already have an account?{' '}
+          Sudah punya akun?{' '}
           <Link to="/login" className="text-[#e5b13a] hover:text-[#f0c547] font-medium transition-colors">
-            Sign in
+            Masuk di sini
           </Link>
         </p>
       </motion.div>

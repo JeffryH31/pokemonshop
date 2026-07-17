@@ -32,10 +32,10 @@ export function useAddToCart() {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['cart'] })
       openCart()
-      toast.success('Added to cart!')
+      toast.success('Ditambahkan ke keranjang!')
     },
     onError: (err: any) => {
-      const msg = err?.response?.data?.message || 'Failed to add to cart'
+      const msg = err?.response?.data?.message || 'Gagal menambahkan ke keranjang'
       toast.error(msg)
     },
   })
@@ -47,7 +47,7 @@ export function useUpdateCartItem() {
     mutationFn: ({ cardId, quantity }: { cardId: number; quantity: number }) =>
       api.put(`/cart/items/${cardId}`, { quantity }).then((r) => r.data),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['cart'] }),
-    onError: () => toast.error('Failed to update quantity'),
+    onError: () => toast.error('Gagal mengubah jumlah'),
   })
 }
 
@@ -58,8 +58,8 @@ export function useRemoveCartItem() {
       api.delete(`/cart/items/${cardId}`).then((r) => r.data),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['cart'] })
-      toast.success('Item removed')
+      toast.success('Item dihapus')
     },
-    onError: () => toast.error('Failed to remove item'),
+    onError: () => toast.error('Gagal menghapus item'),
   })
 }

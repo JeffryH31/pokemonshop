@@ -15,10 +15,10 @@ export function useLogin() {
       api.post<AuthResponse>('/auth/login', data).then((r) => r.data),
     onSuccess: (data) => {
       setAuth(data.user, data.token)
-      toast.success(`Welcome back, ${data.user.name}!`)
+      toast.success(`Selamat datang kembali, ${data.user.name}!`)
       navigate(data.user.role === 'admin' ? '/admin' : '/')
     },
-    onError: () => toast.error('Invalid email or password'),
+    onError: () => toast.error('Email atau password salah'),
   })
 }
 
@@ -31,11 +31,11 @@ export function useRegister() {
       api.post<AuthResponse>('/auth/register', data).then((r) => r.data),
     onSuccess: (data) => {
       setAuth(data.user, data.token)
-      toast.success('Account created successfully!')
+      toast.success('Akun berhasil dibuat!')
       navigate('/')
     },
     onError: (err: any) => {
-      const msg = err?.response?.data?.message || 'Registration failed'
+      const msg = err?.response?.data?.message || 'Pendaftaran gagal'
       toast.error(msg)
     },
   })
@@ -54,7 +54,7 @@ export function useLogout() {
       setCart(null)
       qc.clear()
       navigate('/')
-      toast.success('Logged out successfully')
+      toast.success('Berhasil keluar')
     },
   })
 }
@@ -76,8 +76,8 @@ export function useUpdateProfile() {
       api.put('/auth/profile', data).then((r) => r.data),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['me'] })
-      toast.success('Profile updated!')
+      toast.success('Profil diperbarui!')
     },
-    onError: () => toast.error('Failed to update profile'),
+    onError: () => toast.error('Gagal memperbarui profil'),
   })
 }

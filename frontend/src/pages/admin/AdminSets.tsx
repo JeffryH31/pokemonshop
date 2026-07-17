@@ -23,20 +23,20 @@ export default function AdminSets() {
 
   const { mutate: create, isPending: creating } = useMutation({
     mutationFn: (payload: any) => api.post('/admin/sets', payload).then((r) => r.data),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin', 'sets'] }); qc.invalidateQueries({ queryKey: ['sets'] }); reset(); toast.success('Set created!') },
-    onError: (e: any) => toast.error(e?.response?.data?.message || 'Failed'),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin', 'sets'] }); qc.invalidateQueries({ queryKey: ['sets'] }); reset(); toast.success('Set berhasil dibuat!') },
+    onError: (e: any) => toast.error(e?.response?.data?.message || 'Gagal'),
   })
 
   const { mutate: update, isPending: updating } = useMutation({
     mutationFn: ({ id, payload }: { id: number; payload: any }) =>
       api.put(`/admin/sets/${id}`, payload).then((r) => r.data),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin', 'sets'] }); qc.invalidateQueries({ queryKey: ['sets'] }); reset(); toast.success('Set updated!') },
-    onError: (e: any) => toast.error(e?.response?.data?.message || 'Failed'),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin', 'sets'] }); qc.invalidateQueries({ queryKey: ['sets'] }); reset(); toast.success('Set berhasil diperbarui!') },
+    onError: (e: any) => toast.error(e?.response?.data?.message || 'Gagal'),
   })
 
   const { mutate: remove } = useMutation({
     mutationFn: (id: number) => api.delete(`/admin/sets/${id}`),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin', 'sets'] }); qc.invalidateQueries({ queryKey: ['sets'] }); toast.success('Set deactivated') },
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin', 'sets'] }); qc.invalidateQueries({ queryKey: ['sets'] }); toast.success('Set dinonaktifkan') },
   })
 
   const reset = () => { setForm(EMPTY); setEditing(null); setShowForm(false) }
@@ -56,20 +56,20 @@ export default function AdminSets() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="font-display text-2xl font-bold text-[#f0ece4]">Sets</h1>
+        <h1 className="font-display text-2xl font-bold text-[#f0ece4]">Set</h1>
         <Button onClick={() => { reset(); setShowForm(!showForm) }} size="sm">
           <Plus size={14} />
-          Add Set
+          Tambah Set
         </Button>
       </div>
 
       {showForm && (
         <form onSubmit={handleSubmit} className="bg-[#16161f] border border-[#2a2a38] rounded-xl p-5 mb-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Input label="Set Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
-          <Input label="Description" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
+          <Input label="Nama Set" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
+          <Input label="Deskripsi" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
           <div className="flex gap-3">
-            <Button type="submit" loading={creating || updating}>{editing ? 'Update' : 'Create'} Set</Button>
-            <Button type="button" variant="ghost" onClick={reset}>Cancel</Button>
+            <Button type="submit" loading={creating || updating}>{editing ? 'Perbarui' : 'Buat'} Set</Button>
+            <Button type="button" variant="ghost" onClick={reset}>Batal</Button>
           </div>
         </form>
       )}
@@ -78,7 +78,7 @@ export default function AdminSets() {
         <table className="w-full text-sm">
           <thead className="border-b border-[#2a2a38]">
             <tr>
-              {['Name', 'Slug', 'Status', 'Actions'].map((h) => (
+              {['Nama', 'Slug', 'Status', 'Aksi'].map((h) => (
                 <th key={h} className="px-4 py-3 text-left text-xs text-[#5a5550] uppercase tracking-wide font-semibold">{h}</th>
               ))}
             </tr>
@@ -94,7 +94,7 @@ export default function AdminSets() {
                     <td className="px-4 py-3 text-[#5a5550] font-mono text-xs">{set.slug}</td>
                     <td className="px-4 py-3">
                       <span className={`text-xs px-2 py-1 rounded-full ${set.is_active ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'}`}>
-                        {set.is_active ? 'Active' : 'Inactive'}
+                        {set.is_active ? 'Aktif' : 'Nonaktif'}
                       </span>
                     </td>
                     <td className="px-4 py-3">
@@ -102,7 +102,7 @@ export default function AdminSets() {
                         <button onClick={() => openEdit(set)} className="p-1.5 rounded text-[#5a5550] hover:text-[#e5b13a] hover:bg-[#e5b13a11] transition-all">
                           <Edit2 size={13} />
                         </button>
-                        <button onClick={() => { if (confirm('Deactivate this set?')) remove(set.id) }} className="p-1.5 rounded text-[#5a5550] hover:text-red-400 hover:bg-red-500/10 transition-all">
+                        <button onClick={() => { if (confirm('Nonaktifkan set ini?')) remove(set.id) }} className="p-1.5 rounded text-[#5a5550] hover:text-red-400 hover:bg-red-500/10 transition-all">
                           <Trash2 size={13} />
                         </button>
                       </div>

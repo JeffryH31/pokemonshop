@@ -31,11 +31,11 @@ export function useCheckout() {
     onSuccess: (order: Order) => {
       qc.invalidateQueries({ queryKey: ['cart'] })
       qc.invalidateQueries({ queryKey: ['orders'] })
-      toast.success('Order placed successfully!')
+      toast.success('Pesanan berhasil dibuat!')
       navigate(`/orders/${order.id}`)
     },
     onError: (err: any) => {
-      const msg = err?.response?.data?.message || 'Checkout failed'
+      const msg = err?.response?.data?.message || 'Checkout gagal'
       toast.error(msg)
     },
   })

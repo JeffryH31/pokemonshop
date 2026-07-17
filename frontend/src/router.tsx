@@ -10,6 +10,7 @@ import CheckoutPage from './pages/CheckoutPage'
 import OrdersPage from './pages/OrdersPage'
 import OrderDetailPage from './pages/OrderDetailPage'
 import ProfilePage from './pages/ProfilePage'
+import AboutPage from './pages/AboutPage'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminCards from './pages/admin/AdminCards'
 import AdminSets from './pages/admin/AdminSets'
@@ -29,6 +30,7 @@ export const router = createBrowserRouter([
       { path: 'orders', element: <OrdersPage /> },
       { path: 'orders/:id', element: <OrderDetailPage /> },
       { path: 'profile', element: <ProfilePage /> },
+      { path: 'about', element: <AboutPage /> },
     ],
   },
   {

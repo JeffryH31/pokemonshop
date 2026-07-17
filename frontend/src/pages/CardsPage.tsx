@@ -20,7 +20,6 @@ export default function CardsPage() {
     condition: searchParams.get('condition') || undefined,
   })
 
-  // Sync URL → filters on first render
   useEffect(() => {
     setFilters({
       page: Number(searchParams.get('page')) || 1,
@@ -36,7 +35,6 @@ export default function CardsPage() {
 
   const handleFiltersChange = (newFilters: CardFilters) => {
     setFilters(newFilters)
-    // Sync to URL
     const params: Record<string, string> = {}
     if (newFilters.page && newFilters.page > 1) params.page = String(newFilters.page)
     if (newFilters.sort) params.sort = newFilters.sort
@@ -52,22 +50,19 @@ export default function CardsPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Header */}
       <div className="flex items-start justify-between mb-6 gap-4 flex-wrap">
         <div>
-          <h1 className="font-display text-2xl font-bold text-[#f0ece4]">All Cards</h1>
+          <h1 className="font-display text-2xl font-bold text-[#f0ece4]">Semua Kartu</h1>
           {data && (
             <p className="text-sm text-[#5a5550] mt-1">
-              {data.total.toLocaleString()} cards available
+              {data.total.toLocaleString('id-ID')} kartu tersedia
             </p>
           )}
         </div>
       </div>
 
-      {/* Filters */}
       <CardFiltersBar filters={filters} onChange={handleFiltersChange} />
 
-      {/* Grid */}
       <div className="mt-6 relative">
         {(isLoading || isFetching) && data && (
           <div className="absolute inset-0 bg-[#0a0a0f]/50 z-10 rounded-xl" />
@@ -83,7 +78,6 @@ export default function CardsPage() {
           <>
             <CardGrid cards={data.data} />
 
-            {/* Pagination */}
             {data.last_page > 1 && (
               <div className="flex items-center justify-center gap-2 mt-8">
                 <Button
@@ -92,7 +86,7 @@ export default function CardsPage() {
                   disabled={filters.page === 1}
                   onClick={() => changePage((filters.page ?? 1) - 1)}
                 >
-                  Previous
+                  Sebelumnya
                 </Button>
 
                 <div className="flex items-center gap-1">
@@ -127,7 +121,7 @@ export default function CardsPage() {
                   disabled={filters.page === data.last_page}
                   onClick={() => changePage((filters.page ?? 1) + 1)}
                 >
-                  Next
+                  Berikutnya
                 </Button>
               </div>
             )}
@@ -137,14 +131,14 @@ export default function CardsPage() {
             <div className="w-16 h-16 rounded-full bg-[#1c1c28] flex items-center justify-center mb-4">
               <Layers size={24} className="text-[#5a5550]" />
             </div>
-            <p className="text-[#a09a8e] font-medium">No cards found</p>
-            <p className="text-sm text-[#5a5550] mt-1">Try adjusting your filters</p>
+            <p className="text-[#a09a8e] font-medium">Kartu tidak ditemukan</p>
+            <p className="text-sm text-[#5a5550] mt-1">Coba ubah filter pencarian kamu</p>
             <Button
               variant="ghost"
               className="mt-4"
               onClick={() => handleFiltersChange({ page: 1, per_page: 20 })}
             >
-              Clear all filters
+              Hapus semua filter
             </Button>
           </div>
         )}

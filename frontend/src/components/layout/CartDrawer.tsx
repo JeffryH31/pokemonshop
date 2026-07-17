@@ -22,7 +22,6 @@ export default function CartDrawer() {
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Overlay */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -32,7 +31,6 @@ export default function CartDrawer() {
             onClick={closeCart}
           />
 
-          {/* Drawer */}
           <motion.aside
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
@@ -44,9 +42,9 @@ export default function CartDrawer() {
             <div className="flex items-center justify-between px-5 py-4 border-b border-[#2a2a38]">
               <div className="flex items-center gap-2">
                 <ShoppingCart size={18} className="text-[#e5b13a]" />
-                <h2 className="font-semibold text-[#f0ece4]">Your Cart</h2>
+                <h2 className="font-semibold text-[#f0ece4]">Keranjang Saya</h2>
                 {cart && cart.items.length > 0 && (
-                  <span className="text-xs text-[#5a5550]">({cart.items.length} items)</span>
+                  <span className="text-xs text-[#5a5550]">({cart.items.length} item)</span>
                 )}
               </div>
               <button
@@ -64,19 +62,18 @@ export default function CartDrawer() {
                   <div className="w-16 h-16 rounded-full bg-[#1c1c28] flex items-center justify-center">
                     <ShoppingCart size={24} className="text-[#5a5550]" />
                   </div>
-                  <p className="text-[#a09a8e] text-sm text-center">Your cart is empty</p>
+                  <p className="text-[#a09a8e] text-sm text-center">Keranjang kamu masih kosong</p>
                   <button
                     onClick={() => { closeCart(); navigate('/cards') }}
                     className="text-sm text-[#e5b13a] hover:underline"
                   >
-                    Browse cards →
+                    Lihat koleksi kartu →
                   </button>
                 </div>
               ) : (
                 <ul className="divide-y divide-[#1e1e2a]">
                   {cart.items.map((item) => (
                     <li key={item.id} className="flex gap-3 p-4">
-                      {/* Card image */}
                       <Link to={`/cards/${item.card_id}`} onClick={closeCart} className="shrink-0">
                         {item.card?.image_url ? (
                           <img
@@ -91,7 +88,6 @@ export default function CartDrawer() {
                         )}
                       </Link>
 
-                      {/* Details */}
                       <div className="flex-1 min-w-0">
                         <Link to={`/cards/${item.card_id}`} onClick={closeCart}>
                           <p className="text-sm font-medium text-[#f0ece4] truncate hover:text-[#e5b13a] transition-colors">
@@ -105,7 +101,6 @@ export default function CartDrawer() {
                           {formatPrice(item.subtotal)}
                         </p>
 
-                        {/* Quantity */}
                         <div className="flex items-center gap-2 mt-2">
                           <button
                             onClick={() => update({ cardId: item.card_id, quantity: item.quantity - 1 })}
@@ -146,15 +141,15 @@ export default function CartDrawer() {
                   <span className="text-sm text-[#a09a8e]">Subtotal</span>
                   <span className="font-bold text-[#f0ece4] text-lg">{formatPrice(cart.total)}</span>
                 </div>
-                <p className="text-xs text-[#5a5550]">Shipping & taxes calculated at checkout</p>
+                <p className="text-xs text-[#5a5550]">Ongkir & pajak dihitung saat checkout</p>
                 <Button onClick={handleCheckout} className="w-full" size="lg">
-                  Checkout
+                  Lanjut ke Checkout
                 </Button>
                 <button
                   onClick={closeCart}
                   className="w-full text-center text-sm text-[#5a5550] hover:text-[#a09a8e] transition-colors"
                 >
-                  Continue Shopping
+                  Lanjut Belanja
                 </button>
               </div>
             )}

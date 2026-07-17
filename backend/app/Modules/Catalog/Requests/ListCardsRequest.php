@@ -13,11 +13,19 @@ class ListCardsRequest extends FormRequest
     {
         return [
             'name'      => 'sometimes|string|max:100',
+            // legacy: 'set', frontend sends: 'set_id'
             'set'       => 'sometimes|integer|exists:sets,id',
+            'set_id'    => 'sometimes|integer|exists:sets,id',
             'rarity'    => 'sometimes|string|in:' . implode(',', Card::RARITIES),
             'condition' => 'sometimes|string|in:' . implode(',', Card::CONDITIONS),
+            // legacy: 'price_min'/'price_max', frontend sends: 'min_price'/'max_price'
             'price_min' => 'sometimes|numeric|min:0',
-            'price_max' => 'sometimes|numeric|min:0|gte:price_min',
+            'price_max' => 'sometimes|numeric|min:0',
+            'min_price' => 'sometimes|numeric|min:0',
+            'max_price' => 'sometimes|numeric|min:0',
+            'per_page'  => 'sometimes|integer|min:1|max:100',
+            'page'      => 'sometimes|integer|min:1',
+            'sort'      => 'sometimes|string|in:newest,price_asc,price_desc,name_asc',
         ];
     }
 }

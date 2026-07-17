@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ShoppingCart, Search, User, Menu, X, LogOut, Package, Settings, ChevronDown } from 'lucide-react'
+import { ShoppingCart, Search, User, Menu, X, LogOut, Package, Settings, ChevronDown, Clock } from 'lucide-react'
 import { useAuthStore } from '../../store/authStore'
 import { useCartStore } from '../../store/cartStore'
 import { useLogout } from '../../hooks/useAuth'
@@ -24,7 +24,6 @@ export default function Navbar() {
   const userMenuRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
 
-  // Close dropdowns on outside click
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
@@ -50,36 +49,60 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 bg-[#0a0a0f]/95 backdrop-blur-md border-b border-[#2a2a38]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
+
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 shrink-0">
-            <div className="w-8 h-8 rounded-lg bg-[#e5b13a] flex items-center justify-center">
-              <span className="text-[#0a0a0f] font-bold text-sm font-display">P</span>
+          <Link to="/" className="flex items-center gap-2.5 shrink-0">
+            <div className="w-8 h-8 rounded-lg bg-[#e5b13a] flex items-center justify-center shadow-md shadow-[#e5b13a33]">
+              <span className="text-[#0a0a0f] font-bold text-sm font-display">W</span>
             </div>
-            <span className="font-display text-lg font-bold text-[#f0ece4] tracking-wide hidden sm:block">
-              PokéShop
-            </span>
+            <div className="hidden sm:block">
+              <span className="font-display text-lg font-bold text-[#f0ece4] tracking-wide leading-none">
+                Wonderplays
+              </span>
+              <div className="flex items-center gap-1 mt-0.5">
+                <Clock size={9} className="text-[#e5b13a]" />
+                <span className="text-[9px] text-[#5a5550] font-medium tracking-wide">12.00 – 24.00 WIB</span>
+              </div>
+            </div>
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-6">
-            <Link
-              to="/cards"
-              className="text-sm text-[#a09a8e] hover:text-[#f0ece4] transition-colors duration-200"
-            >
-              Shop
-            </Link>
-            <Link
-              to="/cards?sort=newest"
-              className="text-sm text-[#a09a8e] hover:text-[#f0ece4] transition-colors duration-200"
-            >
-              New Arrivals
-            </Link>
-            <Link
-              to="/cards?rarity=Secret+Rare"
-              className="text-sm text-[#e5b13a] hover:text-[#f0c547] transition-colors duration-200 font-medium"
-            >
-              Secret Rares
-            </Link>
+          <nav className="hidden md:flex items-center gap-1">
+            {[
+              { to: '/', label: 'Beranda', end: true },
+              { to: '/cards', label: 'Toko', end: false },
+              { to: '/about', label: 'Tentang Kami', end: true },
+            ].map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.end}
+                className={({ isActive }) =>
+                  `px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                    isActive
+                      ? 'text-[#f0ece4] bg-[#1c1c28] font-medium'
+                      : 'text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28]'
+                  }`
+                }
+              >
+                {item.label}
+              </NavLink>
+            ))}
+            {isAuthenticated && (
+              <NavLink
+                to="/orders"
+                end
+                className={({ isActive }) =>
+                  `px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                    isActive
+                      ? 'text-[#f0ece4] bg-[#1c1c28] font-medium'
+                      : 'text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28]'
+                  }`
+                }
+              >
+                Pesanan
+              </NavLink>
+            )}
           </nav>
 
           {/* Actions */}
@@ -89,7 +112,7 @@ export default function Navbar() {
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
                 className="p-2 rounded-lg text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all"
-                aria-label="Search"
+                aria-label="Cari"
               >
                 <Search size={18} />
               </button>
@@ -107,7 +130,7 @@ export default function Navbar() {
                       <input
                         autoFocus
                         type="text"
-                        placeholder="Search cards..."
+                        placeholder="Cari kartu Pokémon..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         className="w-full bg-transparent text-sm text-[#f0ece4] placeholder-[#5a5550] outline-none"
@@ -122,30 +145,22 @@ export default function Navbar() {
                               className="flex items-center gap-3 w-full px-3 py-2.5 hover:bg-[#1c1c28] transition-colors text-left"
                             >
                               {card.image_url ? (
-                                <img
-                                  src={card.image_url}
-                                  alt={card.name}
-                                  className="w-8 h-10 object-cover rounded"
-                                />
+                                <img src={card.image_url} alt={card.name} className="w-8 h-10 object-cover rounded" />
                               ) : (
-                                <div className="w-8 h-10 bg-[#2a2a38] rounded flex items-center justify-center text-[#5a5550] text-xs">
-                                  P
-                                </div>
+                                <div className="w-8 h-10 bg-[#2a2a38] rounded flex items-center justify-center text-[#5a5550] text-xs">W</div>
                               )}
                               <div className="flex-1 min-w-0">
                                 <p className="text-sm text-[#f0ece4] truncate">{card.name}</p>
-                                <p className="text-xs text-[#5a5550]">{card.set?.name ?? 'Unknown Set'}</p>
+                                <p className="text-xs text-[#5a5550]">{card.set?.name ?? 'Set Tidak Diketahui'}</p>
                               </div>
-                              <span className="text-xs text-[#e5b13a] font-semibold shrink-0">
-                                {formatPrice(card.price)}
-                              </span>
+                              <span className="text-xs text-[#e5b13a] font-semibold shrink-0">{formatPrice(card.price)}</span>
                             </button>
                           </li>
                         ))}
                       </ul>
                     )}
                     {debouncedQuery.length >= 2 && (!searchResults || searchResults.length === 0) && (
-                      <p className="text-xs text-[#5a5550] text-center py-6">No cards found</p>
+                      <p className="text-xs text-[#5a5550] text-center py-6">Kartu tidak ditemukan</p>
                     )}
                   </motion.div>
                 )}
@@ -157,7 +172,7 @@ export default function Navbar() {
               <button
                 onClick={openCart}
                 className="relative p-2 rounded-lg text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all"
-                aria-label="Cart"
+                aria-label="Keranjang"
               >
                 <ShoppingCart size={18} />
                 {itemCount > 0 && (
@@ -181,9 +196,7 @@ export default function Navbar() {
                   className="flex items-center gap-1.5 p-2 rounded-lg text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all"
                 >
                   <div className="w-6 h-6 rounded-full bg-[#e5b13a22] border border-[#e5b13a44] flex items-center justify-center">
-                    <span className="text-[#e5b13a] text-xs font-semibold">
-                      {user?.name?.[0]?.toUpperCase()}
-                    </span>
+                    <span className="text-[#e5b13a] text-xs font-semibold">{user?.name?.[0]?.toUpperCase()}</span>
                   </div>
                   <ChevronDown size={14} className={`transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
                 </button>
@@ -201,39 +214,20 @@ export default function Navbar() {
                         <p className="text-sm font-semibold text-[#f0ece4] truncate">{user?.name}</p>
                         <p className="text-xs text-[#5a5550] truncate">{user?.email}</p>
                       </div>
-                      <Link
-                        to="/profile"
-                        onClick={() => setUserMenuOpen(false)}
-                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-colors"
-                      >
-                        <User size={14} />
-                        Profile
+                      <Link to="/profile" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-colors">
+                        <User size={14} />Profil Saya
                       </Link>
-                      <Link
-                        to="/orders"
-                        onClick={() => setUserMenuOpen(false)}
-                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-colors"
-                      >
-                        <Package size={14} />
-                        My Orders
+                      <Link to="/orders" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-colors">
+                        <Package size={14} />Pesanan Saya
                       </Link>
                       {isAdmin && (
-                        <Link
-                          to="/admin"
-                          onClick={() => setUserMenuOpen(false)}
-                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#e5b13a] hover:bg-[#e5b13a11] transition-colors"
-                        >
-                          <Settings size={14} />
-                          Admin Panel
+                        <Link to="/admin" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#e5b13a] hover:bg-[#e5b13a11] transition-colors">
+                          <Settings size={14} />Panel Admin
                         </Link>
                       )}
                       <div className="border-t border-[#2a2a38] mt-1">
-                        <button
-                          onClick={() => { setUserMenuOpen(false); logout() }}
-                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/10 transition-colors w-full"
-                        >
-                          <LogOut size={14} />
-                          Sign Out
+                        <button onClick={() => { setUserMenuOpen(false); logout() }} className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/10 transition-colors w-full">
+                          <LogOut size={14} />Keluar
                         </button>
                       </div>
                     </motion.div>
@@ -242,22 +236,16 @@ export default function Navbar() {
               </div>
             ) : (
               <div className="hidden sm:flex items-center gap-2 ml-1">
-                <Link
-                  to="/login"
-                  className="text-sm text-[#a09a8e] hover:text-[#f0ece4] transition-colors px-3 py-2"
-                >
-                  Sign In
+                <Link to="/login" className="text-sm text-[#a09a8e] hover:text-[#f0ece4] transition-colors px-3 py-2">
+                  Masuk
                 </Link>
-                <Link
-                  to="/register"
-                  className="text-sm bg-[#e5b13a] text-[#0a0a0f] hover:bg-[#f0c547] font-semibold px-4 py-2 rounded-lg transition-colors"
-                >
-                  Register
+                <Link to="/register" className="text-sm bg-[#e5b13a] text-[#0a0a0f] hover:bg-[#f0c547] font-semibold px-4 py-2 rounded-lg transition-colors">
+                  Daftar
                 </Link>
               </div>
             )}
 
-            {/* Mobile menu toggle */}
+            {/* Mobile toggle */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="md:hidden p-2 rounded-lg text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all"
@@ -280,43 +268,47 @@ export default function Navbar() {
             className="md:hidden border-t border-[#2a2a38] bg-[#0a0a0f] overflow-hidden"
           >
             <nav className="flex flex-col p-4 gap-1">
-              <Link
-                to="/cards"
-                onClick={() => setMobileOpen(false)}
-                className="px-3 py-2.5 text-sm text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] rounded-lg transition-colors"
-              >
-                Shop All Cards
-              </Link>
-              <Link
-                to="/cards?sort=newest"
-                onClick={() => setMobileOpen(false)}
-                className="px-3 py-2.5 text-sm text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] rounded-lg transition-colors"
-              >
-                New Arrivals
-              </Link>
-              <Link
-                to="/cards?rarity=Secret+Rare"
-                onClick={() => setMobileOpen(false)}
-                className="px-3 py-2.5 text-sm text-[#e5b13a] hover:bg-[#e5b13a11] rounded-lg transition-colors font-medium"
-              >
-                Secret Rares
-              </Link>
+              {[
+                { to: '/', label: 'Beranda', end: true },
+                { to: '/cards', label: 'Toko', end: false },
+                { to: '/about', label: 'Tentang Kami', end: true },
+              ].map((item) => (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  end={item.end}
+                  onClick={() => setMobileOpen(false)}
+                  className={({ isActive }) =>
+                    `px-3 py-2.5 text-sm rounded-lg transition-colors ${
+                      isActive
+                        ? 'text-[#f0ece4] bg-[#1c1c28] font-medium'
+                        : 'text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28]'
+                    }`
+                  }
+                >
+                  {item.label}
+                </NavLink>
+              ))}
+              {isAuthenticated && (
+                <NavLink
+                  to="/orders"
+                  end
+                  onClick={() => setMobileOpen(false)}
+                  className={({ isActive }) =>
+                    `px-3 py-2.5 text-sm rounded-lg transition-colors ${
+                      isActive
+                        ? 'text-[#f0ece4] bg-[#1c1c28] font-medium'
+                        : 'text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28]'
+                    }`
+                  }
+                >
+                  Pesanan
+                </NavLink>
+              )}
               {!isAuthenticated && (
                 <div className="flex gap-2 pt-2 border-t border-[#2a2a38] mt-1">
-                  <Link
-                    to="/login"
-                    onClick={() => setMobileOpen(false)}
-                    className="flex-1 text-center text-sm text-[#a09a8e] border border-[#2a2a38] hover:border-[#e5b13a44] hover:text-[#f0ece4] py-2 rounded-lg transition-colors"
-                  >
-                    Sign In
-                  </Link>
-                  <Link
-                    to="/register"
-                    onClick={() => setMobileOpen(false)}
-                    className="flex-1 text-center text-sm bg-[#e5b13a] text-[#0a0a0f] font-semibold py-2 rounded-lg hover:bg-[#f0c547] transition-colors"
-                  >
-                    Register
-                  </Link>
+                  <Link to="/login" onClick={() => setMobileOpen(false)} className="flex-1 text-center text-sm text-[#a09a8e] border border-[#2a2a38] hover:border-[#e5b13a44] hover:text-[#f0ece4] py-2 rounded-lg transition-colors">Masuk</Link>
+                  <Link to="/register" onClick={() => setMobileOpen(false)} className="flex-1 text-center text-sm bg-[#e5b13a] text-[#0a0a0f] font-semibold py-2 rounded-lg hover:bg-[#f0c547] transition-colors">Daftar</Link>
                 </div>
               )}
             </nav>

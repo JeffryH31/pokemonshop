@@ -35,7 +35,7 @@ export function CardItem({ card, index = 0 }: CardItemProps) {
     >
       <Link to={`/cards/${card.id}`} className="group block">
         <div className="relative bg-[#16161f] rounded-xl overflow-hidden border border-[#2a2a38] hover:border-[#e5b13a44] transition-all duration-300 hover:shadow-lg hover:shadow-[#e5b13a0a] card-holo">
-          {/* Image */}
+          {/* Gambar */}
           <div className="relative aspect-[3/4] bg-[#1c1c28] overflow-hidden">
             {card.image_url ? (
               <img
@@ -49,25 +49,25 @@ export function CardItem({ card, index = 0 }: CardItemProps) {
                 <div className="w-12 h-12 rounded-full bg-[#2a2a38] flex items-center justify-center">
                   <span className="font-display text-lg text-[#3a3a4a]">P</span>
                 </div>
-                <span className="text-xs">No Image</span>
+                <span className="text-xs">Tidak Ada Gambar</span>
               </div>
             )}
 
-            {/* Out of stock overlay */}
+            {/* Stok habis */}
             {!card.is_available && (
               <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
                 <span className="text-xs font-semibold text-[#f0ece4] bg-[#0a0a0f]/80 px-3 py-1.5 rounded-full border border-[#2a2a38]">
-                  Out of Stock
+                  Stok Habis
                 </span>
               </div>
             )}
 
-            {/* Quick actions overlay */}
+            {/* Aksi cepat */}
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2">
               <button
                 onClick={(e) => { e.preventDefault(); navigate(`/cards/${card.id}`) }}
                 className="w-9 h-9 rounded-full bg-[#f0ece4] flex items-center justify-center text-[#0a0a0f] hover:bg-white transition-colors shadow-lg"
-                aria-label="View card"
+                aria-label="Lihat kartu"
               >
                 <Eye size={15} />
               </button>
@@ -76,7 +76,7 @@ export function CardItem({ card, index = 0 }: CardItemProps) {
                   onClick={handleAddToCart}
                   disabled={isPending}
                   className="w-9 h-9 rounded-full bg-[#e5b13a] flex items-center justify-center text-[#0a0a0f] hover:bg-[#f0c547] transition-colors shadow-lg disabled:opacity-60"
-                  aria-label="Add to cart"
+                  aria-label="Tambah ke keranjang"
                 >
                   <ShoppingCart size={15} />
                 </button>
@@ -105,7 +105,7 @@ export function CardItem({ card, index = 0 }: CardItemProps) {
                   className="flex items-center gap-1.5 text-xs bg-[#e5b13a11] hover:bg-[#e5b13a22] text-[#e5b13a] border border-[#e5b13a33] hover:border-[#e5b13a66] px-2.5 py-1.5 rounded-lg transition-all font-medium disabled:opacity-60"
                 >
                   <ShoppingCart size={12} />
-                  Add
+                  Beli
                 </button>
               )}
             </div>

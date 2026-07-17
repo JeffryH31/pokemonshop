@@ -6,11 +6,11 @@ import Select from '../ui/Select'
 
 const CONDITIONS = ['Mint', 'Near Mint', 'Excellent', 'Good', 'Poor']
 const SORT_OPTIONS = [
-  { value: 'newest', label: 'Newest First' },
-  { value: 'price_asc', label: 'Price: Low to High' },
-  { value: 'price_desc', label: 'Price: High to Low' },
-  { value: 'name_asc', label: 'Name: A–Z' },
-  { value: 'name_desc', label: 'Name: Z–A' },
+  { value: 'newest', label: 'Terbaru' },
+  { value: 'price_asc', label: 'Harga: Termurah' },
+  { value: 'price_desc', label: 'Harga: Termahal' },
+  { value: 'name_asc', label: 'Nama: A–Z' },
+  { value: 'name_desc', label: 'Nama: Z–A' },
 ]
 
 interface Props {
@@ -27,21 +27,19 @@ export default function CardFiltersBar({ filters, onChange }: Props) {
     Boolean,
   ).length
 
-  const clearAll = () =>
-    onChange({ page: 1, sort: filters.sort })
+  const clearAll = () => onChange({ page: 1, sort: filters.sort })
 
   const set = (key: keyof CardFilters, value: string | number | undefined) =>
     onChange({ ...filters, [key]: value || undefined, page: 1 })
 
   return (
     <div className="space-y-3">
-      {/* Sort + Filter toggle row */}
       <div className="flex items-center gap-3">
         <Select
           options={SORT_OPTIONS}
           value={filters.sort || ''}
           onChange={(e) => set('sort', e.target.value)}
-          placeholder="Sort by"
+          placeholder="Urutkan"
           className="w-44"
         />
 
@@ -50,7 +48,7 @@ export default function CardFiltersBar({ filters, onChange }: Props) {
           className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-[#2a2a38] bg-[#16161f] text-sm text-[#a09a8e] hover:border-[#e5b13a44] hover:text-[#f0ece4] transition-all"
         >
           <Filter size={14} />
-          Filters
+          Filter
           {activeCount > 0 && (
             <span className="w-4 h-4 rounded-full bg-[#e5b13a] text-[#0a0a0f] text-[10px] font-bold flex items-center justify-center">
               {activeCount}
@@ -65,48 +63,47 @@ export default function CardFiltersBar({ filters, onChange }: Props) {
             className="flex items-center gap-1 text-sm text-[#5a5550] hover:text-red-400 transition-colors"
           >
             <X size={13} />
-            Clear
+            Hapus Filter
           </button>
         )}
       </div>
 
-      {/* Expanded filters */}
       {filtersOpen && (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 p-4 bg-[#16161f] rounded-xl border border-[#2a2a38]">
           <Select
             label="Set"
             value={filters.set_id || ''}
             onChange={(e) => set('set_id', e.target.value)}
-            placeholder="All Sets"
+            placeholder="Semua Set"
             options={(sets ?? []).map((s) => ({ value: s.id, label: s.name }))}
           />
           <Select
-            label="Rarity"
+            label="Kelangkaan"
             value={filters.rarity || ''}
             onChange={(e) => set('rarity', e.target.value)}
-            placeholder="All Rarities"
+            placeholder="Semua Kelangkaan"
             options={(rarities ?? []).map((r) => ({ value: r, label: r }))}
           />
           <Select
-            label="Condition"
+            label="Kondisi"
             value={filters.condition || ''}
             onChange={(e) => set('condition', e.target.value)}
-            placeholder="All Conditions"
+            placeholder="Semua Kondisi"
             options={CONDITIONS.map((c) => ({ value: c, label: c }))}
           />
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-[#a09a8e]">Min Price</label>
+            <label className="text-sm font-medium text-[#a09a8e]">Harga Min</label>
             <input
               type="number"
               min={0}
-              placeholder="$0"
+              placeholder="Rp 0"
               value={filters.min_price ?? ''}
               onChange={(e) => set('min_price', e.target.value)}
               className="w-full rounded-lg border border-[#2a2a38] bg-[#16161f] px-3 py-2.5 text-sm text-[#f0ece4] placeholder-[#5a5550] focus:outline-none focus:border-[#e5b13a]"
             />
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-[#a09a8e]">Max Price</label>
+            <label className="text-sm font-medium text-[#a09a8e]">Harga Maks</label>
             <input
               type="number"
               min={0}

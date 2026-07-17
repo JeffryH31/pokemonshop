@@ -19,7 +19,23 @@ export function useCards(filters: CardFilters = {}) {
   )
   return useQuery<PaginatedResponse<Card>>({
     queryKey: ['cards', params],
-    queryFn: () => api.get('/catalog/cards', { params }).then((r) => r.data),
+    queryFn: () =>
+      api.get('/catalog/cards', { params }).then((r) => {
+        const payload = r.data?.data ?? r.data
+        // Backend returns { items: [...], meta: { current_page, total, per_page, last_page } }
+        if (payload?.items && payload?.meta) {
+          return {
+            data: payload.items,
+            current_page: payload.meta.current_page,
+            last_page: payload.meta.last_page,
+            per_page: payload.meta.per_page,
+            total: payload.meta.total,
+            from: 0,
+            to: payload.items.length,
+          } as PaginatedResponse<Card>
+        }
+        return payload
+      }),
     staleTime: 2 * 60 * 1000,
   })
 }

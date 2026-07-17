@@ -51,10 +51,10 @@ export default function ProfilePage() {
           onSubmit={handleSubmit}
           className="bg-[#16161f] border border-[#2a2a38] rounded-xl p-6 space-y-4"
         >
-          <h2 className="text-sm font-semibold text-[#a09a8e] uppercase tracking-wide mb-2">Edit Profile</h2>
+          <h2 className="text-sm font-semibold text-[#a09a8e] uppercase tracking-wide mb-2">Edit Profil</h2>
 
           <Input
-            label="Name"
+            label="Nama"
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
             icon={<User size={14} />}
@@ -68,20 +68,20 @@ export default function ProfilePage() {
           />
 
           <div className="border-t border-[#2a2a38] pt-4">
-            <p className="text-xs text-[#5a5550] mb-3">Leave blank to keep current password</p>
+            <p className="text-xs text-[#5a5550] mb-3">Kosongkan untuk mempertahankan password saat ini</p>
             <Input
-              label="New Password"
+              label="Password Baru"
               type="password"
-              placeholder="Min. 8 characters"
+              placeholder="Min. 8 karakter"
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
               icon={<Lock size={14} />}
             />
             <div className="mt-3">
               <Input
-                label="Confirm Password"
+                label="Konfirmasi Password"
                 type="password"
-                placeholder="Repeat new password"
+                placeholder="Ulangi password baru"
                 value={form.password_confirmation}
                 onChange={(e) => setForm({ ...form, password_confirmation: e.target.value })}
                 icon={<Lock size={14} />}
@@ -90,15 +90,14 @@ export default function ProfilePage() {
           </div>
 
           <Button type="submit" loading={isPending} className="w-full">
-            Save Changes
+            Simpan Perubahan
           </Button>
         </form>
 
-        {/* Role badge */}
         {user?.role === 'admin' && (
           <div className="mt-4 bg-[#e5b13a11] border border-[#e5b13a33] rounded-xl p-4 text-center">
-            <p className="text-sm text-[#e5b13a] font-semibold">Administrator Account</p>
-            <p className="text-xs text-[#5a5550] mt-1">You have access to the admin panel</p>
+            <p className="text-sm text-[#e5b13a] font-semibold">Akun Administrator</p>
+            <p className="text-xs text-[#5a5550] mt-1">Kamu memiliki akses ke panel admin</p>
           </div>
         )}
       </motion.div>

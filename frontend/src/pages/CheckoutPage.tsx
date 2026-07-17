@@ -31,10 +31,10 @@ export default function CheckoutPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     const newErrors: Record<string, string> = {}
-    if (!form.recipient_name.trim()) newErrors.recipient_name = 'Required'
-    if (!form.street_address.trim()) newErrors.street_address = 'Required'
-    if (!form.city.trim()) newErrors.city = 'Required'
-    if (!form.postal_code.trim()) newErrors.postal_code = 'Required'
+    if (!form.recipient_name.trim()) newErrors.recipient_name = 'Wajib diisi'
+    if (!form.street_address.trim()) newErrors.street_address = 'Wajib diisi'
+    if (!form.city.trim()) newErrors.city = 'Wajib diisi'
+    if (!form.postal_code.trim()) newErrors.postal_code = 'Wajib diisi'
     if (Object.keys(newErrors).length > 0) return setErrors(newErrors)
     setErrors({})
     checkout(form)
@@ -46,26 +46,26 @@ export default function CheckoutPage() {
         <h1 className="font-display text-2xl font-bold text-[#f0ece4] mb-8">Checkout</h1>
 
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
-          {/* Shipping form */}
+          {/* Form pengiriman */}
           <div className="md:col-span-3 space-y-6">
             <div className="bg-[#16161f] border border-[#2a2a38] rounded-xl p-5">
               <div className="flex items-center gap-2 mb-5">
                 <MapPin size={16} className="text-[#e5b13a]" />
-                <h2 className="text-sm font-semibold text-[#f0ece4]">Shipping Address</h2>
+                <h2 className="text-sm font-semibold text-[#f0ece4]">Alamat Pengiriman</h2>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <Input
-                  label="Recipient Name"
-                  placeholder="Full name"
+                  label="Nama Penerima"
+                  placeholder="Nama lengkap"
                   value={form.recipient_name}
                   onChange={(e) => field('recipient_name', e.target.value)}
                   error={errors.recipient_name}
                   icon={<User size={14} />}
                 />
                 <Input
-                  label="Street Address"
-                  placeholder="123 Main St, Apt 4"
+                  label="Alamat Lengkap"
+                  placeholder="Jl. Contoh No. 10, RT/RW"
                   value={form.street_address}
                   onChange={(e) => field('street_address', e.target.value)}
                   error={errors.street_address}
@@ -73,15 +73,15 @@ export default function CheckoutPage() {
                 />
                 <div className="grid grid-cols-2 gap-4">
                   <Input
-                    label="City"
-                    placeholder="Pallet Town"
+                    label="Kota"
+                    placeholder="Jakarta"
                     value={form.city}
                     onChange={(e) => field('city', e.target.value)}
                     error={errors.city}
                   />
                   <Input
-                    label="Postal Code"
-                    placeholder="00000"
+                    label="Kode Pos"
+                    placeholder="12345"
                     value={form.postal_code}
                     onChange={(e) => field('postal_code', e.target.value)}
                     error={errors.postal_code}
@@ -89,18 +89,18 @@ export default function CheckoutPage() {
                 </div>
 
                 <Button type="submit" loading={isPending} className="w-full" size="lg">
-                  Place Order — {formatPrice(cart.total)}
+                  Buat Pesanan — {formatPrice(cart.total)}
                 </Button>
               </form>
             </div>
           </div>
 
-          {/* Order summary */}
+          {/* Ringkasan pesanan */}
           <div className="md:col-span-2">
             <div className="bg-[#16161f] border border-[#2a2a38] rounded-xl p-5 sticky top-20">
               <div className="flex items-center gap-2 mb-4">
                 <Package size={16} className="text-[#e5b13a]" />
-                <h2 className="text-sm font-semibold text-[#f0ece4]">Order Summary</h2>
+                <h2 className="text-sm font-semibold text-[#f0ece4]">Ringkasan Pesanan</h2>
               </div>
 
               <ul className="space-y-3 mb-4 max-h-64 overflow-y-auto">
@@ -134,8 +134,8 @@ export default function CheckoutPage() {
                   <span className="text-[#a09a8e]">{formatPrice(cart.total)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-[#5a5550]">Shipping</span>
-                  <span className="text-green-400 text-xs font-medium">Calculated after order</span>
+                  <span className="text-[#5a5550]">Ongkir</span>
+                  <span className="text-green-400 text-xs font-medium">Dihitung setelah pesanan</span>
                 </div>
                 <div className="flex justify-between font-bold border-t border-[#2a2a38] pt-2 mt-2">
                   <span className="text-[#f0ece4]">Total</span>

@@ -16,8 +16,10 @@ class CatalogService
             $query->search($filters['name']);
         }
 
-        if (!empty($filters['set'])) {
-            $query->where('set_id', $filters['set']);
+        // Support both 'set_id' (frontend) and 'set' (legacy)
+        $setId = $filters['set_id'] ?? $filters['set'] ?? null;
+        if (!empty($setId)) {
+            $query->where('set_id', $setId);
         }
 
         if (!empty($filters['rarity'])) {
@@ -28,13 +30,28 @@ class CatalogService
             $query->where('condition', $filters['condition']);
         }
 
-        if (isset($filters['price_min'])) {
-            $query->where('price', '>=', $filters['price_min']);
+        // Support both 'min_price' (frontend) and 'price_min' (legacy)
+        $minPrice = $filters['min_price'] ?? $filters['price_min'] ?? null;
+        if (isset($minPrice) && $minPrice !== '') {
+            $query->where('price', '>=', $minPrice);
         }
 
-        if (isset($filters['price_max'])) {
-            $query->where('price', '<=', $filters['price_max']);
+        // Support both 'max_price' (frontend) and 'price_max' (legacy)
+        $maxPrice = $filters['max_price'] ?? $filters['price_max'] ?? null;
+        if (isset($maxPrice) && $maxPrice !== '') {
+            $query->where('price', '<=', $maxPrice);
         }
+
+        // Sort
+        $sort = $filters['sort'] ?? 'newest';
+        match ($sort) {
+            'price_asc'  => $query->orderBy('price', 'asc'),
+            'price_desc' => $query->orderBy('price', 'desc'),
+            'name_asc'   => $query->orderBy('name', 'asc'),
+            default      => $query->orderBy('created_at', 'desc'), // newest
+        };
+
+        $perPage = isset($filters['per_page']) ? (int) $filters['per_page'] : $perPage;
 
         return $query->paginate($perPage);
     }

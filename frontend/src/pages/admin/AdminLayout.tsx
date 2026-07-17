@@ -4,10 +4,10 @@ import { useAuthStore } from '../../store/authStore'
 import { useLogout } from '../../hooks/useAuth'
 
 const NAV = [
-  { to: '/admin', icon: <LayoutDashboard size={16} />, label: 'Dashboard', end: true },
-  { to: '/admin/cards', icon: <Layers size={16} />, label: 'Cards' },
-  { to: '/admin/sets', icon: <Package size={16} />, label: 'Sets' },
-  { to: '/admin/orders', icon: <ShoppingBag size={16} />, label: 'Orders' },
+  { to: '/admin', icon: <LayoutDashboard size={16} />, label: 'Dasbor', end: true },
+  { to: '/admin/cards', icon: <Layers size={16} />, label: 'Kartu' },
+  { to: '/admin/sets', icon: <Package size={16} />, label: 'Set' },
+  { to: '/admin/orders', icon: <ShoppingBag size={16} />, label: 'Pesanan' },
 ]
 
 export default function AdminLayout() {
@@ -22,7 +22,7 @@ export default function AdminLayout() {
       {/* Sidebar */}
       <aside className="w-56 shrink-0 bg-[#111118] border-r border-[#2a2a38] flex flex-col">
         <div className="px-5 py-5 border-b border-[#2a2a38]">
-          <p className="text-xs text-[#5a5550] uppercase tracking-widest font-semibold">Admin Panel</p>
+          <p className="text-xs text-[#5a5550] uppercase tracking-widest font-semibold">Panel Admin</p>
           <p className="text-sm font-bold text-[#e5b13a] font-display mt-0.5">PokéShop</p>
         </div>
 
@@ -52,19 +52,19 @@ export default function AdminLayout() {
             className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all"
           >
             <ArrowLeft size={14} />
-            Back to Shop
+            Kembali ke Toko
           </NavLink>
           <button
             onClick={() => logout()}
             className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-red-400 hover:bg-red-500/10 transition-all w-full"
           >
             <LogOut size={14} />
-            Sign Out
+            Keluar
           </button>
         </div>
       </aside>
 
-      {/* Content */}
+      {/* Konten */}
       <main className="flex-1 overflow-auto">
         <div className="p-6 page-enter">
           <Outlet />

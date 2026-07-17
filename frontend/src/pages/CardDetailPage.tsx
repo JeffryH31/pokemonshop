@@ -47,9 +47,9 @@ export default function CardDetailPage() {
   if (!card) {
     return (
       <div className="flex flex-col items-center justify-center py-24 text-center">
-        <p className="text-[#a09a8e]">Card not found</p>
+        <p className="text-[#a09a8e]">Kartu tidak ditemukan</p>
         <Link to="/cards" className="text-sm text-[#e5b13a] mt-2 hover:underline">
-          Back to catalog
+          Kembali ke katalog
         </Link>
       </div>
     )
@@ -57,17 +57,16 @@ export default function CardDetailPage() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Breadcrumb */}
       <Link
         to="/cards"
         className="inline-flex items-center gap-2 text-sm text-[#5a5550] hover:text-[#a09a8e] transition-colors mb-6"
       >
         <ArrowLeft size={14} />
-        Back to catalog
+        Kembali ke katalog
       </Link>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-        {/* Image */}
+        {/* Gambar */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -86,16 +85,12 @@ export default function CardDetailPage() {
                 <div className="w-20 h-20 rounded-full bg-[#2a2a38] flex items-center justify-center">
                   <span className="font-display text-4xl text-[#3a3a4a]">P</span>
                 </div>
-                <span className="text-sm">No Image Available</span>
+                <span className="text-sm">Tidak Ada Gambar</span>
               </div>
             )}
-
-            {/* Rarity glow */}
             <div
               className="absolute bottom-0 left-0 right-0 h-24 opacity-20"
-              style={{
-                background: `linear-gradient(to top, ${getRarityColor(card.rarity)}44, transparent)`,
-              }}
+              style={{ background: `linear-gradient(to top, ${getRarityColor(card.rarity)}44, transparent)` }}
             />
           </div>
         </motion.div>
@@ -107,14 +102,12 @@ export default function CardDetailPage() {
           transition={{ duration: 0.4 }}
           className="flex flex-col"
         >
-          {/* Set */}
           <p className="text-xs text-[#5a5550] uppercase tracking-widest font-semibold mb-2">
-            {card.set?.name ?? 'Unknown Set'}
+            {card.set?.name ?? 'Set Tidak Diketahui'}
           </p>
 
           <h1 className="font-display text-3xl font-bold text-[#f0ece4] mb-4">{card.name}</h1>
 
-          {/* Badges */}
           <div className="flex flex-wrap gap-2 mb-6">
             <Badge color={getRarityColor(card.rarity)} variant="outline">
               <Star size={10} className="mr-1" />
@@ -125,26 +118,22 @@ export default function CardDetailPage() {
             </Badge>
           </div>
 
-          {/* Price */}
           <div className="bg-[#16161f] border border-[#2a2a38] rounded-xl p-4 mb-6">
-            <p className="text-xs text-[#5a5550] uppercase tracking-wide mb-1">Price</p>
+            <p className="text-xs text-[#5a5550] uppercase tracking-wide mb-1">Harga</p>
             <p className="text-4xl font-bold text-[#e5b13a] font-display">{formatPrice(card.price)}</p>
           </div>
 
-          {/* Description */}
           {card.description && (
             <p className="text-sm text-[#a09a8e] leading-relaxed mb-6">{card.description}</p>
           )}
 
-          {/* Stock */}
           <div className="flex items-center gap-2 mb-6">
             <Package size={14} className={card.is_available ? 'text-green-400' : 'text-red-400'} />
             <span className={`text-sm font-medium ${card.is_available ? 'text-green-400' : 'text-red-400'}`}>
-              {card.is_available ? `${card.stock} in stock` : 'Out of stock'}
+              {card.is_available ? `${card.stock} stok tersedia` : 'Stok habis'}
             </span>
           </div>
 
-          {/* Quantity + Add to cart */}
           {card.is_available && (
             <div className="flex items-center gap-3">
               <div className="flex items-center border border-[#2a2a38] rounded-lg overflow-hidden">
@@ -164,27 +153,25 @@ export default function CardDetailPage() {
                   +
                 </button>
               </div>
-
               <Button onClick={handleAdd} loading={isPending} size="lg" className="flex-1">
                 <ShoppingCart size={16} />
-                Add to Cart
+                Tambah ke Keranjang
               </Button>
             </div>
           )}
 
           {!card.is_available && (
             <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-center">
-              <p className="text-sm text-red-400 font-medium">This card is currently out of stock</p>
+              <p className="text-sm text-red-400 font-medium">Kartu ini sedang kehabisan stok</p>
             </div>
           )}
 
-          {/* Card specs */}
           <div className="mt-8 border-t border-[#2a2a38] pt-6 grid grid-cols-2 gap-4">
             {[
               { label: 'Set', value: card.set?.name ?? '—' },
-              { label: 'Rarity', value: card.rarity },
-              { label: 'Condition', value: card.condition },
-              { label: 'Stock', value: card.stock.toString() },
+              { label: 'Kelangkaan', value: card.rarity },
+              { label: 'Kondisi', value: card.condition },
+              { label: 'Stok', value: card.stock.toString() },
             ].map((spec) => (
               <div key={spec.label}>
                 <p className="text-xs text-[#5a5550] uppercase tracking-wide">{spec.label}</p>
