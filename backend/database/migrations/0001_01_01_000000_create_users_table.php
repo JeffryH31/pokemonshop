@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 100);
             $table->string('email')->unique();
+            $table->string('phone', 20);
             $table->string('password');
             $table->enum('role', ['customer', 'admin'])->default('customer');
             $table->timestamps();

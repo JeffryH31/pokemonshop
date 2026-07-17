@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name'     => 'Admin',
             'email'    => 'admin@pokemonshop.com',
+            'phone'    => '081234567890',
             'password' => Hash::make('password123'),
             'role'     => 'admin',
         ]);
@@ -24,6 +25,7 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name'     => 'Test Customer',
             'email'    => 'customer@pokemonshop.com',
+            'phone'    => '089876543210',
             'password' => Hash::make('password123'),
             'role'     => 'customer',
         ]);

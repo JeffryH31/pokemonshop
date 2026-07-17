@@ -23,16 +23,14 @@ export function useLogin() {
 }
 
 export function useRegister() {
-  const { setAuth } = useAuthStore()
   const navigate = useNavigate()
 
   return useMutation({
-    mutationFn: (data: { name: string; email: string; password: string; password_confirmation: string }) =>
+    mutationFn: (data: { name: string; email: string; phone: string; password: string; password_confirmation: string }) =>
       api.post<AuthResponse>('/auth/register', data).then((r) => r.data),
-    onSuccess: (data) => {
-      setAuth(data.user, data.token)
-      toast.success('Akun berhasil dibuat!')
-      navigate('/')
+    onSuccess: () => {
+      toast.success('Akun berhasil dibuat! Silakan masuk.')
+      navigate('/login')
     },
     onError: (err: any) => {
       const msg = err?.response?.data?.message || 'Pendaftaran gagal'

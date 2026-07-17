@@ -13,6 +13,7 @@ class RegisterRequest extends FormRequest
         return [
             'name'     => 'required|string|min:1|max:100',
             'email'    => 'required|email:rfc|unique:users,email|max:255',
+            'phone'    => 'required|string|max:20',
             'password' => 'required|string|min:8|max:128',
         ];
     }

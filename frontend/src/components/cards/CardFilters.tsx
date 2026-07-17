@@ -7,8 +7,8 @@ import Select from '../ui/Select'
 const CONDITIONS = ['Mint', 'Near Mint', 'Excellent', 'Good', 'Poor']
 const SORT_OPTIONS = [
   { value: 'newest', label: 'Terbaru' },
-  { value: 'price_asc', label: 'Harga: Termurah' },
-  { value: 'price_desc', label: 'Harga: Termahal' },
+  { value: 'price_asc', label: 'Harga Termurah' },
+  { value: 'price_desc', label: 'Harga Termahal' },
   { value: 'name_asc', label: 'Nama: A–Z' },
   { value: 'name_desc', label: 'Nama: Z–A' },
 ]

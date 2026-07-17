@@ -48,7 +48,7 @@ export default function LoginPage() {
           <Input
             label="Email"
             type="email"
-            placeholder="kamu@email.com"
+            placeholder="user@gmail.com"
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
             error={errors.email}

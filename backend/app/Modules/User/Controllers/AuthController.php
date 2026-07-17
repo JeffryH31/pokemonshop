@@ -56,6 +56,7 @@ class AuthController extends Controller
             'id'    => $user->id,
             'name'  => $user->name,
             'email' => $user->email,
+            'phone' => $user->phone,
             'role'  => $user->role,
         ]);
     }
@@ -69,6 +70,7 @@ class AuthController extends Controller
             'id'    => $updated->id,
             'name'  => $updated->name,
             'email' => $updated->email,
+            'phone' => $updated->phone,
             'role'  => $updated->role,
         ], 'Profile updated.');
     }

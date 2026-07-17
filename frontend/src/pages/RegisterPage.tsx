@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Mail, Lock, User } from 'lucide-react'
+import { Mail, Lock, User, Phone } from 'lucide-react'
 import { useRegister } from '../hooks/useAuth'
 import Input from '../components/ui/Input'
 import Button from '../components/ui/Button'
@@ -11,6 +11,7 @@ export default function RegisterPage() {
   const [form, setForm] = useState({
     name: '',
     email: '',
+    phone: '',
     password: '',
     password_confirmation: '',
   })
@@ -21,12 +22,13 @@ export default function RegisterPage() {
     const newErrors: Record<string, string> = {}
     if (!form.name.trim()) newErrors.name = 'Nama wajib diisi'
     if (!form.email) newErrors.email = 'Email wajib diisi'
+    if (!form.phone.trim()) newErrors.phone = 'No. HP wajib diisi'
     if (!form.password || form.password.length < 8) newErrors.password = 'Minimal 8 karakter'
     if (form.password !== form.password_confirmation)
       newErrors.password_confirmation = 'Password tidak cocok'
     if (Object.keys(newErrors).length > 0) return setErrors(newErrors)
     setErrors({})
-    register(form)
+    register({ ...form, phone: form.phone })
   }
 
   const field = (key: keyof typeof form, value: string) =>
@@ -59,7 +61,7 @@ export default function RegisterPage() {
           <Input
             label="Nama Lengkap"
             type="text"
-            placeholder="Ash Ketchum"
+            placeholder="Nama Lengkap"
             value={form.name}
             onChange={(e) => field('name', e.target.value)}
             error={errors.name}
@@ -69,12 +71,22 @@ export default function RegisterPage() {
           <Input
             label="Email"
             type="email"
-            placeholder="kamu@email.com"
+            placeholder="user@gmail.com"
             value={form.email}
             onChange={(e) => field('email', e.target.value)}
             error={errors.email}
             icon={<Mail size={14} />}
             autoComplete="email"
+          />
+          <Input
+            label="No. HP"
+            type="tel"
+            placeholder="08xxxxxxxxxx"
+            value={form.phone}
+            onChange={(e) => field('phone', e.target.value)}
+            error={errors.phone}
+            icon={<Phone size={14} />}
+            autoComplete="tel"
           />
           <Input
             label="Password"

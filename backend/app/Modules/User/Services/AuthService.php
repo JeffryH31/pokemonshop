@@ -13,6 +13,7 @@ class AuthService
         $user = User::create([
             'name'     => $data['name'],
             'email'    => $data['email'],
+            'phone'    => $data['phone'] ?? null,
             'password' => $data['password'],
             'role'     => 'customer',
         ]);
@@ -49,7 +50,8 @@ class AuthService
         $updateData = array_filter([
             'name'  => $data['name'] ?? null,
             'email' => $data['email'] ?? null,
-        ]);
+            'phone' => array_key_exists('phone', $data) ? $data['phone'] : null,
+        ], fn($v, $k) => $k === 'phone' ? array_key_exists('phone', $data) : !is_null($v), ARRAY_FILTER_USE_BOTH);
 
         if (!empty($data['password'])) {
             $updateData['password'] = $data['password'];
@@ -66,6 +68,7 @@ class AuthService
             'id'    => $user->id,
             'name'  => $user->name,
             'email' => $user->email,
+            'phone' => $user->phone,
             'role'  => $user->role,
         ];
     }

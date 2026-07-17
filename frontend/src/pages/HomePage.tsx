@@ -13,18 +13,8 @@ import WhyShopSection from '../components/WhyShopSection'
 const YT_ID = 'WswHFpnIGB8' // Pokemon TCG Battle Festival highlight — bisa diganti
 const YT_SRC = `https://www.youtube-nocookie.com/embed/${YT_ID}?autoplay=1&mute=1&loop=1&playlist=${YT_ID}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&iv_load_policy=3&disablekb=1`
 
-const RARITIES = [
-  { label: 'Secret Rare', color: '#e5b13a', bg: '#e5b13a11' },
-  { label: 'Ultra Rare', color: '#f97316', bg: '#f9731611' },
-  { label: 'Rare Holo', color: '#a78bfa', bg: '#a78bfa11' },
-  { label: 'Rare', color: '#60a5fa', bg: '#60a5fa11' },
-  { label: 'Uncommon', color: '#4ade80', bg: '#4ade8011' },
-  { label: 'Common', color: '#a09a8e', bg: '#a09a8e11' },
-]
-
 export default function HomePage() {
   const { data: newArrivals, isLoading: loadingNew } = useCards({ per_page: 10, sort: 'newest' })
-  const { data: secretRares, isLoading: loadingSecret } = useCards({ per_page: 5, rarity: 'Secret Rare' })
 
   return (
     <div>
@@ -139,52 +129,6 @@ export default function HomePage() {
         {/* Bottom fade seamless ke halaman */}
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a0a0f] to-transparent pointer-events-none z-20" />
       </section>
-
-      {/* Kategori Kelangkaan */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="font-display text-xl font-bold text-[#f0ece4]">Belanja Berdasarkan Kelangkaan</h2>
-        </div>
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
-          {RARITIES.map((r) => (
-            <Link
-              key={r.label}
-              to={`/cards?rarity=${encodeURIComponent(r.label)}`}
-              className="flex flex-col items-center gap-2 p-4 rounded-xl border border-[#2a2a38] hover:border-opacity-60 transition-all duration-200 hover:scale-105 group"
-              style={{ borderColor: `${r.color}33`, background: r.bg }}
-            >
-              <Star size={20} style={{ color: r.color }} />
-              <span className="text-xs font-semibold text-center leading-tight" style={{ color: r.color }}>
-                {r.label}
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Secret Rare */}
-      {(secretRares?.data?.length ?? 0) > 0 && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 border-t border-[#1e1e2a]">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="font-display text-xl font-bold text-[#f0ece4]">
-                <span className="text-[#e5b13a]">Secret</span> Rare
-              </h2>
-              <p className="text-xs text-[#5a5550] mt-1">Kartu paling langka dalam koleksi kami</p>
-            </div>
-            <Link to="/cards?rarity=Secret+Rare" className="flex items-center gap-1 text-sm text-[#e5b13a] hover:text-[#f0c547] transition-colors">
-              Lihat semua <ArrowRight size={14} />
-            </Link>
-          </div>
-          {loadingSecret ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-              {Array.from({ length: 5 }).map((_, i) => <CardSkeleton key={i} />)}
-            </div>
-          ) : (
-            <CardGrid cards={secretRares!.data} />
-          )}
-        </section>
-      )}
 
       {/* Kartu Terbaru */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 border-t border-[#1e1e2a]">
