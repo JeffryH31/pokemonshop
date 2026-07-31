@@ -107,7 +107,7 @@ export default function AdminCards() {
       {showForm && (
         <form
           onSubmit={handleSubmit}
-          className="bg-[#16161f] border border-[#2a2a38] rounded-xl p-5 mb-6 grid grid-cols-2 md:grid-cols-3 gap-4"
+          className="bg-[#16161f] border border-[#2a2a38] rounded-xl p-5 mb-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
         >
           <Input label="Nama Produk" value={form.name} onChange={(e) => f('name', e.target.value)} required />
           <Select
@@ -131,7 +131,8 @@ export default function AdminCards() {
       )}
 
       <div className="bg-[#16161f] border border-[#2a2a38] rounded-xl overflow-hidden">
-        <table className="w-full text-sm">
+       <div className="overflow-x-auto">
+        <table className="w-full text-sm min-w-[560px]">
           <thead className="border-b border-[#2a2a38]">
             <tr>
               {['Produk', 'Kategori', 'Harga', 'Stok', 'Aksi'].map((h) => (
@@ -188,6 +189,7 @@ export default function AdminCards() {
                 ))}
           </tbody>
         </table>
+       </div>
 
         {data && data.last_page > 1 && (
           <div className="px-4 py-3 border-t border-[#2a2a38] flex items-center justify-between">

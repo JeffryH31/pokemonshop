@@ -30,7 +30,21 @@ export default function AdminOrders() {
   const { data, isLoading } = useQuery<PaginatedResponse<Order>>({
     queryKey: ['admin', 'orders', page, statusFilter],
     queryFn: () =>
-      api.get('/admin/orders', { params: { page, per_page: 15, status: statusFilter || undefined } }).then((r) => r.data),
+      api.get('/admin/orders', { params: { page, per_page: 15, status: statusFilter || undefined } }).then((r) => {
+        const payload = r.data?.data ?? r.data
+        if (payload?.items && payload?.meta) {
+          return {
+            data: payload.items,
+            current_page: payload.meta.current_page,
+            last_page: payload.meta.last_page,
+            per_page: payload.meta.per_page,
+            total: payload.meta.total,
+            from: (payload.meta.current_page - 1) * payload.meta.per_page + 1,
+            to: Math.min(payload.meta.current_page * payload.meta.per_page, payload.meta.total),
+          } as PaginatedResponse<Order>
+        }
+        return payload
+      }),
     staleTime: 30 * 1000,
   })
 
@@ -61,7 +75,8 @@ export default function AdminOrders() {
       </div>
 
       <div className="bg-[#16161f] border border-[#2a2a38] rounded-xl overflow-hidden">
-        <table className="w-full text-sm">
+       <div className="overflow-x-auto">
+        <table className="w-full text-sm min-w-[680px]">
           <thead className="border-b border-[#2a2a38]">
             <tr>
               {['No. Pesanan', 'Pelanggan', 'Status', 'Total', 'Tanggal', 'Aksi'].map((h) => (
@@ -108,6 +123,7 @@ export default function AdminOrders() {
                 ))}
           </tbody>
         </table>
+       </div>
 
         {data && data.last_page > 1 && (
           <div className="px-4 py-3 border-t border-[#2a2a38] flex items-center justify-between">

@@ -29,7 +29,7 @@ const HOW_STEPS = [
   {
     step: '1',
     title: 'Pilih Kartu yang Kamu Inginkan',
-    desc: 'Jelajahi katalog kami, filter berdasarkan kelangkaan, kondisi, dan set untuk menemukan kartu yang kamu cari.',
+    desc: 'Jelajahi katalog kami, filter berdasarkan kategori untuk menemukan produk yang kamu cari.',
   },
   {
     step: '2',

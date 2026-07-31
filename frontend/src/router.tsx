@@ -13,7 +13,6 @@ import ProfilePage from './pages/ProfilePage'
 import AboutPage from './pages/AboutPage'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminCards from './pages/admin/AdminCards'
-import AdminSets from './pages/admin/AdminSets'
 import AdminOrders from './pages/admin/AdminOrders'
 
 export const router = createBrowserRouter([
@@ -39,7 +38,6 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <AdminDashboard /> },
       { path: 'cards', element: <AdminCards /> },
-      { path: 'sets', element: <AdminSets /> },
       { path: 'orders', element: <AdminOrders /> },
     ],
   },

@@ -22,7 +22,7 @@ export default function OrdersPage() {
             <Skeleton key={i} className="h-24 w-full" />
           ))}
         </div>
-      ) : !data?.data || data.data.length === 0 ? (
+      ) : !data || data.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-24 text-center">
           <div className="w-16 h-16 rounded-full bg-[#1c1c28] flex items-center justify-center mb-4">
             <Package size={24} className="text-[#5a5550]" />
@@ -35,7 +35,7 @@ export default function OrdersPage() {
         </div>
       ) : (
         <div className="space-y-3">
-          {data.data.map((order, i) => (
+          {data.map((order, i) => (
             <motion.div
               key={order.id}
               initial={{ opacity: 0, y: 10 }}

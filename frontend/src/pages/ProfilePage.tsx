@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { User, Mail, Lock } from 'lucide-react'
+import { User, Mail, Lock, Phone } from 'lucide-react'
 import { useAuthStore } from '../store/authStore'
 import { useUpdateProfile } from '../hooks/useAuth'
 import Input from '../components/ui/Input'
@@ -14,6 +14,7 @@ export default function ProfilePage() {
   const [form, setForm] = useState({
     name: user?.name ?? '',
     email: user?.email ?? '',
+    phone: user?.phone ?? '',
     password: '',
     password_confirmation: '',
   })
@@ -25,6 +26,7 @@ export default function ProfilePage() {
     const payload: Record<string, string> = {}
     if (form.name !== user?.name) payload.name = form.name
     if (form.email !== user?.email) payload.email = form.email
+    if (form.phone !== (user?.phone ?? '')) payload.phone = form.phone
     if (form.password) {
       payload.password = form.password
       payload.password_confirmation = form.password_confirmation
@@ -65,6 +67,13 @@ export default function ProfilePage() {
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
             icon={<Mail size={14} />}
+          />
+          <Input
+            label="No. HP"
+            type="tel"
+            value={form.phone}
+            onChange={(e) => setForm({ ...form, phone: e.target.value })}
+            icon={<Phone size={14} />}
           />
 
           <div className="border-t border-[#2a2a38] pt-4">

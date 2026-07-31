@@ -2,12 +2,12 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import api from '../lib/api'
-import type { CheckoutPayload, Order, PaginatedResponse } from '../types'
+import type { CheckoutPayload, Order } from '../types'
 
 export function useOrders() {
-  return useQuery<PaginatedResponse<Order>>({
+  return useQuery<Order[]>({
     queryKey: ['orders'],
-    queryFn: () => api.get('/orders').then((r) => r.data),
+    queryFn: () => api.get('/orders').then((r) => r.data.data ?? r.data),
     staleTime: 60 * 1000,
   })
 }
