@@ -45,14 +45,4 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->role === 'admin';
     }
-
-    public function cart()
-    {
-        return $this->hasOne(\App\Modules\Cart\Models\Cart::class, 'user_id');
-    }
-
-    public function orders()
-    {
-        return $this->hasMany(\App\Modules\Order\Models\Order::class, 'user_id');
-    }
 }

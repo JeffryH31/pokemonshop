@@ -138,15 +138,15 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Akun */}
+          {/* Jelajahi */}
           <div>
-            <h4 className="text-xs font-semibold text-[#a09a8e] uppercase tracking-widest mb-3">Akun</h4>
+            <h4 className="text-xs font-semibold text-[#a09a8e] uppercase tracking-widest mb-3">Jelajahi</h4>
             <ul className="space-y-2">
               {[
-                { to: '/login', label: 'Masuk' },
-                { to: '/register', label: 'Buat Akun' },
-                { to: '/orders', label: 'Pesanan Saya' },
-                { to: '/profile', label: 'Profil' },
+                { to: '/', label: 'Beranda' },
+                { to: '/cards', label: 'Toko' },
+                { to: '/favourites', label: 'Favorit Saya' },
+                { to: '/about', label: 'Tentang Kami' },
               ].map((link) => (
                 <li key={link.to}>
                   <Link to={link.to} className="text-sm text-[#5a5550] hover:text-[#a09a8e] transition-colors">

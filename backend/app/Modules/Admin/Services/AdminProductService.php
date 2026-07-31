@@ -38,34 +38,37 @@ class AdminProductService
             'quantity_after'  => $newStock,
             'change'          => $newStock - $before,
             'reason'          => 'admin_update',
-            'order_id'        => null,
             'created_at'      => now(),
         ]);
 
         return $card->fresh();
     }
 
-    public function getDashboard(string $startDate, string $endDate): array
+    public function getDashboard(int $lowStockThreshold = 5): array
     {
-        $totalActiveCards = Card::active()->count();
+        $activeCards = Card::active();
 
-        $ordersByStatus = DB::table('orders')
-            ->selectRaw('status, COUNT(*) as count')
-            ->whereBetween('created_at', [$startDate, $endDate . ' 23:59:59'])
-            ->groupBy('status')
-            ->pluck('count', 'status')
-            ->toArray();
+        $totalActiveCards = (clone $activeCards)->count();
+        $totalStock       = (int) (clone $activeCards)->sum('stock');
+        $outOfStockCount  = (clone $activeCards)->where('stock', 0)->count();
+        $lowStockCount    = (clone $activeCards)
+            ->whereBetween('stock', [1, $lowStockThreshold])
+            ->count();
+        $inventoryValue   = (float) (clone $activeCards)->sum(DB::raw('price * stock'));
 
-        $totalRevenue = DB::table('orders')
-            ->where('status', 'paid')
-            ->whereBetween('created_at', [$startDate, $endDate . ' 23:59:59'])
-            ->sum('total_amount');
+        $lowStockItems = (clone $activeCards)
+            ->where('stock', '<=', $lowStockThreshold)
+            ->orderBy('stock')
+            ->limit(10)
+            ->get(['id', 'name', 'category', 'stock', 'price']);
 
         return [
             'total_active_cards' => $totalActiveCards,
-            'orders_by_status'   => $ordersByStatus,
-            'total_revenue'      => (float) $totalRevenue,
-            'period'             => ['start' => $startDate, 'end' => $endDate],
+            'total_stock'        => $totalStock,
+            'out_of_stock_count' => $outOfStockCount,
+            'low_stock_count'    => $lowStockCount,
+            'inventory_value'    => $inventoryValue,
+            'low_stock_items'    => $lowStockItems,
         ];
     }
 }

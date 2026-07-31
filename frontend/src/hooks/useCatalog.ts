@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import api from '../lib/api'
 import type { Card, Category, PaginatedResponse } from '../types'
 
@@ -11,6 +11,25 @@ export interface CardFilters {
   sort?: string
 }
 
+// The API may return either a Laravel-style paginator or an { items, meta }
+// envelope. Normalise both shapes into PaginatedResponse in one place so the
+// callers (catalog + admin) don't each reimplement it.
+export function normalizePaginated<T>(payload: any): PaginatedResponse<T> {
+  if (payload?.items && payload?.meta) {
+    const { current_page, last_page, per_page, total } = payload.meta
+    return {
+      data: payload.items,
+      current_page,
+      last_page,
+      per_page,
+      total,
+      from: total === 0 ? 0 : (current_page - 1) * per_page + 1,
+      to: Math.min(current_page * per_page, total),
+    }
+  }
+  return payload as PaginatedResponse<T>
+}
+
 export function useCards(filters: CardFilters = {}) {
   const params = Object.fromEntries(
     Object.entries(filters).filter(([, v]) => v !== '' && v !== undefined && v !== null),
@@ -18,22 +37,12 @@ export function useCards(filters: CardFilters = {}) {
   return useQuery<PaginatedResponse<Card>>({
     queryKey: ['cards', params],
     queryFn: () =>
-      api.get('/catalog/cards', { params }).then((r) => {
-        const payload = r.data?.data ?? r.data
-        if (payload?.items && payload?.meta) {
-          return {
-            data: payload.items,
-            current_page: payload.meta.current_page,
-            last_page: payload.meta.last_page,
-            per_page: payload.meta.per_page,
-            total: payload.meta.total,
-            from: 0,
-            to: payload.items.length,
-          } as PaginatedResponse<Card>
-        }
-        return payload
-      }),
+      api
+        .get('/catalog/cards', { params })
+        .then((r) => normalizePaginated<Card>(r.data?.data ?? r.data)),
     staleTime: 2 * 60 * 1000,
+    // Keep the current page visible while the next page loads (no skeleton flash).
+    placeholderData: keepPreviousData,
   })
 }
 

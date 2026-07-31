@@ -1,44 +1,51 @@
 import { createBrowserRouter } from 'react-router-dom'
+import { lazy, Suspense, type ReactNode } from 'react'
 import Layout from './components/layout/Layout'
 import AdminLayout from './pages/admin/AdminLayout'
-import HomePage from './pages/HomePage'
-import CardsPage from './pages/CardsPage'
-import CardDetailPage from './pages/CardDetailPage'
-import LoginPage from './pages/LoginPage'
-import RegisterPage from './pages/RegisterPage'
-import CheckoutPage from './pages/CheckoutPage'
-import OrdersPage from './pages/OrdersPage'
-import OrderDetailPage from './pages/OrderDetailPage'
-import ProfilePage from './pages/ProfilePage'
-import AboutPage from './pages/AboutPage'
-import AdminDashboard from './pages/admin/AdminDashboard'
-import AdminCards from './pages/admin/AdminCards'
-import AdminOrders from './pages/admin/AdminOrders'
+
+// Route-level code splitting: the storefront no longer ships the admin bundle
+// (and vice-versa), shrinking the initial download for every visitor.
+const HomePage = lazy(() => import('./pages/HomePage'))
+const CardsPage = lazy(() => import('./pages/CardsPage'))
+const CardDetailPage = lazy(() => import('./pages/CardDetailPage'))
+const FavouritesPage = lazy(() => import('./pages/FavouritesPage'))
+const AboutPage = lazy(() => import('./pages/AboutPage'))
+const AdminLogin = lazy(() => import('./pages/admin/AdminLogin'))
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'))
+const AdminCards = lazy(() => import('./pages/admin/AdminCards'))
+
+function PageFallback() {
+  return (
+    <div className="flex items-center justify-center py-24">
+      <div className="w-8 h-8 rounded-full border-2 border-[#2a2a38] border-t-[#e5b13a] animate-spin" />
+    </div>
+  )
+}
+
+const lazyRoute = (node: ReactNode) => <Suspense fallback={<PageFallback />}>{node}</Suspense>
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
     children: [
-      { index: true, element: <HomePage /> },
-      { path: 'cards', element: <CardsPage /> },
-      { path: 'cards/:id', element: <CardDetailPage /> },
-      { path: 'login', element: <LoginPage /> },
-      { path: 'register', element: <RegisterPage /> },
-      { path: 'checkout', element: <CheckoutPage /> },
-      { path: 'orders', element: <OrdersPage /> },
-      { path: 'orders/:id', element: <OrderDetailPage /> },
-      { path: 'profile', element: <ProfilePage /> },
-      { path: 'about', element: <AboutPage /> },
+      { index: true, element: lazyRoute(<HomePage />) },
+      { path: 'cards', element: lazyRoute(<CardsPage />) },
+      { path: 'cards/:id', element: lazyRoute(<CardDetailPage />) },
+      { path: 'favourites', element: lazyRoute(<FavouritesPage />) },
+      { path: 'about', element: lazyRoute(<AboutPage />) },
     ],
+  },
+  {
+    path: '/admin/login',
+    element: lazyRoute(<AdminLogin />),
   },
   {
     path: '/admin',
     element: <AdminLayout />,
     children: [
-      { index: true, element: <AdminDashboard /> },
-      { path: 'cards', element: <AdminCards /> },
-      { path: 'orders', element: <AdminOrders /> },
+      { index: true, element: lazyRoute(<AdminDashboard />) },
+      { path: 'cards', element: lazyRoute(<AdminCards />) },
     ],
   },
 ])

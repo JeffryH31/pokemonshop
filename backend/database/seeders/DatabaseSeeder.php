@@ -11,22 +11,13 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Admin user
+        // Admin user (storefront is guest-only; only admins log in)
         User::create([
             'name'     => 'Admin',
             'email'    => 'admin@pokemonshop.com',
             'phone'    => '081234567890',
             'password' => Hash::make('password123'),
             'role'     => 'admin',
-        ]);
-
-        // Test customer
-        User::create([
-            'name'     => 'Test Customer',
-            'email'    => 'customer@pokemonshop.com',
-            'phone'    => '089876543210',
-            'password' => Hash::make('password123'),
-            'role'     => 'customer',
         ]);
 
         // Sample products

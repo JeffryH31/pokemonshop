@@ -1,27 +1,32 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ShoppingCart, Search, User, Menu, X, LogOut, Package, Settings, ChevronDown, Clock } from 'lucide-react'
-import { useAuthStore } from '../../store/authStore'
-import { useCartStore } from '../../store/cartStore'
-import { useLogout } from '../../hooks/useAuth'
+import { ShoppingCart, Search, Menu, X, Heart, Clock } from 'lucide-react'
+import { useCartStore, useCartCount } from '../../store/cartStore'
+import { useFavouritesCount } from '../../store/favouritesStore'
 import { useSearchCards } from '../../hooks/useCatalog'
 import { useDebounce } from '../../hooks/useDebounce'
 import { formatPrice } from '../../lib/utils'
+import ProductImage from '../ui/ProductImage'
+
+const NAV_ITEMS = [
+  { to: '/', label: 'Beranda', end: true },
+  { to: '/cards', label: 'Toko', end: false },
+  { to: '/favourites', label: 'Favorit', end: true },
+  { to: '/about', label: 'Tentang Kami', end: true },
+]
 
 export default function Navbar() {
-  const { user, isAuthenticated, isAdmin } = useAuthStore()
-  const { itemCount, openCart } = useCartStore()
-  const { mutate: logout } = useLogout()
+  const itemCount = useCartCount()
+  const openCart = useCartStore((s) => s.openCart)
+  const favCount = useFavouritesCount()
 
   const [mobileOpen, setMobileOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
-  const [userMenuOpen, setUserMenuOpen] = useState(false)
   const debouncedQuery = useDebounce(searchQuery, 300)
   const { data: searchResults } = useSearchCards(debouncedQuery)
   const searchRef = useRef<HTMLDivElement>(null)
-  const userMenuRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -29,9 +34,6 @@ export default function Navbar() {
       if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
         setSearchOpen(false)
         setSearchQuery('')
-      }
-      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
-        setUserMenuOpen(false)
       }
     }
     document.addEventListener('mousedown', handleClick)
@@ -68,11 +70,7 @@ export default function Navbar() {
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-1">
-            {[
-              { to: '/', label: 'Beranda', end: true },
-              { to: '/cards', label: 'Toko', end: false },
-              { to: '/about', label: 'Tentang Kami', end: true },
-            ].map((item) => (
+            {NAV_ITEMS.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
@@ -88,21 +86,6 @@ export default function Navbar() {
                 {item.label}
               </NavLink>
             ))}
-            {isAuthenticated && (
-              <NavLink
-                to="/orders"
-                end
-                className={({ isActive }) =>
-                  `px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
-                    isActive
-                      ? 'text-[#f0ece4] bg-[#1c1c28] font-medium'
-                      : 'text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28]'
-                  }`
-                }
-              >
-                Pesanan
-              </NavLink>
-            )}
           </nav>
 
           {/* Actions */}
@@ -144,11 +127,14 @@ export default function Navbar() {
                               onClick={() => handleSearchSelect(card.id)}
                               className="flex items-center gap-3 w-full px-3 py-2.5 hover:bg-[#1c1c28] transition-colors text-left"
                             >
-                              {card.image_url ? (
-                                <img src={card.image_url} alt={card.name} className="w-8 h-10 object-cover rounded" />
-                              ) : (
-                                <div className="w-8 h-10 bg-[#2a2a38] rounded flex items-center justify-center text-[#5a5550] text-xs">W</div>
-                              )}
+                              <ProductImage
+                                src={card.image_url}
+                                alt={card.name}
+                                className="w-8 h-10 object-cover rounded"
+                                fallback={
+                                  <div className="w-8 h-10 bg-[#2a2a38] rounded flex items-center justify-center text-[#5a5550] text-xs">W</div>
+                                }
+                              />
                               <div className="flex-1 min-w-0">
                                 <p className="text-sm text-[#f0ece4] truncate">{card.name}</p>
                                 <p className="text-xs text-[#5a5550]">{card.category}</p>
@@ -167,83 +153,38 @@ export default function Navbar() {
               </AnimatePresence>
             </div>
 
+            {/* Favorit */}
+            <Link
+              to="/favourites"
+              className="relative p-2 rounded-lg text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all"
+              aria-label="Favorit"
+            >
+              <Heart size={18} />
+              {favCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] rounded-full bg-[#e5b13a] text-[#0a0a0f] text-[10px] font-bold flex items-center justify-center px-1">
+                  {favCount}
+                </span>
+              )}
+            </Link>
+
             {/* Cart */}
-            {isAuthenticated && (
-              <button
-                onClick={openCart}
-                className="relative p-2 rounded-lg text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all"
-                aria-label="Keranjang"
-              >
-                <ShoppingCart size={18} />
-                {itemCount > 0 && (
-                  <motion.span
-                    key={itemCount}
-                    initial={{ scale: 0.5 }}
-                    animate={{ scale: 1 }}
-                    className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] rounded-full bg-[#e5b13a] text-[#0a0a0f] text-[10px] font-bold flex items-center justify-center px-1"
-                  >
-                    {itemCount}
-                  </motion.span>
-                )}
-              </button>
-            )}
-
-            {/* User menu */}
-            {isAuthenticated ? (
-              <div ref={userMenuRef} className="relative">
-                <button
-                  onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-1.5 p-2 rounded-lg text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all"
+            <button
+              onClick={openCart}
+              className="relative p-2 rounded-lg text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all"
+              aria-label="Keranjang"
+            >
+              <ShoppingCart size={18} />
+              {itemCount > 0 && (
+                <motion.span
+                  key={itemCount}
+                  initial={{ scale: 0.5 }}
+                  animate={{ scale: 1 }}
+                  className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] rounded-full bg-[#e5b13a] text-[#0a0a0f] text-[10px] font-bold flex items-center justify-center px-1"
                 >
-                  <div className="w-6 h-6 rounded-full bg-[#e5b13a22] border border-[#e5b13a44] flex items-center justify-center">
-                    <span className="text-[#e5b13a] text-xs font-semibold">{user?.name?.[0]?.toUpperCase()}</span>
-                  </div>
-                  <ChevronDown size={14} className={`transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
-                </button>
-
-                <AnimatePresence>
-                  {userMenuOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -8, scale: 0.96 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: -8, scale: 0.96 }}
-                      transition={{ duration: 0.15 }}
-                      className="absolute right-0 top-full mt-2 w-52 bg-[#16161f] border border-[#2a2a38] rounded-xl shadow-2xl overflow-hidden py-1"
-                    >
-                      <div className="px-4 py-2.5 border-b border-[#2a2a38]">
-                        <p className="text-sm font-semibold text-[#f0ece4] truncate">{user?.name}</p>
-                        <p className="text-xs text-[#5a5550] truncate">{user?.email}</p>
-                      </div>
-                      <Link to="/profile" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-colors">
-                        <User size={14} />Profil Saya
-                      </Link>
-                      <Link to="/orders" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-colors">
-                        <Package size={14} />Pesanan Saya
-                      </Link>
-                      {isAdmin && (
-                        <Link to="/admin" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-3 px-4 py-2.5 text-sm text-[#e5b13a] hover:bg-[#e5b13a11] transition-colors">
-                          <Settings size={14} />Panel Admin
-                        </Link>
-                      )}
-                      <div className="border-t border-[#2a2a38] mt-1">
-                        <button onClick={() => { setUserMenuOpen(false); logout() }} className="flex items-center gap-3 px-4 py-2.5 text-sm text-red-400 hover:bg-red-500/10 transition-colors w-full">
-                          <LogOut size={14} />Keluar
-                        </button>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ) : (
-              <div className="hidden sm:flex items-center gap-2 ml-1">
-                <Link to="/login" className="text-sm text-[#a09a8e] hover:text-[#f0ece4] transition-colors px-3 py-2">
-                  Masuk
-                </Link>
-                <Link to="/register" className="text-sm bg-[#e5b13a] text-[#0a0a0f] hover:bg-[#f0c547] font-semibold px-4 py-2 rounded-lg transition-colors">
-                  Daftar
-                </Link>
-              </div>
-            )}
+                  {itemCount}
+                </motion.span>
+              )}
+            </button>
 
             {/* Mobile toggle */}
             <button
@@ -268,11 +209,7 @@ export default function Navbar() {
             className="md:hidden border-t border-[#2a2a38] bg-[#0a0a0f] overflow-hidden"
           >
             <nav className="flex flex-col p-4 gap-1">
-              {[
-                { to: '/', label: 'Beranda', end: true },
-                { to: '/cards', label: 'Toko', end: false },
-                { to: '/about', label: 'Tentang Kami', end: true },
-              ].map((item) => (
+              {NAV_ITEMS.map((item) => (
                 <NavLink
                   key={item.to}
                   to={item.to}
@@ -289,28 +226,6 @@ export default function Navbar() {
                   {item.label}
                 </NavLink>
               ))}
-              {isAuthenticated && (
-                <NavLink
-                  to="/orders"
-                  end
-                  onClick={() => setMobileOpen(false)}
-                  className={({ isActive }) =>
-                    `px-3 py-2.5 text-sm rounded-lg transition-colors ${
-                      isActive
-                        ? 'text-[#f0ece4] bg-[#1c1c28] font-medium'
-                        : 'text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28]'
-                    }`
-                  }
-                >
-                  Pesanan
-                </NavLink>
-              )}
-              {!isAuthenticated && (
-                <div className="flex gap-2 pt-2 border-t border-[#2a2a38] mt-1">
-                  <Link to="/login" onClick={() => setMobileOpen(false)} className="flex-1 text-center text-sm text-[#a09a8e] border border-[#2a2a38] hover:border-[#e5b13a44] hover:text-[#f0ece4] py-2 rounded-lg transition-colors">Masuk</Link>
-                  <Link to="/register" onClick={() => setMobileOpen(false)} className="flex-1 text-center text-sm bg-[#e5b13a] text-[#0a0a0f] font-semibold py-2 rounded-lg hover:bg-[#f0c547] transition-colors">Daftar</Link>
-                </div>
-              )}
             </nav>
           </motion.div>
         )}

@@ -15,8 +15,7 @@ return new class extends Migration
             $table->integer('quantity_before');
             $table->integer('quantity_after');
             $table->integer('change'); // positive = add, negative = reduce
-            $table->enum('reason', ['admin_update', 'order_placed', 'order_cancelled', 'order_expired']);
-            $table->foreignId('order_id')->nullable()->constrained('orders')->nullOnDelete();
+            $table->enum('reason', ['admin_update']);
             $table->timestamp('created_at');
         });
     }

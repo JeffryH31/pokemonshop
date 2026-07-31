@@ -1,23 +1,22 @@
 import { useState } from 'react'
 import { NavLink, Outlet, Navigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { LayoutDashboard, Layers, ShoppingBag, LogOut, ArrowLeft, Menu, X } from 'lucide-react'
-import { useAuthStore } from '../../store/authStore'
+import { LayoutDashboard, Layers, LogOut, ArrowLeft, Menu, X } from 'lucide-react'
+import { useAuthStore, selectIsAuthenticated, selectIsAdmin } from '../../store/authStore'
 import { useLogout } from '../../hooks/useAuth'
 
 const NAV = [
   { to: '/admin', icon: <LayoutDashboard size={16} />, label: 'Dasbor', end: true },
   { to: '/admin/cards', icon: <Layers size={16} />, label: 'Produk' },
-  { to: '/admin/orders', icon: <ShoppingBag size={16} />, label: 'Pesanan' },
 ]
 
 export default function AdminLayout() {
-  const { isAuthenticated, isAdmin } = useAuthStore()
+  const isAuthenticated = useAuthStore(selectIsAuthenticated)
+  const isAdmin = useAuthStore(selectIsAdmin)
   const { mutate: logout } = useLogout()
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
-  if (!isAuthenticated) return <Navigate to="/login" />
-  if (!isAdmin) return <Navigate to="/" />
+  if (!isAuthenticated || !isAdmin) return <Navigate to="/admin/login" replace />
 
   const SidebarContent = () => (
     <>

@@ -5,8 +5,6 @@ namespace App\Modules\User\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\HttpResponse;
 use App\Modules\User\Requests\LoginRequest;
-use App\Modules\User\Requests\RegisterRequest;
-use App\Modules\User\Requests\UpdateProfileRequest;
 use App\Modules\User\Services\AuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -16,16 +14,6 @@ class AuthController extends Controller
     use HttpResponse;
 
     public function __construct(private AuthService $authService) {}
-
-    public function register(RegisterRequest $request): JsonResponse
-    {
-        $result = $this->authService->register($request->validated());
-
-        return $this->success([
-            'token' => $result['token'],
-            'user'  => $result['user'],
-        ], 'Registration successful.', 201);
-    }
 
     public function login(LoginRequest $request): JsonResponse
     {
@@ -40,7 +28,7 @@ class AuthController extends Controller
             'user'  => $result['user'],
         ], 'Login successful.');
     }
-  
+
     public function logout(Request $request): JsonResponse
     {
         $this->authService->logout();
@@ -59,19 +47,5 @@ class AuthController extends Controller
             'phone' => $user->phone,
             'role'  => $user->role,
         ]);
-    }
-
-    public function updateProfile(UpdateProfileRequest $request): JsonResponse
-    {
-        $user    = auth('api')->user();
-        $updated = $this->authService->updateProfile($user, $request->validated());
-
-        return $this->success([
-            'id'    => $updated->id,
-            'name'  => $updated->name,
-            'email' => $updated->email,
-            'phone' => $updated->phone,
-            'role'  => $updated->role,
-        ], 'Profile updated.');
     }
 }

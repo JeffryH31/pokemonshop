@@ -7,7 +7,6 @@ use App\Http\Traits\HttpResponse;
 use App\Modules\Admin\Requests\CreateCardRequest;
 use App\Modules\Admin\Requests\UpdateCardRequest;
 use App\Modules\Admin\Requests\UpdateStockRequest;
-use App\Modules\Admin\Requests\DashboardRequest;
 use App\Modules\Admin\Services\AdminProductService;
 use App\Modules\Catalog\Models\Card;
 use Illuminate\Http\JsonResponse;
@@ -49,12 +48,9 @@ class AdminProductController extends Controller
         return $this->success($card, 'Stock updated.');
     }
 
-    public function dashboard(DashboardRequest $request): JsonResponse
+    public function dashboard(): JsonResponse
     {
-        $data = $this->service->getDashboard(
-            $request->input('start_date'),
-            $request->input('end_date'),
-        );
+        $data = $this->service->getDashboard();
 
         return $this->success($data);
     }

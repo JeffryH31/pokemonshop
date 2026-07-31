@@ -7,29 +7,18 @@ interface AuthState {
   token: string | null
   setAuth: (user: User, token: string) => void
   logout: () => void
-  isAuthenticated: boolean
-  isAdmin: boolean
 }
 
+// Single source of truth for the admin JWT. Persistence is handled entirely by
+// the `persist` middleware (key `auth-storage`) — the API layer reads the token
+// from here via `useAuthStore.getState()`, so there is no second copy to drift.
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       user: null,
       token: null,
-      get isAuthenticated() {
-        return !!get().token
-      },
-      get isAdmin() {
-        return get().user?.role === 'admin'
-      },
-      setAuth: (user, token) => {
-        localStorage.setItem('token', token)
-        set({ user, token })
-      },
-      logout: () => {
-        localStorage.removeItem('token')
-        set({ user: null, token: null })
-      },
+      setAuth: (user, token) => set({ user, token }),
+      logout: () => set({ user: null, token: null }),
     }),
     {
       name: 'auth-storage',
@@ -37,3 +26,8 @@ export const useAuthStore = create<AuthState>()(
     },
   ),
 )
+
+// Derived selectors — kept out of the store to stay reactive after rehydration
+// (getters defined inside the initializer get flattened by persist's merge).
+export const selectIsAuthenticated = (state: AuthState) => !!state.token
+export const selectIsAdmin = (state: AuthState) => state.user?.role === 'admin'

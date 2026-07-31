@@ -1,15 +1,20 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Mail, Lock } from 'lucide-react'
-import { useLogin } from '../hooks/useAuth'
-import Input from '../components/ui/Input'
-import Button from '../components/ui/Button'
+import { Mail, Lock, ShieldCheck } from 'lucide-react'
+import { useLogin } from '../../hooks/useAuth'
+import { useAuthStore, selectIsAuthenticated, selectIsAdmin } from '../../store/authStore'
+import Input from '../../components/ui/Input'
+import Button from '../../components/ui/Button'
 
-export default function LoginPage() {
+export default function AdminLogin() {
   const { mutate: login, isPending } = useLogin()
+  const isAuthenticated = useAuthStore(selectIsAuthenticated)
+  const isAdmin = useAuthStore(selectIsAdmin)
   const [form, setForm] = useState({ email: '', password: '' })
   const [errors, setErrors] = useState<Record<string, string>>({})
+
+  if (isAuthenticated && isAdmin) return <Navigate to="/admin" replace />
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -22,7 +27,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-8rem)] flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-[#0a0a0f]">
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#e5b13a] opacity-[0.03] blur-3xl" />
       </div>
@@ -35,10 +40,10 @@ export default function LoginPage() {
       >
         <div className="flex flex-col items-center mb-8">
           <div className="w-12 h-12 rounded-xl bg-[#e5b13a] flex items-center justify-center mb-3 shadow-lg shadow-[#e5b13a22]">
-            <span className="text-[#0a0a0f] font-bold text-xl font-display">P</span>
+            <ShieldCheck className="text-[#0a0a0f]" size={22} />
           </div>
-          <h1 className="font-display text-2xl font-bold text-[#f0ece4]">Selamat datang kembali</h1>
-          <p className="text-sm text-[#5a5550] mt-1">Masuk ke akun PokéShop kamu</p>
+          <h1 className="font-display text-2xl font-bold text-[#f0ece4]">Panel Admin</h1>
+          <p className="text-sm text-[#5a5550] mt-1">Masuk untuk mengelola Wonderplays</p>
         </div>
 
         <form
@@ -48,7 +53,7 @@ export default function LoginPage() {
           <Input
             label="Email"
             type="email"
-            placeholder="user@gmail.com"
+            placeholder="admin@pokemonshop.com"
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
             error={errors.email}
@@ -70,13 +75,6 @@ export default function LoginPage() {
             Masuk
           </Button>
         </form>
-
-        <p className="text-center text-sm text-[#5a5550] mt-5">
-          Belum punya akun?{' '}
-          <Link to="/register" className="text-[#e5b13a] hover:text-[#f0c547] font-medium transition-colors">
-            Daftar sekarang
-          </Link>
-        </p>
       </motion.div>
     </div>
   )

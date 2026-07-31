@@ -1,10 +1,7 @@
 <?php
 
-use App\Modules\Admin\Controllers\AdminOrderController;
 use App\Modules\Admin\Controllers\AdminProductController;
-use App\Modules\Cart\Controllers\CartController;
 use App\Modules\Catalog\Controllers\CatalogController;
-use App\Modules\Order\Controllers\OrderController;
 use App\Modules\User\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,9 +26,8 @@ Route::get('/health', function () {
     ]);
 });
 
-// Auth (public)
+// Auth (admin login only — the storefront is guest-only)
 Route::prefix('auth')->group(function () {
-    Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
 });
 
@@ -43,29 +39,13 @@ Route::prefix('catalog')->group(function () {
     Route::get('/categories', [CatalogController::class, 'categories']);
 });
 
-// Authenticated routes
+// Authenticated routes (admin only)
 Route::middleware('auth:api')->group(function () {
 
-    // Auth
+    // Auth session
     Route::prefix('auth')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::get('/me', [AuthController::class, 'me']);
-        Route::put('/profile', [AuthController::class, 'updateProfile']);
-    });
-
-    // Cart
-    Route::prefix('cart')->group(function () {
-        Route::get('/', [CartController::class, 'index']);
-        Route::post('/items', [CartController::class, 'addItem']);
-        Route::put('/items/{cardId}', [CartController::class, 'updateItem'])->where('cardId', '[0-9]+');
-        Route::delete('/items/{cardId}', [CartController::class, 'removeItem'])->where('cardId', '[0-9]+');
-    });
-
-    // Orders
-    Route::prefix('orders')->group(function () {
-        Route::post('/checkout', [OrderController::class, 'checkout']);
-        Route::get('/', [OrderController::class, 'index']);
-        Route::get('/{id}', [OrderController::class, 'show'])->where('id', '[0-9]+');
     });
 
     // Admin routes
@@ -79,10 +59,5 @@ Route::middleware('auth:api')->group(function () {
         Route::put('/cards/{id}', [AdminProductController::class, 'updateCard'])->where('id', '[0-9]+');
         Route::delete('/cards/{id}', [AdminProductController::class, 'deactivateCard'])->where('id', '[0-9]+');
         Route::patch('/cards/{id}/stock', [AdminProductController::class, 'updateStock'])->where('id', '[0-9]+');
-
-        // Orders management
-        Route::get('/orders', [AdminOrderController::class, 'index']);
-        Route::patch('/orders/{id}/status', [AdminOrderController::class, 'updateStatus'])->where('id', '[0-9]+');
-        Route::patch('/orders/{id}/cancel', [AdminOrderController::class, 'cancel'])->where('id', '[0-9]+');
     });
 });

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Layers } from 'lucide-react'
 import { useCards } from '../hooks/useCatalog'
@@ -12,26 +12,23 @@ export default function CardsPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const [filtersOpen, setFiltersOpen] = useState(false)
 
-  const [filters, setFilters] = useState<CardFilters>({
-    page: Number(searchParams.get('page')) || 1,
-    per_page: 20,
-    sort: searchParams.get('sort') || undefined,
-    category: searchParams.get('category') || undefined,
-  })
-
-  useEffect(() => {
-    setFilters({
+  // URL is the single source of truth for filters — no duplicated state to drift
+  // out of sync with back/forward navigation or shared links.
+  const filters = useMemo<CardFilters>(
+    () => ({
       page: Number(searchParams.get('page')) || 1,
       per_page: 20,
       sort: searchParams.get('sort') || undefined,
       category: searchParams.get('category') || undefined,
-    })
-  }, []) // eslint-disable-line
+      min_price: searchParams.get('min_price') || undefined,
+      max_price: searchParams.get('max_price') || undefined,
+    }),
+    [searchParams],
+  )
 
-  const { data, isLoading, isFetching } = useCards(filters)
+  const { data, isLoading, isFetching, isError } = useCards(filters)
 
   const handleFiltersChange = (newFilters: CardFilters) => {
-    setFilters(newFilters)
     const params: Record<string, string> = {}
     if (newFilters.page && newFilters.page > 1) params.page = String(newFilters.page)
     if (newFilters.sort) params.sort = newFilters.sort
@@ -71,6 +68,17 @@ export default function CardsPage() {
         {isLoading ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {Array.from({ length: 20 }).map((_, i) => <CardSkeleton key={i} />)}
+          </div>
+        ) : isError ? (
+          <div className="flex flex-col items-center justify-center py-24 text-center">
+            <div className="w-16 h-16 rounded-full bg-[#1c1c28] flex items-center justify-center mb-4">
+              <Layers size={24} className="text-red-400" />
+            </div>
+            <p className="text-[#a09a8e] font-medium">Gagal memuat produk</p>
+            <p className="text-sm text-[#5a5550] mt-1">Periksa koneksimu lalu coba lagi</p>
+            <Button variant="ghost" className="mt-4" onClick={() => window.location.reload()}>
+              Muat ulang
+            </Button>
           </div>
         ) : data && data.data.length > 0 ? (
           <>

@@ -1,29 +1,36 @@
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ShoppingCart, ArrowLeft, Package } from 'lucide-react'
+import { ShoppingCart, ArrowLeft, Package, Heart } from 'lucide-react'
 import { useState } from 'react'
+import toast from 'react-hot-toast'
 import { useCard } from '../hooks/useCatalog'
-import { useAddToCart } from '../hooks/useCart'
-import { useAuthStore } from '../store/authStore'
+import { useCartStore } from '../store/cartStore'
+import { useFavouritesStore } from '../store/favouritesStore'
 import { formatPrice } from '../lib/utils'
 import Button from '../components/ui/Button'
 import { Skeleton } from '../components/ui/Skeleton'
-import { useNavigate } from 'react-router-dom'
+import ProductImage from '../components/ui/ProductImage'
 
 export default function CardDetailPage() {
   const { id } = useParams<{ id: string }>()
   const { data: card, isLoading } = useCard(id!)
-  const { mutate: addToCart, isPending } = useAddToCart()
-  const { isAuthenticated } = useAuthStore()
-  const navigate = useNavigate()
+  const addItem = useCartStore((s) => s.addItem)
+  const openCart = useCartStore((s) => s.openCart)
+  const toggleFav = useFavouritesStore((s) => s.toggle)
+  const isFav = useFavouritesStore((s) => (card ? s.isFavourite(card.id) : false))
   const [qty, setQty] = useState(1)
 
   const handleAdd = () => {
-    if (!isAuthenticated) {
-      navigate('/login')
-      return
-    }
-    addToCart({ card_id: card!.id, quantity: qty })
+    if (!card) return
+    addItem(card, qty)
+    openCart()
+    toast.success('Ditambahkan ke keranjang!')
+  }
+
+  const handleToggleFav = () => {
+    if (!card) return
+    toggleFav(card)
+    toast.success(isFav ? 'Dihapus dari favorit' : 'Ditambahkan ke favorit')
   }
 
   if (isLoading) {
@@ -73,20 +80,19 @@ export default function CardDetailPage() {
           className="relative"
         >
           <div className="aspect-[3/4] bg-[#16161f] rounded-2xl overflow-hidden border border-[#2a2a38] relative group">
-            {card.image_url ? (
-              <img
-                src={card.image_url}
-                alt={card.name}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-            ) : (
-              <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-[#5a5550]">
-                <div className="w-20 h-20 rounded-full bg-[#2a2a38] flex items-center justify-center">
-                  <span className="font-display text-4xl text-[#3a3a4a]">P</span>
+            <ProductImage
+              src={card.image_url}
+              alt={card.name}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              fallback={
+                <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-[#5a5550]">
+                  <div className="w-20 h-20 rounded-full bg-[#2a2a38] flex items-center justify-center">
+                    <span className="font-display text-4xl text-[#3a3a4a]">P</span>
+                  </div>
+                  <span className="text-sm">Tidak Ada Gambar</span>
                 </div>
-                <span className="text-sm">Tidak Ada Gambar</span>
-              </div>
-            )}
+              }
+            />
             <div className="absolute bottom-0 left-0 right-0 h-24 opacity-20 bg-gradient-to-t from-[#e5b13a44] to-transparent" />
           </div>
         </motion.div>
@@ -143,11 +149,39 @@ export default function CardDetailPage() {
                   +
                 </button>
               </div>
-              <Button onClick={handleAdd} loading={isPending} size="lg" className="flex-1">
+              <Button onClick={handleAdd} size="lg" className="flex-1">
                 <ShoppingCart size={16} />
                 Tambah ke Keranjang
               </Button>
+              <button
+                onClick={handleToggleFav}
+                className={`h-full aspect-square shrink-0 rounded-lg border flex items-center justify-center transition-all ${
+                  isFav
+                    ? 'bg-[#e5b13a] border-[#e5b13a] text-[#0a0a0f]'
+                    : 'border-[#2a2a38] text-[#a09a8e] hover:border-[#e5b13a66] hover:text-[#e5b13a]'
+                }`}
+                aria-label={isFav ? 'Hapus dari favorit' : 'Tambah ke favorit'}
+                aria-pressed={isFav}
+              >
+                <Heart size={18} fill={isFav ? '#0a0a0f' : 'none'} />
+              </button>
             </div>
+          )}
+
+          {/* Favorit — tetap tersedia meski stok habis */}
+          {!card.is_available && (
+            <button
+              onClick={handleToggleFav}
+              className={`flex items-center justify-center gap-2 w-full mb-4 py-2.5 rounded-lg border text-sm font-medium transition-all ${
+                isFav
+                  ? 'bg-[#e5b13a] border-[#e5b13a] text-[#0a0a0f]'
+                  : 'border-[#2a2a38] text-[#a09a8e] hover:border-[#e5b13a66] hover:text-[#e5b13a]'
+              }`}
+              aria-pressed={isFav}
+            >
+              <Heart size={16} fill={isFav ? '#0a0a0f' : 'none'} />
+              {isFav ? 'Tersimpan di Favorit' : 'Simpan ke Favorit'}
+            </button>
           )}
 
           {!card.is_available && (

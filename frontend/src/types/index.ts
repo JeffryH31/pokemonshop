@@ -37,53 +37,6 @@ export interface PaginatedResponse<T> {
   to: number
 }
 
-export interface CartItem {
-  id: number
-  card_id: number
-  quantity: number
-  subtotal: number
-  card: Card
-}
-
-export interface Cart {
-  id: number
-  user_id: number
-  total: number
-  items: CartItem[]
-}
-
-export interface OrderItem {
-  id: number
-  card_id: number
-  card_name: string
-  unit_price: string
-  quantity: number
-  subtotal: string
-  card?: Card
-}
-
-export interface Order {
-  id: number
-  order_number: string
-  status: 'pending_payment' | 'paid' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'expired'
-  total_amount: string
-  recipient_name: string
-  street_address: string
-  city: string
-  postal_code: string
-  tracking_number: string | null
-  status_updated_at: string | null
-  created_at: string
-  items: OrderItem[]
-}
-
-export interface CheckoutPayload {
-  recipient_name: string
-  street_address: string
-  city: string
-  postal_code: string
-}
-
 export interface AuthResponse {
   token: string
   token_type: string
@@ -94,4 +47,14 @@ export interface AuthResponse {
 export interface ApiError {
   message: string
   errors?: Record<string, string[]>
+}
+
+// Payload sent to the admin create/update card endpoints.
+export interface CardPayload {
+  name: string
+  category: string
+  price: number
+  stock: number
+  description: string
+  image_url: string
 }

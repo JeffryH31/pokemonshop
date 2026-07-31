@@ -1,15 +1,17 @@
 import { useState } from 'react'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Plus, Edit2, Trash2, Package } from 'lucide-react'
 import toast from 'react-hot-toast'
+import type { AxiosError } from 'axios'
 import api from '../../lib/api'
-import { useCategories } from '../../hooks/useCatalog'
-import type { Card, PaginatedResponse } from '../../types'
+import { useCategories, normalizePaginated } from '../../hooks/useCatalog'
+import type { ApiError, Card, CardPayload, PaginatedResponse } from '../../types'
 import { formatPrice } from '../../lib/utils'
 import Button from '../../components/ui/Button'
 import Input from '../../components/ui/Input'
 import Select from '../../components/ui/Select'
 import { Skeleton } from '../../components/ui/Skeleton'
+import ProductImage from '../../components/ui/ProductImage'
 
 const EMPTY_FORM = {
   name: '', category: 'Raw Card',
@@ -27,35 +29,27 @@ export default function AdminCards() {
   const { data, isLoading } = useQuery<PaginatedResponse<Card>>({
     queryKey: ['admin', 'cards', page],
     queryFn: () =>
-      api.get('/catalog/cards', { params: { page, per_page: 15 } }).then((r) => {
-        const payload = r.data?.data ?? r.data
-        if (payload?.items && payload?.meta) {
-          return {
-            data: payload.items,
-            current_page: payload.meta.current_page,
-            last_page: payload.meta.last_page,
-            per_page: payload.meta.per_page,
-            total: payload.meta.total,
-            from: (payload.meta.current_page - 1) * payload.meta.per_page + 1,
-            to: Math.min(payload.meta.current_page * payload.meta.per_page, payload.meta.total),
-          } as PaginatedResponse<Card>
-        }
-        return payload
-      }),
+      api
+        .get('/catalog/cards', { params: { page, per_page: 15 } })
+        .then((r) => normalizePaginated<Card>(r.data?.data ?? r.data)),
     staleTime: 30 * 1000,
+    placeholderData: keepPreviousData,
   })
 
+  const apiErrorMessage = (e: AxiosError<ApiError>, fallback: string) =>
+    e.response?.data?.message || fallback
+
   const { mutate: createCard, isPending: creating } = useMutation({
-    mutationFn: (payload: any) => api.post('/admin/cards', payload).then((r) => r.data),
+    mutationFn: (payload: CardPayload) => api.post('/admin/cards', payload).then((r) => r.data),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin', 'cards'] }); qc.invalidateQueries({ queryKey: ['cards'] }); resetForm(); toast.success('Produk berhasil dibuat!') },
-    onError: (e: any) => toast.error(e?.response?.data?.message || 'Gagal membuat produk'),
+    onError: (e: AxiosError<ApiError>) => toast.error(apiErrorMessage(e, 'Gagal membuat produk')),
   })
 
   const { mutate: updateCard, isPending: updating } = useMutation({
-    mutationFn: ({ id, payload }: { id: number; payload: any }) =>
+    mutationFn: ({ id, payload }: { id: number; payload: CardPayload }) =>
       api.put(`/admin/cards/${id}`, payload).then((r) => r.data),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin', 'cards'] }); qc.invalidateQueries({ queryKey: ['cards'] }); resetForm(); toast.success('Produk berhasil diperbarui!') },
-    onError: (e: any) => toast.error(e?.response?.data?.message || 'Gagal memperbarui produk'),
+    onError: (e: AxiosError<ApiError>) => toast.error(apiErrorMessage(e, 'Gagal memperbarui produk')),
   })
 
   const { mutate: deleteCard } = useMutation({
@@ -87,7 +81,19 @@ export default function AdminCards() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    const payload = { ...form, price: parseFloat(form.price), stock: parseInt(form.stock) }
+    const price = parseFloat(form.price)
+    const stock = parseInt(form.stock, 10)
+    if (Number.isNaN(price) || price < 0) return toast.error('Harga tidak valid')
+    if (Number.isNaN(stock) || stock < 0) return toast.error('Stok tidak valid')
+
+    const payload: CardPayload = {
+      name: form.name,
+      category: form.category,
+      description: form.description,
+      image_url: form.image_url,
+      price,
+      stock,
+    }
     if (editing) updateCard({ id: editing.id, payload })
     else createCard(payload)
   }
@@ -149,13 +155,16 @@ export default function AdminCards() {
                   <tr key={card.id} className="hover:bg-[#1c1c28] transition-colors group">
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
-                        {card.image_url ? (
-                          <img src={card.image_url} alt={card.name} className="w-8 h-10 object-cover rounded" />
-                        ) : (
-                          <div className="w-8 h-10 bg-[#2a2a38] rounded flex items-center justify-center">
-                            <Package size={12} className="text-[#5a5550]" />
-                          </div>
-                        )}
+                        <ProductImage
+                          src={card.image_url}
+                          alt={card.name}
+                          className="w-8 h-10 object-cover rounded"
+                          fallback={
+                            <div className="w-8 h-10 bg-[#2a2a38] rounded flex items-center justify-center">
+                              <Package size={12} className="text-[#5a5550]" />
+                            </div>
+                          }
+                        />
                         <span className="text-[#f0ece4] font-medium truncate max-w-[160px]">{card.name}</span>
                       </div>
                     </td>
@@ -166,8 +175,14 @@ export default function AdminCards() {
                         <span className={`text-sm ${card.stock === 0 ? 'text-red-400' : 'text-[#f0ece4]'}`}>{card.stock}</span>
                         <button
                           onClick={() => {
-                            const newStock = prompt('Jumlah stok baru:', String(card.stock))
-                            if (newStock !== null) updateStock({ id: card.id, stock: parseInt(newStock) })
+                            const input = prompt('Jumlah stok baru:', String(card.stock))
+                            if (input === null) return
+                            const newStock = parseInt(input, 10)
+                            if (Number.isNaN(newStock) || newStock < 0) {
+                              toast.error('Jumlah stok tidak valid')
+                              return
+                            }
+                            updateStock({ id: card.id, stock: newStock })
                           }}
                           className="opacity-0 group-hover:opacity-100 ml-1 text-xs text-[#e5b13a] hover:underline transition-opacity"
                         >

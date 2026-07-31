@@ -5,14 +5,8 @@ import Footer from './Footer'
 import CartDrawer from './CartDrawer'
 import WhatsAppPopup from '../WhatsAppPopup'
 import WhatsAppFAB from '../WhatsAppFAB'
-import { useCart } from '../../hooks/useCart'
-import { useAuthStore } from '../../store/authStore'
 
 export default function Layout() {
-  const { isAuthenticated } = useAuthStore()
-  // Prefetch cart when authenticated
-  useCart()
-
   return (
     <div className="min-h-screen flex flex-col bg-[#0a0a0f]">
       <AnnouncementBar />
@@ -21,7 +15,7 @@ export default function Layout() {
         <Outlet />
       </main>
       <Footer />
-      {isAuthenticated && <CartDrawer />}
+      <CartDrawer />
       {/* WhatsApp — always visible */}
       <WhatsAppFAB />
       <WhatsAppPopup />
