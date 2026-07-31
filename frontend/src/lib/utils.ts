@@ -23,29 +23,6 @@ export function formatDate(dateStr: string): string {
   }).format(new Date(dateStr))
 }
 
-export function getRarityColor(rarity: string): string {
-  const map: Record<string, string> = {
-    Common: '#a09a8e',
-    Uncommon: '#4ade80',
-    Rare: '#60a5fa',
-    'Rare Holo': '#a78bfa',
-    'Ultra Rare': '#f97316',
-    'Secret Rare': '#e5b13a',
-  }
-  return map[rarity] ?? '#a09a8e'
-}
-
-export function getConditionColor(condition: string): string {
-  const map: Record<string, string> = {
-    Mint: '#4ade80',
-    'Near Mint': '#86efac',
-    Excellent: '#60a5fa',
-    Good: '#fbbf24',
-    Poor: '#f87171',
-  }
-  return map[condition] ?? '#a09a8e'
-}
-
 export function getStatusColor(status: string): string {
   const map: Record<string, string> = {
     pending_payment: '#fbbf24',

@@ -12,10 +12,8 @@ class CreateCardRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'set_id'      => 'required|integer|exists:sets,id',
             'name'        => 'required|string|min:1|max:255',
-            'rarity'      => 'required|string|in:' . implode(',', Card::RARITIES),
-            'condition'   => 'required|string|in:' . implode(',', Card::CONDITIONS),
+            'category'    => 'required|string|in:' . implode(',', Card::CATEGORIES),
             'price'       => 'required|numeric|gt:0',
             'stock'       => 'required|integer|min:0',
             'description' => 'nullable|string',

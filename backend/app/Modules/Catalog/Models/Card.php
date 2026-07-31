@@ -6,30 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Card extends Model
 {
-    public const RARITIES = [
-        'Common',
-        'Uncommon',
-        'Rare',
-        'Rare Holo',
-        'Ultra Rare',
-        'Secret Rare',
-    ];
-
-    public const CONDITIONS = [
-        'Mint',
-        'Near Mint',
-        'Excellent',
-        'Good',
-        'Poor',
+    public const CATEGORIES = [
+        'Sealed Product Pokemon',
+        'Sealed Product OnePiece',
+        'Slab OnePiece',
+        'Slab Pokemon',
+        'Raw Card',
+        'Accessoris',
     ];
 
     protected $table = 'cards';
 
     protected $fillable = [
-        'set_id',
         'name',
-        'rarity',
-        'condition',
+        'category',
         'price',
         'stock',
         'description',
@@ -51,11 +41,6 @@ class Card extends Model
     public function getIsAvailableAttribute(): bool
     {
         return $this->stock > 0;
-    }
-
-    public function set()
-    {
-        return $this->belongsTo(Set::class, 'set_id');
     }
 
     public function scopeActive($query)

@@ -10,10 +10,15 @@ return new class extends Migration
     {
         Schema::create('cards', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('set_id')->constrained('sets')->restrictOnDelete();
             $table->string('name');
-            $table->enum('rarity', ['Common', 'Uncommon', 'Rare', 'Rare Holo', 'Ultra Rare', 'Secret Rare']);
-            $table->enum('condition', ['Mint', 'Near Mint', 'Excellent', 'Good', 'Poor']);
+            $table->enum('category', [
+                'Sealed Product Pokemon',
+                'Sealed Product OnePiece',
+                'Slab OnePiece',
+                'Slab Pokemon',
+                'Raw Card',
+                'Accessoris',
+            ]);
             $table->decimal('price', 12, 2);
             $table->unsignedInteger('stock')->default(0);
             $table->text('description')->nullable();
@@ -21,8 +26,7 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->timestamps();
 
-            $table->index(['is_active', 'rarity']);
-            $table->index(['is_active', 'condition']);
+            $table->index(['is_active', 'category']);
             $table->index(['is_active', 'price']);
         });
     }

@@ -7,12 +7,9 @@ use App\Http\Traits\HttpResponse;
 use App\Modules\Admin\Requests\CreateCardRequest;
 use App\Modules\Admin\Requests\UpdateCardRequest;
 use App\Modules\Admin\Requests\UpdateStockRequest;
-use App\Modules\Admin\Requests\CreateSetRequest;
-use App\Modules\Admin\Requests\UpdateSetRequest;
 use App\Modules\Admin\Requests\DashboardRequest;
 use App\Modules\Admin\Services\AdminProductService;
 use App\Modules\Catalog\Models\Card;
-use App\Modules\Catalog\Models\Set;
 use Illuminate\Http\JsonResponse;
 
 class AdminProductController extends Controller
@@ -21,12 +18,11 @@ class AdminProductController extends Controller
 
     public function __construct(private AdminProductService $service) {}
 
-    // Cards
     public function storeCard(CreateCardRequest $request): JsonResponse
     {
         $card = $this->service->createCard($request->validated());
 
-        return $this->success($card->load('set'), 'Card created.', 201);
+        return $this->success($card, 'Card created.', 201);
     }
 
     public function updateCard(UpdateCardRequest $request, int $id): JsonResponse
@@ -53,31 +49,6 @@ class AdminProductController extends Controller
         return $this->success($card, 'Stock updated.');
     }
 
-    // Sets
-    public function storeSets(CreateSetRequest $request): JsonResponse
-    {
-        $set = $this->service->createSet($request->validated());
-
-        return $this->success($set, 'Set created.', 201);
-    }
-
-    public function updateSet(UpdateSetRequest $request, int $id): JsonResponse
-    {
-        $set = Set::findOrFail($id);
-        $set = $this->service->updateSet($set, $request->validated());
-
-        return $this->success($set, 'Set updated.');
-    }
-
-    public function deactivateSet(int $id): JsonResponse
-    {
-        $set = Set::findOrFail($id);
-        $set = $this->service->deactivateSet($set);
-
-        return $this->success($set, 'Set deactivated.');
-    }
-
-    // Dashboard
     public function dashboard(DashboardRequest $request): JsonResponse
     {
         $data = $this->service->getDashboard(

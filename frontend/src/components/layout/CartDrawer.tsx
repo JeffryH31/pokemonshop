@@ -95,7 +95,7 @@ export default function CartDrawer() {
                           </p>
                         </Link>
                         <p className="text-xs text-[#5a5550] mt-0.5">
-                          {item.card?.condition} · {item.card?.rarity}
+                          {item.card?.category}
                         </p>
                         <p className="text-sm font-semibold text-[#e5b13a] mt-1">
                           {formatPrice(item.subtotal)}

@@ -1,12 +1,11 @@
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ShoppingCart, ArrowLeft, Star, Package } from 'lucide-react'
+import { ShoppingCart, ArrowLeft, Package } from 'lucide-react'
 import { useState } from 'react'
 import { useCard } from '../hooks/useCatalog'
 import { useAddToCart } from '../hooks/useCart'
 import { useAuthStore } from '../store/authStore'
-import { formatPrice, getRarityColor, getConditionColor } from '../lib/utils'
-import Badge from '../components/ui/Badge'
+import { formatPrice } from '../lib/utils'
 import Button from '../components/ui/Button'
 import { Skeleton } from '../components/ui/Skeleton'
 import { useNavigate } from 'react-router-dom'
@@ -88,10 +87,7 @@ export default function CardDetailPage() {
                 <span className="text-sm">Tidak Ada Gambar</span>
               </div>
             )}
-            <div
-              className="absolute bottom-0 left-0 right-0 h-24 opacity-20"
-              style={{ background: `linear-gradient(to top, ${getRarityColor(card.rarity)}44, transparent)` }}
-            />
+            <div className="absolute bottom-0 left-0 right-0 h-24 opacity-20 bg-gradient-to-t from-[#e5b13a44] to-transparent" />
           </div>
         </motion.div>
 
@@ -103,20 +99,10 @@ export default function CardDetailPage() {
           className="flex flex-col"
         >
           <p className="text-xs text-[#5a5550] uppercase tracking-widest font-semibold mb-2">
-            {card.set?.name ?? 'Set Tidak Diketahui'}
+            {card.category}
           </p>
 
           <h1 className="font-display text-3xl font-bold text-[#f0ece4] mb-4">{card.name}</h1>
-
-          <div className="flex flex-wrap gap-2 mb-6">
-            <Badge color={getRarityColor(card.rarity)} variant="outline">
-              <Star size={10} className="mr-1" />
-              {card.rarity}
-            </Badge>
-            <Badge color={getConditionColor(card.condition)} variant="outline">
-              {card.condition}
-            </Badge>
-          </div>
 
           <div className="bg-[#16161f] border border-[#2a2a38] rounded-xl p-4 mb-6">
             <p className="text-xs text-[#5a5550] uppercase tracking-wide mb-1">Harga</p>
@@ -130,7 +116,11 @@ export default function CardDetailPage() {
           <div className="flex items-center gap-2 mb-6">
             <Package size={14} className={card.is_available ? 'text-green-400' : 'text-red-400'} />
             <span className={`text-sm font-medium ${card.is_available ? 'text-green-400' : 'text-red-400'}`}>
-              {card.is_available ? `${card.stock} stok tersedia` : 'Stok habis'}
+              {card.stock === 0
+                ? 'Out of Stock'
+                : card.stock === 1
+                  ? 'Cuma ada 1 nih! Mungkin rejekimu 😜'
+                  : `${card.stock} stok tersedia`}
             </span>
           </div>
 
@@ -168,9 +158,7 @@ export default function CardDetailPage() {
 
           <div className="mt-8 border-t border-[#2a2a38] pt-6 grid grid-cols-2 gap-4">
             {[
-              { label: 'Set', value: card.set?.name ?? '—' },
-              { label: 'Kelangkaan', value: card.rarity },
-              { label: 'Kondisi', value: card.condition },
+              { label: 'Kategori', value: card.category },
               { label: 'Stok', value: card.stock.toString() },
             ].map((spec) => (
               <div key={spec.label}>

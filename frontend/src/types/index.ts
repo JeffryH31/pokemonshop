@@ -7,28 +7,24 @@ export interface User {
   created_at: string
 }
 
-export interface Set {
-  id: number
-  name: string
-  slug: string
-  description: string | null
-  is_active: boolean
-  cards_count?: number
-}
+export type Category =
+  | 'Sealed Product Pokemon'
+  | 'Sealed Product OnePiece'
+  | 'Slab OnePiece'
+  | 'Slab Pokemon'
+  | 'Raw Card'
+  | 'Accessoris'
 
 export interface Card {
   id: number
-  set_id: number
   name: string
-  rarity: 'Common' | 'Uncommon' | 'Rare' | 'Rare Holo' | 'Ultra Rare' | 'Secret Rare'
-  condition: 'Mint' | 'Near Mint' | 'Excellent' | 'Good' | 'Poor'
+  category: Category
   price: string
   stock: number
   description: string | null
   image_url: string | null
   is_active: boolean
   is_available: boolean
-  set?: Set
 }
 
 export interface PaginatedResponse<T> {

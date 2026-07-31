@@ -2,8 +2,7 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ShoppingCart, Eye } from 'lucide-react'
 import type { Card } from '../../types'
-import { formatPrice, getRarityColor, getConditionColor } from '../../lib/utils'
-import Badge from '../ui/Badge'
+import { formatPrice } from '../../lib/utils'
 import { useAddToCart } from '../../hooks/useCart'
 import { useAuthStore } from '../../store/authStore'
 import { useNavigate } from 'react-router-dom'
@@ -89,12 +88,7 @@ export function CardItem({ card, index = 0 }: CardItemProps) {
             <h3 className="text-sm font-semibold text-[#f0ece4] truncate group-hover:text-[#e5b13a] transition-colors">
               {card.name}
             </h3>
-            <p className="text-xs text-[#5a5550] mt-0.5 truncate">{card.set?.name}</p>
-
-            <div className="flex gap-1.5 mt-2 flex-wrap">
-              <Badge color={getRarityColor(card.rarity)}>{card.rarity}</Badge>
-              <Badge color={getConditionColor(card.condition)}>{card.condition}</Badge>
-            </div>
+            <p className="text-xs text-[#5a5550] mt-0.5 truncate">{card.category}</p>
 
             <div className="flex items-center justify-between mt-3">
               <span className="text-base font-bold text-[#e5b13a]">{formatPrice(card.price)}</span>

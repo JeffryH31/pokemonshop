@@ -1,31 +1,26 @@
-import { useState } from 'react'
 import { Filter, ChevronDown, X } from 'lucide-react'
-import { useSets, useRarities } from '../../hooks/useCatalog'
+import { useCategories } from '../../hooks/useCatalog'
 import type { CardFilters } from '../../hooks/useCatalog'
 import Select from '../ui/Select'
 
-const CONDITIONS = ['Mint', 'Near Mint', 'Excellent', 'Good', 'Poor']
 const SORT_OPTIONS = [
   { value: 'newest', label: 'Terbaru' },
   { value: 'price_asc', label: 'Harga Termurah' },
   { value: 'price_desc', label: 'Harga Termahal' },
   { value: 'name_asc', label: 'Nama: A–Z' },
-  { value: 'name_desc', label: 'Nama: Z–A' },
 ]
 
 interface Props {
   filters: CardFilters
   onChange: (filters: CardFilters) => void
+  filtersOpen: boolean
+  onToggleFilters: () => void
 }
 
-export default function CardFiltersBar({ filters, onChange }: Props) {
-  const { data: sets } = useSets()
-  const { data: rarities } = useRarities()
-  const [filtersOpen, setFiltersOpen] = useState(false)
+export default function CardFiltersBar({ filters, onChange, filtersOpen, onToggleFilters }: Props) {
+  const { data: categories } = useCategories()
 
-  const activeCount = [filters.set_id, filters.rarity, filters.condition, filters.min_price, filters.max_price].filter(
-    Boolean,
-  ).length
+  const activeCount = [filters.category, filters.min_price, filters.max_price].filter(Boolean).length
 
   const clearAll = () => onChange({ page: 1, sort: filters.sort })
 
@@ -34,7 +29,7 @@ export default function CardFiltersBar({ filters, onChange }: Props) {
 
   return (
     <div className="space-y-3">
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 flex-wrap">
         <Select
           options={SORT_OPTIONS}
           value={filters.sort || ''}
@@ -44,7 +39,7 @@ export default function CardFiltersBar({ filters, onChange }: Props) {
         />
 
         <button
-          onClick={() => setFiltersOpen(!filtersOpen)}
+          onClick={onToggleFilters}
           className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-[#2a2a38] bg-[#16161f] text-sm text-[#a09a8e] hover:border-[#e5b13a44] hover:text-[#f0ece4] transition-all"
         >
           <Filter size={14} />
@@ -66,30 +61,26 @@ export default function CardFiltersBar({ filters, onChange }: Props) {
             Hapus Filter
           </button>
         )}
+
+        {/* Active category badge */}
+        {filters.category && (
+          <span className="flex items-center gap-1.5 text-xs bg-[#e5b13a11] text-[#e5b13a] border border-[#e5b13a33] px-2.5 py-1 rounded-full font-medium">
+            {filters.category}
+            <button onClick={() => set('category', undefined)} className="hover:text-white transition-colors">
+              <X size={11} />
+            </button>
+          </span>
+        )}
       </div>
 
       {filtersOpen && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 p-4 bg-[#16161f] rounded-xl border border-[#2a2a38]">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 bg-[#16161f] rounded-xl border border-[#2a2a38]">
           <Select
-            label="Set"
-            value={filters.set_id || ''}
-            onChange={(e) => set('set_id', e.target.value)}
-            placeholder="Semua Set"
-            options={(sets ?? []).map((s) => ({ value: s.id, label: s.name }))}
-          />
-          <Select
-            label="Kelangkaan"
-            value={filters.rarity || ''}
-            onChange={(e) => set('rarity', e.target.value)}
-            placeholder="Semua Kelangkaan"
-            options={(rarities ?? []).map((r) => ({ value: r, label: r }))}
-          />
-          <Select
-            label="Kondisi"
-            value={filters.condition || ''}
-            onChange={(e) => set('condition', e.target.value)}
-            placeholder="Semua Kondisi"
-            options={CONDITIONS.map((c) => ({ value: c, label: c }))}
+            label="Kategori"
+            value={filters.category || ''}
+            onChange={(e) => set('category', e.target.value)}
+            placeholder="Semua Kategori"
+            options={(categories ?? []).map((c) => ({ value: c, label: c }))}
           />
           <div className="flex flex-col gap-1.5">
             <label className="text-sm font-medium text-[#a09a8e]">Harga Min</label>
@@ -99,7 +90,7 @@ export default function CardFiltersBar({ filters, onChange }: Props) {
               placeholder="Rp 0"
               value={filters.min_price ?? ''}
               onChange={(e) => set('min_price', e.target.value)}
-              className="w-full rounded-lg border border-[#2a2a38] bg-[#16161f] px-3 py-2.5 text-sm text-[#f0ece4] placeholder-[#5a5550] focus:outline-none focus:border-[#e5b13a]"
+              className="w-full rounded-lg border border-[#2a2a38] bg-[#0a0a0f] px-3 py-2.5 text-sm text-[#f0ece4] placeholder-[#5a5550] focus:outline-none focus:border-[#e5b13a]"
             />
           </div>
           <div className="flex flex-col gap-1.5">
@@ -110,7 +101,7 @@ export default function CardFiltersBar({ filters, onChange }: Props) {
               placeholder="∞"
               value={filters.max_price ?? ''}
               onChange={(e) => set('max_price', e.target.value)}
-              className="w-full rounded-lg border border-[#2a2a38] bg-[#16161f] px-3 py-2.5 text-sm text-[#f0ece4] placeholder-[#5a5550] focus:outline-none focus:border-[#e5b13a]"
+              className="w-full rounded-lg border border-[#2a2a38] bg-[#0a0a0f] px-3 py-2.5 text-sm text-[#f0ece4] placeholder-[#5a5550] focus:outline-none focus:border-[#e5b13a]"
             />
           </div>
         </div>

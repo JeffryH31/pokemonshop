@@ -10,14 +10,13 @@ import Button from '../components/ui/Button'
 
 export default function CardsPage() {
   const [searchParams, setSearchParams] = useSearchParams()
+  const [filtersOpen, setFiltersOpen] = useState(false)
 
   const [filters, setFilters] = useState<CardFilters>({
     page: Number(searchParams.get('page')) || 1,
     per_page: 20,
     sort: searchParams.get('sort') || undefined,
-    rarity: searchParams.get('rarity') || undefined,
-    set_id: searchParams.get('set_id') || undefined,
-    condition: searchParams.get('condition') || undefined,
+    category: searchParams.get('category') || undefined,
   })
 
   useEffect(() => {
@@ -25,9 +24,7 @@ export default function CardsPage() {
       page: Number(searchParams.get('page')) || 1,
       per_page: 20,
       sort: searchParams.get('sort') || undefined,
-      rarity: searchParams.get('rarity') || undefined,
-      set_id: searchParams.get('set_id') || undefined,
-      condition: searchParams.get('condition') || undefined,
+      category: searchParams.get('category') || undefined,
     })
   }, []) // eslint-disable-line
 
@@ -38,9 +35,7 @@ export default function CardsPage() {
     const params: Record<string, string> = {}
     if (newFilters.page && newFilters.page > 1) params.page = String(newFilters.page)
     if (newFilters.sort) params.sort = newFilters.sort
-    if (newFilters.rarity) params.rarity = String(newFilters.rarity)
-    if (newFilters.set_id) params.set_id = String(newFilters.set_id)
-    if (newFilters.condition) params.condition = String(newFilters.condition)
+    if (newFilters.category) params.category = String(newFilters.category)
     if (newFilters.min_price) params.min_price = String(newFilters.min_price)
     if (newFilters.max_price) params.max_price = String(newFilters.max_price)
     setSearchParams(params)
@@ -52,16 +47,21 @@ export default function CardsPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex items-start justify-between mb-6 gap-4 flex-wrap">
         <div>
-          <h1 className="font-display text-2xl font-bold text-[#f0ece4]">Semua Kartu</h1>
+          <h1 className="font-display text-2xl font-bold text-[#f0ece4]">Semua Produk</h1>
           {data && (
             <p className="text-sm text-[#5a5550] mt-1">
-              {data.total.toLocaleString('id-ID')} kartu tersedia
+              {data.total.toLocaleString('id-ID')} produk tersedia
             </p>
           )}
         </div>
       </div>
 
-      <CardFiltersBar filters={filters} onChange={handleFiltersChange} />
+      <CardFiltersBar
+        filters={filters}
+        onChange={handleFiltersChange}
+        filtersOpen={filtersOpen}
+        onToggleFilters={() => setFiltersOpen(!filtersOpen)}
+      />
 
       <div className="mt-6 relative">
         {(isLoading || isFetching) && data && (
@@ -70,9 +70,7 @@ export default function CardsPage() {
 
         {isLoading ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {Array.from({ length: 20 }).map((_, i) => (
-              <CardSkeleton key={i} />
-            ))}
+            {Array.from({ length: 20 }).map((_, i) => <CardSkeleton key={i} />)}
           </div>
         ) : data && data.data.length > 0 ? (
           <>
@@ -131,7 +129,7 @@ export default function CardsPage() {
             <div className="w-16 h-16 rounded-full bg-[#1c1c28] flex items-center justify-center mb-4">
               <Layers size={24} className="text-[#5a5550]" />
             </div>
-            <p className="text-[#a09a8e] font-medium">Kartu tidak ditemukan</p>
+            <p className="text-[#a09a8e] font-medium">Produk tidak ditemukan</p>
             <p className="text-sm text-[#5a5550] mt-1">Coba ubah filter pencarian kamu</p>
             <Button
               variant="ghost"

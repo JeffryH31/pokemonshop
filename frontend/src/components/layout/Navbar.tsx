@@ -151,7 +151,7 @@ export default function Navbar() {
                               )}
                               <div className="flex-1 min-w-0">
                                 <p className="text-sm text-[#f0ece4] truncate">{card.name}</p>
-                                <p className="text-xs text-[#5a5550]">{card.set?.name ?? 'Set Tidak Diketahui'}</p>
+                                <p className="text-xs text-[#5a5550]">{card.category}</p>
                               </div>
                               <span className="text-xs text-[#e5b13a] font-semibold shrink-0">{formatPrice(card.price)}</span>
                             </button>

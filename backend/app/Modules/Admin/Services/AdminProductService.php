@@ -3,7 +3,6 @@
 namespace App\Modules\Admin\Services;
 
 use App\Modules\Catalog\Models\Card;
-use App\Modules\Catalog\Models\Set;
 use App\Modules\User\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -17,7 +16,7 @@ class AdminProductService
     public function updateCard(Card $card, array $data): Card
     {
         $card->update($data);
-        return $card->fresh('set');
+        return $card->fresh();
     }
 
     public function deactivateCard(Card $card): Card
@@ -44,23 +43,6 @@ class AdminProductService
         ]);
 
         return $card->fresh();
-    }
-
-    public function createSet(array $data): Set
-    {
-        return Set::create($data + ['is_active' => true]);
-    }
-
-    public function updateSet(Set $set, array $data): Set
-    {
-        $set->update($data);
-        return $set->fresh();
-    }
-
-    public function deactivateSet(Set $set): Set
-    {
-        $set->update(['is_active' => false]);
-        return $set->fresh();
     }
 
     public function getDashboard(string $startDate, string $endDate): array

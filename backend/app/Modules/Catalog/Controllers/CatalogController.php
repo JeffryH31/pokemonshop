@@ -56,13 +56,8 @@ class CatalogController extends Controller
         return $this->success($card->append('is_available'));
     }
 
-    public function sets(): JsonResponse
+    public function categories(): JsonResponse
     {
-        return $this->success($this->catalogService->listSets());
-    }
-
-    public function rarities(): JsonResponse
-    {
-        return $this->success($this->catalogService->getRarities());
+        return $this->success($this->catalogService->getCategories());
     }
 }

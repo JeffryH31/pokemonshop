@@ -40,8 +40,7 @@ Route::prefix('catalog')->group(function () {
     Route::get('/cards', [CatalogController::class, 'index']);
     Route::get('/cards/search', [CatalogController::class, 'search']);
     Route::get('/cards/{id}', [CatalogController::class, 'show'])->where('id', '[0-9]+');
-    Route::get('/sets', [CatalogController::class, 'sets']);
-    Route::get('/rarities', [CatalogController::class, 'rarities']);
+    Route::get('/categories', [CatalogController::class, 'categories']);
 });
 
 // Authenticated routes
@@ -80,11 +79,6 @@ Route::middleware('auth:api')->group(function () {
         Route::put('/cards/{id}', [AdminProductController::class, 'updateCard'])->where('id', '[0-9]+');
         Route::delete('/cards/{id}', [AdminProductController::class, 'deactivateCard'])->where('id', '[0-9]+');
         Route::patch('/cards/{id}/stock', [AdminProductController::class, 'updateStock'])->where('id', '[0-9]+');
-
-        // Sets management
-        Route::post('/sets', [AdminProductController::class, 'storeSets']);
-        Route::put('/sets/{id}', [AdminProductController::class, 'updateSet'])->where('id', '[0-9]+');
-        Route::delete('/sets/{id}', [AdminProductController::class, 'deactivateSet'])->where('id', '[0-9]+');
 
         // Orders management
         Route::get('/orders', [AdminOrderController::class, 'index']);

@@ -1,13 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import api from '../lib/api'
-import type { Card, PaginatedResponse, Set } from '../types'
+import type { Card, Category, PaginatedResponse } from '../types'
 
 export interface CardFilters {
   page?: number
   per_page?: number
-  set_id?: number | string
-  rarity?: string
-  condition?: string
+  category?: Category | string
   min_price?: number | string
   max_price?: number | string
   sort?: string
@@ -22,7 +20,6 @@ export function useCards(filters: CardFilters = {}) {
     queryFn: () =>
       api.get('/catalog/cards', { params }).then((r) => {
         const payload = r.data?.data ?? r.data
-        // Backend returns { items: [...], meta: { current_page, total, per_page, last_page } }
         if (payload?.items && payload?.meta) {
           return {
             data: payload.items,
@@ -52,24 +49,21 @@ export function useCard(id: number | string) {
 export function useSearchCards(query: string) {
   return useQuery<Card[]>({
     queryKey: ['cards', 'search', query],
-    queryFn: () => api.get('/catalog/cards/search', { params: { q: query } }).then((r) => r.data.data ?? r.data),
+    queryFn: () =>
+      api.get('/catalog/cards/search', { params: { q: query } }).then((r) => {
+        const payload = r.data?.data ?? r.data
+        if (payload?.items) return payload.items
+        return payload
+      }),
     enabled: query.length >= 2,
     staleTime: 60 * 1000,
   })
 }
 
-export function useSets() {
-  return useQuery<Set[]>({
-    queryKey: ['sets'],
-    queryFn: () => api.get('/catalog/sets').then((r) => r.data.data ?? r.data),
-    staleTime: 10 * 60 * 1000,
-  })
-}
-
-export function useRarities() {
-  return useQuery<string[]>({
-    queryKey: ['rarities'],
-    queryFn: () => api.get('/catalog/rarities').then((r) => r.data.data ?? r.data),
+export function useCategories() {
+  return useQuery<Category[]>({
+    queryKey: ['categories'],
+    queryFn: () => api.get('/catalog/categories').then((r) => r.data.data ?? r.data),
     staleTime: 60 * 60 * 1000,
   })
 }

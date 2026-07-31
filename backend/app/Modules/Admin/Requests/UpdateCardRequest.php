@@ -12,10 +12,8 @@ class UpdateCardRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'set_id'      => 'sometimes|integer|exists:sets,id',
             'name'        => 'sometimes|string|min:1|max:255',
-            'rarity'      => 'sometimes|string|in:' . implode(',', Card::RARITIES),
-            'condition'   => 'sometimes|string|in:' . implode(',', Card::CONDITIONS),
+            'category'    => 'sometimes|string|in:' . implode(',', Card::CATEGORIES),
             'price'       => 'sometimes|numeric|gt:0',
             'stock'       => 'sometimes|integer|min:0',
             'description' => 'nullable|string',
