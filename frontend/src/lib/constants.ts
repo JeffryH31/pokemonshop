@@ -1,6 +1,6 @@
 import { formatPrice } from './utils'
 
-// ── Wonderplays Brand Constants ──────────────────────────────────────────────
+// Brand constants
 export const BRAND = {
   name: 'Wonderplays',
   tagline: 'Wonderful Place for All Collectors.',
@@ -24,9 +24,7 @@ export const WA_MESSAGE = encodeURIComponent(
 )
 export const WA_LINK = `https://wa.me/${CONTACT.wa}?text=${WA_MESSAGE}`
 
-// ── WhatsApp Checkout ────────────────────────────────────────────────────────
-// The storefront has no login/payment gateway: checkout opens WhatsApp with a
-// pre-filled order draft so the customer can confirm directly with the shop.
+// WhatsApp checkout: no payment gateway, opens WA with a pre-filled order draft.
 export interface CheckoutLine {
   name: string
   quantity: number

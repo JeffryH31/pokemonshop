@@ -15,5 +15,4 @@ export function formatPrice(price: number | string): string {
   }).format(Number.isFinite(num) ? num : 0)
 }
 
-// Order-status helpers were removed: the storefront is guest-only with no
-// in-app orders (see docs/backend-features.md), so there is no status to render.
+// No order-status helpers: the storefront is guest-only with no in-app orders.

@@ -9,9 +9,8 @@ interface AuthState {
   logout: () => void
 }
 
-// Single source of truth for the admin JWT. Persistence is handled entirely by
-// the `persist` middleware (key `auth-storage`) — the API layer reads the token
-// from here via `useAuthStore.getState()`, so there is no second copy to drift.
+// Admin JWT store. Persisted via `persist` (key `auth-storage`); the API layer
+// reads the token from here so there's a single source of truth.
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
@@ -27,7 +26,6 @@ export const useAuthStore = create<AuthState>()(
   ),
 )
 
-// Derived selectors — kept out of the store to stay reactive after rehydration
-// (getters defined inside the initializer get flattened by persist's merge).
+// Selectors live outside the store to stay reactive after rehydration.
 export const selectIsAuthenticated = (state: AuthState) => !!state.token
 export const selectIsAdmin = (state: AuthState) => state.user?.role === 'admin'

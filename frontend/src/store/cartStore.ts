@@ -73,7 +73,7 @@ export const useCartStore = create<CartState>()(
   ),
 )
 
-// ── Derived selectors (reactive, always recomputed from `items`) ─────────────
+// Derived selectors
 export const useCartCount = () =>
   useCartStore((s) => s.items.reduce((sum, line) => sum + line.quantity, 0))
 

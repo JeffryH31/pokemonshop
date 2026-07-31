@@ -58,7 +58,7 @@ export default function WhyShopSection() {
     <section className="border-t border-[#1e1e2a] bg-[#0a0a0f]">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
 
-        {/* ── Kenapa Belanja di Wonderplays ── */}
+        {/* Kenapa Belanja */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -93,7 +93,7 @@ export default function WhyShopSection() {
           </div>
         </motion.div>
 
-        {/* ── Cara Order ── */}
+        {/* Cara Order */}
         <motion.div
           variants={containerVariants}
           initial="hidden"

@@ -44,5 +44,5 @@ export const useFavouritesStore = create<FavouritesState>()(
   ),
 )
 
-// ── Derived selector (reactive) ──────────────────────────────────────────────
+// Derived selector
 export const useFavouritesCount = () => useFavouritesStore((s) => s.items.length)

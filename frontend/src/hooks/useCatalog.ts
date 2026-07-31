@@ -11,9 +11,7 @@ export interface CardFilters {
   sort?: string
 }
 
-// The API may return either a Laravel-style paginator or an { items, meta }
-// envelope. Normalise both shapes into PaginatedResponse in one place so the
-// callers (catalog + admin) don't each reimplement it.
+// Normalise both API shapes (Laravel paginator or { items, meta }) into PaginatedResponse.
 export function normalizePaginated<T>(payload: any): PaginatedResponse<T> {
   if (payload?.items && payload?.meta) {
     const { current_page, last_page, per_page, total } = payload.meta
@@ -41,7 +39,7 @@ export function useCards(filters: CardFilters = {}) {
         .get('/catalog/cards', { params })
         .then((r) => normalizePaginated<Card>(r.data?.data ?? r.data)),
     staleTime: 2 * 60 * 1000,
-    // Keep the current page visible while the next page loads (no skeleton flash).
+    // Keep current page visible while the next loads.
     placeholderData: keepPreviousData,
   })
 }

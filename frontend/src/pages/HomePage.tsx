@@ -6,11 +6,8 @@ import CardGrid from '../components/cards/CardGrid'
 import { CardSkeleton } from '../components/ui/Skeleton'
 import WhyShopSection from '../components/WhyShopSection'
 
-// ── Video hero background
-// Pakai YouTube embed nocookie agar tidak muncul iklan/branding YouTube
-// ID video: cuplikan Pokemon TCG opening yang bisa diganti dengan video Wonderplays sendiri
-// Untuk ganti: ubah ID "UaJjpLBg46Q" dengan video ID YouTube/TikTok Wonderplays
-const YT_ID = 'WswHFpnIGB8' // Pokemon TCG Battle Festival highlight — bisa diganti
+// Video hero background — YouTube nocookie embed. Ganti YT_ID untuk video lain.
+const YT_ID = 'WswHFpnIGB8'
 const YT_SRC = `https://www.youtube-nocookie.com/embed/${YT_ID}?autoplay=1&mute=1&loop=1&playlist=${YT_ID}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&iv_load_policy=3&disablekb=1`
 
 export default function HomePage() {
@@ -18,14 +15,14 @@ export default function HomePage() {
 
   return (
     <div>
-      {/* ── VIDEO BACKGROUND HERO ── */}
+      {/* Video hero */}
       <section className="relative h-[88vh] min-h-[580px] max-h-[900px] overflow-hidden">
 
-        {/* YouTube iframe — scale up biar tidak ada letterbox hitam */}
+        {/* YouTube iframe, scaled to cover (no letterbox) */}
         <div
           className="absolute pointer-events-none"
           style={{
-            // Paksa 16:9 cover seluruh section, scale agar tidak ada sisa hitam
+            // 16:9 cover
             top: '50%', left: '50%',
             transform: 'translate(-50%, -50%)',
             width: 'max(100%, calc(100vh * 16 / 9))',
@@ -41,16 +38,16 @@ export default function HomePage() {
           />
         </div>
 
-        {/* Layer 1 — overlay gelap merata */}
+        {/* Dark overlay */}
         <div className="absolute inset-0 bg-[#0a0a0f]/60 pointer-events-none" />
 
-        {/* Layer 2 — gradient bawah lebih gelap (supaya stats tidak tertutup) */}
+        {/* Bottom gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/30 to-transparent pointer-events-none" />
 
-        {/* Layer 3 — gradient kiri biar teks lebih terbaca */}
+        {/* Left gradient (text readability) */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0f]/80 via-[#0a0a0f]/20 to-transparent pointer-events-none" />
 
-        {/* Konten hero — z-20 agar di atas semua overlay */}
+        {/* Hero content */}
         <div className="absolute inset-0 z-20 flex items-center">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <div className="max-w-2xl">
@@ -99,7 +96,7 @@ export default function HomePage() {
                 </Link>
               </motion.div>
 
-              {/* Stats — z-20, background gelap agar tetap terbaca */}
+              {/* Stats */}
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -126,7 +123,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Bottom fade seamless ke halaman */}
+        {/* Bottom fade */}
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a0a0f] to-transparent pointer-events-none z-20" />
       </section>
 

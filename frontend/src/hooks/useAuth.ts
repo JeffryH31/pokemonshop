@@ -19,8 +19,7 @@ export function useLogin() {
       navigate('/admin')
     },
     onError: (err: AxiosError) => {
-      // Distinguish bad credentials from server/network problems so the admin
-      // isn't misled into thinking their password is wrong when the API is down.
+      // Separate bad credentials from server/network errors.
       if (err.response?.status === 401 || err.response?.status === 422) {
         toast.error('Email atau password salah')
       } else if (err.response) {

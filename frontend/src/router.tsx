@@ -3,8 +3,7 @@ import { lazy, Suspense, type ReactNode } from 'react'
 import Layout from './components/layout/Layout'
 import AdminLayout from './pages/admin/AdminLayout'
 
-// Route-level code splitting: the storefront no longer ships the admin bundle
-// (and vice-versa), shrinking the initial download for every visitor.
+// Route-level code splitting keeps storefront and admin bundles separate.
 const HomePage = lazy(() => import('./pages/HomePage'))
 const CardsPage = lazy(() => import('./pages/CardsPage'))
 const CardDetailPage = lazy(() => import('./pages/CardDetailPage'))

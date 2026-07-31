@@ -12,8 +12,7 @@ export default function CardsPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const [filtersOpen, setFiltersOpen] = useState(false)
 
-  // URL is the single source of truth for filters — no duplicated state to drift
-  // out of sync with back/forward navigation or shared links.
+  // URL is the single source of truth for filters (keeps back/forward + shared links in sync).
   const filters = useMemo<CardFilters>(
     () => ({
       page: Number(searchParams.get('page')) || 1,

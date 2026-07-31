@@ -8,12 +8,7 @@ interface ProductImageProps {
   fallback: React.ReactNode
 }
 
-/**
- * Renders a product image with a graceful fallback. Covers two cases the raw
- * `<img>` tag does not: a missing `image_url`, and an `image_url` that is set
- * but fails to load (e.g. a 404 or an admin typo). In both cases we show the
- * caller-provided placeholder instead of the browser's broken-image icon.
- */
+// Product image with fallback for a missing or broken `src`.
 export default function ProductImage({ src, alt, className, fallback }: ProductImageProps) {
   const [failed, setFailed] = useState(false)
 
