@@ -135,7 +135,7 @@ export default function CardDetailPage() {
               <div className="flex items-center border border-[#2a2a38] rounded-lg overflow-hidden">
                 <button
                   onClick={() => setQty(Math.max(1, qty - 1))}
-                  className="px-3 py-2.5 text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-colors text-lg"
+                  className="px-3 py-2.5 text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-colors text-lg cursor-pointer"
                 >
                   −
                 </button>
@@ -144,7 +144,7 @@ export default function CardDetailPage() {
                 </span>
                 <button
                   onClick={() => setQty(Math.min(card.stock, qty + 1))}
-                  className="px-3 py-2.5 text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-colors text-lg"
+                  className="px-3 py-2.5 text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-colors text-lg cursor-pointer"
                 >
                   +
                 </button>
@@ -155,7 +155,7 @@ export default function CardDetailPage() {
               </Button>
               <button
                 onClick={handleToggleFav}
-                className={`h-full aspect-square shrink-0 rounded-lg border flex items-center justify-center transition-all ${
+                className={`h-full aspect-square shrink-0 rounded-lg border flex items-center justify-center transition-all cursor-pointer ${
                   isFav
                     ? 'bg-[#e5b13a] border-[#e5b13a] text-[#0a0a0f]'
                     : 'border-[#2a2a38] text-[#a09a8e] hover:border-[#e5b13a66] hover:text-[#e5b13a]'
@@ -172,7 +172,7 @@ export default function CardDetailPage() {
           {!card.is_available && (
             <button
               onClick={handleToggleFav}
-              className={`flex items-center justify-center gap-2 w-full mb-4 py-2.5 rounded-lg border text-sm font-medium transition-all ${
+              className={`flex items-center justify-center gap-2 w-full mb-4 py-2.5 rounded-lg border text-sm font-medium transition-all cursor-pointer ${
                 isFav
                   ? 'bg-[#e5b13a] border-[#e5b13a] text-[#0a0a0f]'
                   : 'border-[#2a2a38] text-[#a09a8e] hover:border-[#e5b13a66] hover:text-[#e5b13a]'

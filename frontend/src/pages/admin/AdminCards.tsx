@@ -58,12 +58,6 @@ export default function AdminCards() {
     onError: () => toast.error('Gagal menonaktifkan produk'),
   })
 
-  const { mutate: updateStock } = useMutation({
-    mutationFn: ({ id, stock }: { id: number; stock: number }) =>
-      api.patch(`/admin/cards/${id}/stock`, { stock }),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ['admin', 'cards'] }); qc.invalidateQueries({ queryKey: ['cards'] }); toast.success('Stok diperbarui') },
-  })
-
   const resetForm = () => { setForm(EMPTY_FORM); setEditing(null); setShowForm(false) }
 
   const openEdit = (card: Card) => {
@@ -171,31 +165,14 @@ export default function AdminCards() {
                     <td className="px-4 py-3 text-[#a09a8e] text-xs">{card.category}</td>
                     <td className="px-4 py-3 text-[#e5b13a] font-semibold">{formatPrice(card.price)}</td>
                     <td className="px-4 py-3">
-                      <div className="flex items-center gap-1">
-                        <span className={`text-sm ${card.stock === 0 ? 'text-red-400' : 'text-[#f0ece4]'}`}>{card.stock}</span>
-                        <button
-                          onClick={() => {
-                            const input = prompt('Jumlah stok baru:', String(card.stock))
-                            if (input === null) return
-                            const newStock = parseInt(input, 10)
-                            if (Number.isNaN(newStock) || newStock < 0) {
-                              toast.error('Jumlah stok tidak valid')
-                              return
-                            }
-                            updateStock({ id: card.id, stock: newStock })
-                          }}
-                          className="opacity-0 group-hover:opacity-100 ml-1 text-xs text-[#e5b13a] hover:underline transition-opacity"
-                        >
-                          edit
-                        </button>
-                      </div>
+                      <span className={`text-sm ${card.stock === 0 ? 'text-red-400' : 'text-[#f0ece4]'}`}>{card.stock}</span>
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
-                        <button onClick={() => openEdit(card)} className="p-1.5 rounded text-[#5a5550] hover:text-[#e5b13a] hover:bg-[#e5b13a11] transition-all">
+                        <button onClick={() => openEdit(card)} className="p-1.5 rounded text-[#5a5550] hover:text-[#e5b13a] hover:bg-[#e5b13a11] transition-all cursor-pointer">
                           <Edit2 size={13} />
                         </button>
-                        <button onClick={() => { if (confirm('Nonaktifkan produk ini?')) deleteCard(card.id) }} className="p-1.5 rounded text-[#5a5550] hover:text-red-400 hover:bg-red-500/10 transition-all">
+                        <button onClick={() => { if (confirm('Nonaktifkan produk ini?')) deleteCard(card.id) }} className="p-1.5 rounded text-[#5a5550] hover:text-red-400 hover:bg-red-500/10 transition-all cursor-pointer">
                           <Trash2 size={13} />
                         </button>
                       </div>

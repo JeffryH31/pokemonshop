@@ -108,7 +108,7 @@ export default function CardsPage() {
                       <button
                         key={page}
                         onClick={() => changePage(page)}
-                        className={`w-8 h-8 rounded-lg text-sm font-medium transition-all ${
+                        className={`w-8 h-8 rounded-lg text-sm font-medium transition-all cursor-pointer ${
                           page === current
                             ? 'bg-[#e5b13a] text-[#0a0a0f]'
                             : 'text-[#a09a8e] hover:bg-[#1c1c28] hover:text-[#f0ece4]'

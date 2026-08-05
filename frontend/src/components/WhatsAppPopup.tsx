@@ -40,7 +40,7 @@ export default function WhatsAppPopup() {
               {/* Close */}
               <button
                 onClick={dismiss}
-                className="absolute top-3 right-3 w-6 h-6 flex items-center justify-center rounded-full text-[#5a5550] hover:text-[#f0ece4] hover:bg-[#2a2a38] transition-all"
+                className="absolute top-3 right-3 w-6 h-6 flex items-center justify-center rounded-full text-[#5a5550] hover:text-[#f0ece4] hover:bg-[#2a2a38] transition-all cursor-pointer"
                 aria-label="Tutup"
               >
                 <X size={13} />

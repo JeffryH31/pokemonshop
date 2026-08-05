@@ -23,7 +23,7 @@ export default function FavouritesPage() {
           {items.length > 0 && (
             <button
               onClick={clear}
-              className="flex items-center gap-1.5 text-sm text-[#5a5550] hover:text-red-400 transition-colors"
+              className="flex items-center gap-1.5 text-sm text-[#5a5550] hover:text-red-400 transition-colors cursor-pointer"
             >
               <Trash2 size={14} />
               Hapus Semua

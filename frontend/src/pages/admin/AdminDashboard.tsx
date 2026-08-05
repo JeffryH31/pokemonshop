@@ -65,7 +65,7 @@ export default function AdminDashboard() {
 
   return (
     <div>
-      <h1 className="font-display text-2xl font-bold text-[#f0ece4] mb-6">Dasbor</h1>
+      <h1 className="font-display text-2xl font-bold text-[#f0ece4] mb-6">Dashboard</h1>
 
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
         {stats.map((stat) => (

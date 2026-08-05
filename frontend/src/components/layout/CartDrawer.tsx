@@ -60,7 +60,7 @@ export default function CartDrawer() {
               </div>
               <button
                 onClick={closeCart}
-                className="p-1.5 rounded-lg text-[#5a5550] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all"
+                className="p-1.5 rounded-lg text-[#5a5550] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all cursor-pointer"
               >
                 <X size={18} />
               </button>
@@ -76,7 +76,7 @@ export default function CartDrawer() {
                   <p className="text-[#a09a8e] text-sm text-center">Keranjang kamu masih kosong</p>
                   <button
                     onClick={() => { closeCart(); navigate('/cards') }}
-                    className="text-sm text-[#e5b13a] hover:underline"
+                    className="text-sm text-[#e5b13a] hover:underline cursor-pointer"
                   >
                     Lihat koleksi kartu →
                   </button>
@@ -115,7 +115,7 @@ export default function CartDrawer() {
                           <button
                             onClick={() => updateQuantity(item.card.id, item.quantity - 1)}
                             disabled={item.quantity <= 1}
-                            className="w-6 h-6 rounded border border-[#2a2a38] flex items-center justify-center text-[#a09a8e] hover:border-[#e5b13a44] hover:text-[#f0ece4] disabled:opacity-40 transition-all"
+                            className="w-6 h-6 rounded border border-[#2a2a38] flex items-center justify-center text-[#a09a8e] hover:border-[#e5b13a44] hover:text-[#f0ece4] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all"
                           >
                             <Minus size={10} />
                           </button>
@@ -125,13 +125,13 @@ export default function CartDrawer() {
                           <button
                             onClick={() => updateQuantity(item.card.id, item.quantity + 1)}
                             disabled={item.quantity >= item.card.stock}
-                            className="w-6 h-6 rounded border border-[#2a2a38] flex items-center justify-center text-[#a09a8e] hover:border-[#e5b13a44] hover:text-[#f0ece4] disabled:opacity-40 transition-all"
+                            className="w-6 h-6 rounded border border-[#2a2a38] flex items-center justify-center text-[#a09a8e] hover:border-[#e5b13a44] hover:text-[#f0ece4] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all"
                           >
                             <Plus size={10} />
                           </button>
                           <button
                             onClick={() => removeItem(item.card.id)}
-                            className="ml-auto text-[#5a5550] hover:text-red-400 transition-colors"
+                            className="ml-auto text-red-400 transition-colors cursor-pointer"
                           >
                             <Trash2 size={13} />
                           </button>
@@ -158,7 +158,7 @@ export default function CartDrawer() {
                 </Button>
                 <button
                   onClick={closeCart}
-                  className="w-full text-center text-sm text-[#5a5550] hover:text-[#a09a8e] transition-colors"
+                  className="w-full text-center text-sm text-[#5a5550] hover:text-[#a09a8e] transition-colors cursor-pointer"
                 >
                   Lanjut Belanja
                 </button>

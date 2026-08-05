@@ -12,7 +12,6 @@ import ProductImage from '../ui/ProductImage'
 const NAV_ITEMS = [
   { to: '/', label: 'Beranda', end: true },
   { to: '/cards', label: 'Toko', end: false },
-  { to: '/favourites', label: 'Favorit', end: true },
   { to: '/about', label: 'Tentang Kami', end: true },
 ]
 

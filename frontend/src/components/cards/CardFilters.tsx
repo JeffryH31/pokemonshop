@@ -40,7 +40,7 @@ export default function CardFiltersBar({ filters, onChange, filtersOpen, onToggl
 
         <button
           onClick={onToggleFilters}
-          className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-[#2a2a38] bg-[#16161f] text-sm text-[#a09a8e] hover:border-[#e5b13a44] hover:text-[#f0ece4] transition-all"
+          className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-[#2a2a38] bg-[#16161f] text-sm text-[#a09a8e] hover:border-[#e5b13a44] hover:text-[#f0ece4] transition-all cursor-pointer"
         >
           <Filter size={14} />
           Filter
@@ -55,7 +55,7 @@ export default function CardFiltersBar({ filters, onChange, filtersOpen, onToggl
         {activeCount > 0 && (
           <button
             onClick={clearAll}
-            className="flex items-center gap-1 text-sm text-[#5a5550] hover:text-red-400 transition-colors"
+            className="flex items-center gap-1 text-sm text-[#5a5550] hover:text-red-400 transition-colors cursor-pointer"
           >
             <X size={13} />
             Hapus Filter
@@ -66,7 +66,7 @@ export default function CardFiltersBar({ filters, onChange, filtersOpen, onToggl
         {filters.category && (
           <span className="flex items-center gap-1.5 text-xs bg-[#e5b13a11] text-[#e5b13a] border border-[#e5b13a33] px-2.5 py-1 rounded-full font-medium">
             {filters.category}
-            <button onClick={() => set('category', undefined)} className="hover:text-white transition-colors">
+            <button onClick={() => set('category', undefined)} className="hover:text-white transition-colors cursor-pointer">
               <X size={11} />
             </button>
           </span>

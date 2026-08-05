@@ -60,7 +60,7 @@ export function CardItem({ card, index = 0 }: CardItemProps) {
             {/* Favorit — selalu terlihat di pojok */}
             <button
               onClick={handleToggleFav}
-              className={`absolute top-2 right-2 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm border transition-all shadow-lg z-10 ${
+              className={`absolute top-2 right-2 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm border transition-all shadow-lg z-10 cursor-pointer ${
                 isFav
                   ? 'bg-[#e5b13a] border-[#e5b13a] text-[#0a0a0f]'
                   : 'bg-[#0a0a0f]/60 border-[#2a2a38] text-[#f0ece4] hover:border-[#e5b13a66] hover:text-[#e5b13a]'
@@ -84,7 +84,7 @@ export function CardItem({ card, index = 0 }: CardItemProps) {
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2">
               <button
                 onClick={(e) => { e.preventDefault(); navigate(`/cards/${card.id}`) }}
-                className="w-9 h-9 rounded-full bg-[#f0ece4] flex items-center justify-center text-[#0a0a0f] hover:bg-white transition-colors shadow-lg"
+                className="w-9 h-9 rounded-full bg-[#f0ece4] flex items-center justify-center text-[#0a0a0f] hover:bg-white transition-colors shadow-lg cursor-pointer"
                 aria-label="Lihat kartu"
               >
                 <Eye size={15} />
@@ -92,7 +92,7 @@ export function CardItem({ card, index = 0 }: CardItemProps) {
               {card.is_available && (
                 <button
                   onClick={handleAddToCart}
-                  className="w-9 h-9 rounded-full bg-[#e5b13a] flex items-center justify-center text-[#0a0a0f] hover:bg-[#f0c547] transition-colors shadow-lg"
+                  className="w-9 h-9 rounded-full bg-[#e5b13a] flex items-center justify-center text-[#0a0a0f] hover:bg-[#f0c547] transition-colors shadow-lg cursor-pointer"
                   aria-label="Tambah ke keranjang"
                 >
                   <ShoppingCart size={15} />
@@ -113,7 +113,7 @@ export function CardItem({ card, index = 0 }: CardItemProps) {
               {card.is_available && (
                 <button
                   onClick={handleAddToCart}
-                  className="flex items-center gap-1.5 text-xs bg-[#e5b13a11] hover:bg-[#e5b13a22] text-[#e5b13a] border border-[#e5b13a33] hover:border-[#e5b13a66] px-2.5 py-1.5 rounded-lg transition-all font-medium"
+                  className="flex items-center gap-1.5 text-xs bg-[#e5b13a11] hover:bg-[#e5b13a22] text-[#e5b13a] border border-[#e5b13a33] hover:border-[#e5b13a66] px-2.5 py-1.5 rounded-lg transition-all font-medium cursor-pointer"
                 >
                   <ShoppingCart size={12} />
                   Beli

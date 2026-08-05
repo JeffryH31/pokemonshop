@@ -62,7 +62,7 @@ export default function Footer() {
 
       {/* Main footer links */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
 
           {/* Brand column */}
           <div className="col-span-2 md:col-span-1">
@@ -117,25 +117,6 @@ export default function Footer() {
                 {CONTACT.tiktok}
               </a>
             </div>
-          </div>
-
-          {/* Toko */}
-          <div>
-            <h4 className="text-xs font-semibold text-[#a09a8e] uppercase tracking-widest mb-3">Toko</h4>
-            <ul className="space-y-2">
-              {[
-                { to: '/cards', label: 'Semua Kartu' },
-                { to: '/cards?rarity=Secret+Rare', label: 'Secret Rare' },
-                { to: '/cards?rarity=Ultra+Rare', label: 'Ultra Rare' },
-                { to: '/cards?sort=newest', label: 'Kartu Terbaru' },
-              ].map((link) => (
-                <li key={link.to}>
-                  <Link to={link.to} className="text-sm text-[#5a5550] hover:text-[#a09a8e] transition-colors">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
           </div>
 
           {/* Jelajahi */}

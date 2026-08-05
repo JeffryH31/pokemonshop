@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, ScrollRestoration } from 'react-router-dom'
 import AnnouncementBar from './AnnouncementBar'
 import Navbar from './Navbar'
 import Footer from './Footer'
@@ -16,6 +16,7 @@ export default function Layout() {
       </main>
       <Footer />
       <CartDrawer />
+      <ScrollRestoration getKey={(location) => location.pathname} />
       {/* WhatsApp — always visible */}
       <WhatsAppFAB />
       <WhatsAppPopup />

@@ -6,7 +6,7 @@ import { useAuthStore, selectIsAuthenticated, selectIsAdmin } from '../../store/
 import { useLogout } from '../../hooks/useAuth'
 
 const NAV = [
-  { to: '/admin', icon: <LayoutDashboard size={16} />, label: 'Dasbor', end: true },
+  { to: '/admin', icon: <LayoutDashboard size={16} />, label: 'Dashboard', end: true },
   { to: '/admin/cards', icon: <Layers size={16} />, label: 'Produk' },
 ]
 
@@ -28,7 +28,7 @@ export default function AdminLayout() {
         {/* Close button — mobile only */}
         <button
           onClick={() => setSidebarOpen(false)}
-          className="lg:hidden p-1.5 rounded-lg text-[#5a5550] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all"
+          className="lg:hidden p-1.5 rounded-lg text-[#5a5550] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all cursor-pointer"
         >
           <X size={18} />
         </button>
@@ -65,7 +65,7 @@ export default function AdminLayout() {
         </NavLink>
         <button
           onClick={() => logout()}
-          className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-red-400 hover:bg-red-500/10 transition-all w-full"
+          className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-red-400 hover:bg-red-500/10 transition-all w-full cursor-pointer"
         >
           <LogOut size={14} />
           Keluar
@@ -112,7 +112,7 @@ export default function AdminLayout() {
         <div className="lg:hidden sticky top-0 z-30 flex items-center gap-3 px-4 h-14 bg-[#111118] border-b border-[#2a2a38]">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="p-2 -ml-2 rounded-lg text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all"
+            className="p-2 -ml-2 rounded-lg text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all cursor-pointer"
           >
             <Menu size={20} />
           </button>
