@@ -22,7 +22,7 @@ return new class extends Migration
             $table->decimal('price', 12, 2);
             $table->unsignedInteger('stock')->default(0);
             $table->text('description')->nullable();
-            $table->string('image_url')->nullable();
+            $table->string('image_path')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
 

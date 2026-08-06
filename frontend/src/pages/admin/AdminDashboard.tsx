@@ -1,9 +1,8 @@
 import type { ReactNode } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
-import { Package, Layers, AlertTriangle, XCircle, Wallet } from 'lucide-react'
+import { Package, Layers, AlertTriangle, XCircle } from 'lucide-react'
 import api from '../../lib/api'
-import { formatPrice } from '../../lib/utils'
 import { Skeleton } from '../../components/ui/Skeleton'
 
 interface LowStockItem {
@@ -19,7 +18,6 @@ interface DashboardData {
   total_stock: number
   out_of_stock_count: number
   low_stock_count: number
-  inventory_value: number
   low_stock_items: LowStockItem[]
 }
 
@@ -30,36 +28,34 @@ export default function AdminDashboard() {
     staleTime: 60 * 1000,
   })
 
-  const stats: { label: string; value: number; icon: ReactNode; format: (v: number) => string }[] = [
+  const stats: { label: string; value: number; icon: ReactNode; format: (v: number) => string; color: string }[] = [
     {
       label: 'Kartu Aktif',
       value: data?.total_active_cards ?? 0,
-      icon: <Package size={18} className="text-[#e5b13a]" />,
+      icon: <Package size={18} />,
       format: (v: number) => v.toString(),
+      color: 'text-[#e5b13a]',
     },
     {
       label: 'Total Stok',
       value: data?.total_stock ?? 0,
-      icon: <Layers size={18} className="text-[#60a5fa]" />,
+      icon: <Layers size={18} />,
       format: (v: number) => v.toString(),
-    },
-    {
-      label: 'Nilai Inventaris',
-      value: data?.inventory_value ?? 0,
-      icon: <Wallet size={18} className="text-green-400" />,
-      format: (v: number) => formatPrice(v),
+      color: 'text-[#60a5fa]',
     },
     {
       label: 'Stok Menipis',
       value: data?.low_stock_count ?? 0,
-      icon: <AlertTriangle size={18} className="text-[#fbbf24]" />,
+      icon: <AlertTriangle size={18} />,
       format: (v: number) => v.toString(),
+      color: 'text-[#fbbf24]',
     },
     {
       label: 'Stok Habis',
       value: data?.out_of_stock_count ?? 0,
-      icon: <XCircle size={18} className="text-red-400" />,
+      icon: <XCircle size={18} />,
       format: (v: number) => v.toString(),
+      color: 'text-red-400',
     },
   ]
 
@@ -67,12 +63,12 @@ export default function AdminDashboard() {
     <div>
       <h1 className="font-display text-2xl font-bold text-[#f0ece4] mb-6">Dashboard</h1>
 
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {stats.map((stat) => (
           <div key={stat.label} className="bg-[#16161f] border border-[#2a2a38] rounded-xl p-4">
             <div className="flex items-center justify-between mb-3">
               <span className="text-xs text-[#5a5550] uppercase tracking-wide">{stat.label}</span>
-              <div className="w-8 h-8 rounded-lg bg-[#1c1c28] flex items-center justify-center">
+              <div className={`w-8 h-8 rounded-lg bg-[#1c1c28] flex items-center justify-center ${stat.color}`}>
                 {stat.icon}
               </div>
             </div>

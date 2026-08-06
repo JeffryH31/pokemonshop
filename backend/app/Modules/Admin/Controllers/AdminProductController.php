@@ -19,15 +19,19 @@ class AdminProductController extends Controller
 
     public function storeCard(CreateCardRequest $request): JsonResponse
     {
-        $card = $this->service->createCard($request->validated());
+        $data  = $request->safe()->except('image');
+        $image = $request->file('image');
+        $card  = $this->service->createCard($data, $image);
 
         return $this->success($card, 'Card created.', 201);
     }
 
     public function updateCard(UpdateCardRequest $request, int $id): JsonResponse
     {
-        $card = Card::findOrFail($id);
-        $card = $this->service->updateCard($card, $request->validated());
+        $card  = Card::findOrFail($id);
+        $data  = $request->safe()->except('image');
+        $image = $request->file('image');
+        $card  = $this->service->updateCard($card, $data, $image);
 
         return $this->success($card, 'Card updated.');
     }

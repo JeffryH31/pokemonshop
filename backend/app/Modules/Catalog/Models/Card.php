@@ -23,11 +23,11 @@ class Card extends Model
         'price',
         'stock',
         'description',
-        'image_url',
+        'image_path',
         'is_active',
     ];
 
-    protected $appends = ['is_available'];
+    protected $appends = ['is_available', 'image_url'];
 
     protected function casts(): array
     {
@@ -41,6 +41,12 @@ class Card extends Model
     public function getIsAvailableAttribute(): bool
     {
         return $this->stock > 0;
+    }
+
+    public function getImageUrlAttribute(): ?string
+    {
+        if (!$this->image_path) return null;
+        return \Illuminate\Support\Facades\Storage::disk('public')->url($this->image_path);
     }
 
     public function scopeActive($query)

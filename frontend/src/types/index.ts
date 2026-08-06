@@ -49,12 +49,12 @@ export interface ApiError {
   errors?: Record<string, string[]>
 }
 
-// Payload sent to the admin create/update card endpoints.
-export interface CardPayload {
+// Payload sent to the admin create/update card endpoints (via FormData).
+export interface CardFormData {
   name: string
   category: string
   price: number
   stock: number
   description: string
-  image_url: string
+  image?: File
 }

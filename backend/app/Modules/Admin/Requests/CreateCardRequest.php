@@ -17,7 +17,7 @@ class CreateCardRequest extends FormRequest
             'price'       => 'required|numeric|gt:0',
             'stock'       => 'required|integer|min:0',
             'description' => 'nullable|string',
-            'image_url'   => 'nullable|url',
+            'image'       => 'nullable|image|mimes:jpeg,png,webp|max:4096',
         ];
     }
 }

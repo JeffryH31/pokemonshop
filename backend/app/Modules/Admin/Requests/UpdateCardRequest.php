@@ -17,7 +17,7 @@ class UpdateCardRequest extends FormRequest
             'price'       => 'sometimes|numeric|gt:0',
             'stock'       => 'sometimes|integer|min:0',
             'description' => 'nullable|string',
-            'image_url'   => 'nullable|url',
+            'image'       => 'nullable|image|mimes:jpeg,png,webp|max:4096',
         ];
     }
 }

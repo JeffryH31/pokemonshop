@@ -4,17 +4,31 @@ namespace App\Modules\Admin\Services;
 
 use App\Modules\Catalog\Models\Card;
 use App\Modules\User\Models\User;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class AdminProductService
 {
-    public function createCard(array $data): Card
+    public function createCard(array $data, ?UploadedFile $image = null): Card
     {
+        if ($image) {
+            $data['image_path'] = $image->store('cards', 'public');
+        }
+
         return Card::create($data + ['is_active' => true]);
     }
 
-    public function updateCard(Card $card, array $data): Card
+    public function updateCard(Card $card, array $data, ?UploadedFile $image = null): Card
     {
+        if ($image) {
+            // Delete old image if exists
+            if ($card->image_path) {
+                Storage::disk('public')->delete($card->image_path);
+            }
+            $data['image_path'] = $image->store('cards', 'public');
+        }
+
         $card->update($data);
         return $card->fresh();
     }
@@ -54,7 +68,6 @@ class AdminProductService
         $lowStockCount    = (clone $activeCards)
             ->whereBetween('stock', [1, $lowStockThreshold])
             ->count();
-        $inventoryValue   = (float) (clone $activeCards)->sum(DB::raw('price * stock'));
 
         $lowStockItems = (clone $activeCards)
             ->where('stock', '<=', $lowStockThreshold)
@@ -67,7 +80,6 @@ class AdminProductService
             'total_stock'        => $totalStock,
             'out_of_stock_count' => $outOfStockCount,
             'low_stock_count'    => $lowStockCount,
-            'inventory_value'    => $inventoryValue,
             'low_stock_items'    => $lowStockItems,
         ];
     }
