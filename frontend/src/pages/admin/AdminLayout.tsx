@@ -75,10 +75,10 @@ export default function AdminLayout() {
   )
 
   return (
-    <div className="min-h-screen flex bg-[#0a0a0f]">
+    <div className="h-screen flex overflow-hidden bg-[#0a0a0f]">
 
-      {/* Desktop sidebar — statis */}
-      <aside className="hidden lg:flex w-56 shrink-0 bg-[#111118] border-r border-[#2a2a38] flex-col">
+      {/* Desktop sidebar — sticky full height */}
+      <aside className="hidden lg:flex w-56 shrink-0 bg-[#111118] border-r border-[#2a2a38] flex-col h-screen sticky top-0">
         <SidebarContent />
       </aside>
 
@@ -107,7 +107,7 @@ export default function AdminLayout() {
       </AnimatePresence>
 
       {/* Konten */}
-      <main className="flex-1 min-w-0 overflow-auto">
+      <main className="flex-1 min-w-0 overflow-y-auto">
         {/* Mobile top bar */}
         <div className="lg:hidden sticky top-0 z-30 flex items-center gap-3 px-4 h-14 bg-[#111118] border-b border-[#2a2a38]">
           <button
