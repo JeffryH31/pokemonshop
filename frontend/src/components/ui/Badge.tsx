@@ -7,7 +7,7 @@ interface BadgeProps {
   variant?: 'solid' | 'outline' | 'ghost'
 }
 
-export default function Badge({ children, color = '#a09a8e', className, variant = 'ghost' }: BadgeProps) {
+export default function Badge({ children, color = '#c2bcb0', className, variant = 'ghost' }: BadgeProps) {
   return (
     <span
       className={cn(

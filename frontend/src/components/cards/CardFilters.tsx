@@ -40,7 +40,7 @@ export default function CardFiltersBar({ filters, onChange, filtersOpen, onToggl
 
         <button
           onClick={onToggleFilters}
-          className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-[#2a2a38] bg-[#16161f] text-sm text-[#a09a8e] hover:border-[#e5b13a44] hover:text-[#f0ece4] transition-all cursor-pointer"
+          className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-[#2a2a38] bg-[#16161f] text-sm text-[#c2bcb0] hover:border-[#e5b13a44] hover:text-[#f0ece4] transition-all cursor-pointer"
         >
           <Filter size={14} />
           Filter
@@ -55,7 +55,7 @@ export default function CardFiltersBar({ filters, onChange, filtersOpen, onToggl
         {activeCount > 0 && (
           <button
             onClick={clearAll}
-            className="flex items-center gap-1 text-sm text-[#a09a8e] hover:text-red-400 transition-colors cursor-pointer"
+            className="flex items-center gap-1 text-sm text-[#c2bcb0] hover:text-red-400 transition-colors cursor-pointer"
           >
             <X size={13} />
             Hapus Filter
@@ -83,25 +83,25 @@ export default function CardFiltersBar({ filters, onChange, filtersOpen, onToggl
             options={(categories ?? []).map((c) => ({ value: c, label: c }))}
           />
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-[#a09a8e]">Harga Min</label>
+            <label className="text-sm font-medium text-[#c2bcb0]">Harga Min</label>
             <input
               type="number"
               min={0}
               placeholder="Rp 0"
               value={filters.min_price ?? ''}
               onChange={(e) => set('min_price', e.target.value)}
-              className="w-full rounded-lg border border-[#2a2a38] bg-[#0a0a0f] px-3 py-2.5 text-sm text-[#f0ece4] placeholder-[#a09a8e] focus:outline-none focus:border-[#e5b13a]"
+              className="w-full rounded-lg border border-[#2a2a38] bg-[#0a0a0f] px-3 py-2.5 text-sm text-[#f0ece4] placeholder-[#c2bcb0] focus:outline-none focus:border-[#e5b13a]"
             />
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-[#a09a8e]">Harga Maks</label>
+            <label className="text-sm font-medium text-[#c2bcb0]">Harga Maks</label>
             <input
               type="number"
               min={0}
               placeholder="∞"
               value={filters.max_price ?? ''}
               onChange={(e) => set('max_price', e.target.value)}
-              className="w-full rounded-lg border border-[#2a2a38] bg-[#0a0a0f] px-3 py-2.5 text-sm text-[#f0ece4] placeholder-[#a09a8e] focus:outline-none focus:border-[#e5b13a]"
+              className="w-full rounded-lg border border-[#2a2a38] bg-[#0a0a0f] px-3 py-2.5 text-sm text-[#f0ece4] placeholder-[#c2bcb0] focus:outline-none focus:border-[#e5b13a]"
             />
           </div>
         </div>

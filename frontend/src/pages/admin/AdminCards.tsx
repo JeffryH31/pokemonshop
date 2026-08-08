@@ -40,7 +40,7 @@ function ImageUploader({ preview, onChange }: ImageUploaderProps) {
 
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-sm font-medium text-[#a09a8e]">Gambar Produk</label>
+      <label className="text-sm font-medium text-[#c2bcb0]">Gambar Produk</label>
       <div
         onClick={() => inputRef.current?.click()}
         onDragOver={(e) => { e.preventDefault(); setDragging(true) }}
@@ -71,12 +71,12 @@ function ImageUploader({ preview, onChange }: ImageUploaderProps) {
           </>
         ) : (
           <>
-            <div className="w-10 h-10 rounded-xl bg-[#2a2a38] flex items-center justify-center text-[#a09a8e] group-hover:text-[#e5b13a] transition-colors">
+            <div className="w-10 h-10 rounded-xl bg-[#2a2a38] flex items-center justify-center text-[#c2bcb0] group-hover:text-[#e5b13a] transition-colors">
               <ImageIcon size={20} />
             </div>
             <div className="text-center px-4">
-              <p className="text-xs text-[#a09a8e] font-medium">Klik atau drag gambar</p>
-              <p className="text-[10px] text-[#a09a8e] mt-0.5">JPG, PNG, WebP · Maks 4MB</p>
+              <p className="text-xs text-[#c2bcb0] font-medium">Klik atau drag gambar</p>
+              <p className="text-[10px] text-[#c2bcb0] mt-0.5">JPG, PNG, WebP · Maks 4MB</p>
             </div>
           </>
         )}
@@ -179,7 +179,7 @@ function CardForm({ editing, categories, onClose, onSuccess }: CardFormProps) {
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-[#2a2a38] shrink-0">
           <h2 className="font-semibold text-[#f0ece4]">{editing ? 'Edit Produk' : 'Tambah Produk Baru'}</h2>
-          <button onClick={onClose} className="p-1.5 rounded-lg text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all cursor-pointer">
+          <button onClick={onClose} className="p-1.5 rounded-lg text-[#c2bcb0] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all cursor-pointer">
             <X size={16} />
           </button>
         </div>
@@ -227,13 +227,13 @@ function CardForm({ editing, categories, onClose, onSuccess }: CardFormProps) {
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-sm font-medium text-[#a09a8e]">Deskripsi</label>
+                <label className="text-sm font-medium text-[#c2bcb0]">Deskripsi</label>
                 <textarea
                   value={form.description}
                   onChange={(e) => f('description', e.target.value)}
                   rows={4}
                   placeholder="Deskripsi produk (opsional)..."
-                  className="w-full rounded-lg border border-[#2a2a38] bg-[#0a0a0f] px-3 py-2.5 text-sm text-[#f0ece4] placeholder-[#a09a8e] focus:outline-none focus:border-[#e5b13a] resize-none transition-colors"
+                  className="w-full rounded-lg border border-[#2a2a38] bg-[#0a0a0f] px-3 py-2.5 text-sm text-[#f0ece4] placeholder-[#c2bcb0] focus:outline-none focus:border-[#e5b13a] resize-none transition-colors"
                 />
               </div>
             </div>
@@ -277,7 +277,7 @@ function AdminCardItem({ card, onEdit, onDelete }: CardItemProps) {
           alt={card.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           fallback={
-            <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-[#a09a8e]">
+            <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-[#c2bcb0]">
               <div className="w-12 h-12 rounded-full bg-[#2a2a38] flex items-center justify-center">
                 <Package size={20} className="text-[#3a3a4a]" />
               </div>
@@ -319,7 +319,7 @@ function AdminCardItem({ card, onEdit, onDelete }: CardItemProps) {
       {/* Info */}
       <div className="p-3 flex flex-col gap-1.5 flex-1">
         <p className="text-sm font-semibold text-[#f0ece4] truncate leading-tight">{card.name}</p>
-        <p className="text-[10px] text-[#a09a8e] truncate">{card.category}</p>
+        <p className="text-[10px] text-[#c2bcb0] truncate">{card.category}</p>
         <div className="flex items-center justify-between mt-auto pt-1.5">
           <span className="text-sm font-bold text-[#e5b13a]">{formatPrice(card.price)}</span>
           <span className={`text-xs font-semibold ${stockColor}`}>{card.stock} stok</span>
@@ -385,7 +385,7 @@ export default function AdminCards() {
         <div>
           <h1 className="font-display text-2xl font-bold text-[#f0ece4]">Produk</h1>
           {data && (
-            <p className="text-xs text-[#a09a8e] mt-0.5">{data.total} produk terdaftar</p>
+            <p className="text-xs text-[#c2bcb0] mt-0.5">{data.total} produk terdaftar</p>
           )}
         </div>
         <Button onClick={openCreate} size="sm">
@@ -414,9 +414,9 @@ export default function AdminCards() {
       ) : data?.data.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-24 text-center">
           <div className="w-16 h-16 rounded-full bg-[#1c1c28] flex items-center justify-center mb-4">
-            <Package size={24} className="text-[#a09a8e]" />
+            <Package size={24} className="text-[#c2bcb0]" />
           </div>
-          <p className="text-[#a09a8e] font-medium">Belum ada produk</p>
+          <p className="text-[#c2bcb0] font-medium">Belum ada produk</p>
           <Button className="mt-4" size="sm" onClick={openCreate}>
             <Plus size={14} />
             Tambah Produk Pertama
@@ -433,14 +433,14 @@ export default function AdminCards() {
           {/* Pagination */}
           {data && data.last_page > 1 && (
             <div className="flex items-center justify-between mt-6 pt-6 border-t border-[#2a2a38]">
-              <span className="text-xs text-[#a09a8e]">
+              <span className="text-xs text-[#c2bcb0]">
                 {data.from}–{data.to} dari {data.total} produk
               </span>
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setPage(page - 1)}
                   disabled={page === 1}
-                  className="p-1.5 rounded-lg text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all"
+                  className="p-1.5 rounded-lg text-[#c2bcb0] hover:text-[#f0ece4] hover:bg-[#1c1c28] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all"
                 >
                   <ChevronLeft size={16} />
                 </button>
@@ -450,7 +450,7 @@ export default function AdminCards() {
                 <button
                   onClick={() => setPage(page + 1)}
                   disabled={page === data.last_page}
-                  className="p-1.5 rounded-lg text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all"
+                  className="p-1.5 rounded-lg text-[#c2bcb0] hover:text-[#f0ece4] hover:bg-[#1c1c28] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all"
                 >
                   <ChevronRight size={16} />
                 </button>

@@ -52,7 +52,7 @@ export default function Footer() {
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-[#f0ece4]">{item.title}</p>
-                  <p className="text-xs text-[#a09a8e] mt-0.5">{item.desc}</p>
+                  <p className="text-xs text-[#c2bcb0] mt-0.5">{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -72,14 +72,14 @@ export default function Footer() {
               </div>
               <span className="font-display font-bold text-[#f0ece4] text-base">Wonderplays</span>
             </div>
-            <p className="text-xs text-[#a09a8e] leading-relaxed mb-4">
+            <p className="text-xs text-[#c2bcb0] leading-relaxed mb-4">
               Wonderful Place for All Collectors.<br />
               Terpercaya sejak 2023.
             </p>
             {/* Jam buka */}
             <div className="flex items-center gap-1.5 mb-4">
               <Clock size={11} className="text-[#e5b13a]" />
-              <span className="text-xs text-[#a09a8e] font-medium">Buka Setiap Hari 12.00 – 24.00 WIB</span>
+              <span className="text-xs text-[#c2bcb0] font-medium">Buka Setiap Hari 12.00 – 24.00 WIB</span>
             </div>
             {/* Social links */}
             <div className="space-y-2">
@@ -109,7 +109,7 @@ export default function Footer() {
                 href={CONTACT.tiktokUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-xs text-[#f0ece4] hover:text-[#a09a8e] transition-colors"
+                className="flex items-center gap-2 text-xs text-[#f0ece4] hover:text-[#c2bcb0] transition-colors"
               >
                 <span className="w-5 h-5 rounded-md bg-[#010101] border border-[#2a2a38] flex items-center justify-center shrink-0 text-white">
                   <TikTokIcon />
@@ -121,7 +121,7 @@ export default function Footer() {
 
           {/* Jelajahi */}
           <div>
-            <h4 className="text-xs font-semibold text-[#a09a8e] uppercase tracking-widest mb-3">Jelajahi</h4>
+            <h4 className="text-xs font-semibold text-[#c2bcb0] uppercase tracking-widest mb-3">Jelajahi</h4>
             <ul className="space-y-2">
               {[
                 { to: '/', label: 'Beranda' },
@@ -130,7 +130,7 @@ export default function Footer() {
                 { to: '/about', label: 'Tentang Kami' },
               ].map((link) => (
                 <li key={link.to}>
-                  <Link to={link.to} className="text-sm text-[#a09a8e] hover:text-[#a09a8e] transition-colors">
+                  <Link to={link.to} className="text-sm text-[#c2bcb0] hover:text-[#c2bcb0] transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -140,16 +140,16 @@ export default function Footer() {
 
           {/* Informasi */}
           <div>
-            <h4 className="text-xs font-semibold text-[#a09a8e] uppercase tracking-widest mb-3">Informasi</h4>
+            <h4 className="text-xs font-semibold text-[#c2bcb0] uppercase tracking-widest mb-3">Informasi</h4>
             <ul className="space-y-2">
               <li>
-                <Link to="/about" className="text-sm text-[#a09a8e] hover:text-[#a09a8e] transition-colors">
+                <Link to="/about" className="text-sm text-[#c2bcb0] hover:text-[#c2bcb0] transition-colors">
                   Tentang Kami
                 </Link>
               </li>
               {['Kebijakan Pengiriman', 'Kebijakan Pengembalian', 'Kebijakan Privasi'].map((label) => (
                 <li key={label}>
-                  <span className="text-sm text-[#a09a8e] cursor-not-allowed">{label}</span>
+                  <span className="text-sm text-[#c2bcb0] cursor-not-allowed">{label}</span>
                 </li>
               ))}
             </ul>
@@ -157,8 +157,8 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-[#1e1e2a] mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-[#a09a8e]">© {new Date().getFullYear()} Wonderplays. Hak cipta dilindungi.</p>
-          <p className="text-xs text-[#a09a8e]">Pokémon adalah merek dagang Nintendo / Creatures Inc. / GAME FREAK inc. Wonderplays tidak berafiliasi dengan perusahaan apapun.</p>
+          <p className="text-xs text-[#c2bcb0]">© {new Date().getFullYear()} Wonderplays. Hak cipta dilindungi.</p>
+          <p className="text-xs text-[#c2bcb0]">Pokémon adalah merek dagang Nintendo / Creatures Inc. / GAME FREAK inc. Wonderplays tidak berafiliasi dengan perusahaan apapun.</p>
         </div>
       </div>
     </footer>

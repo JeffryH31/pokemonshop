@@ -69,7 +69,7 @@ export default function WhyShopSection() {
             <h2 className="font-display text-2xl font-bold text-[#f0ece4]">
               Kenapa Belanja di <span className="text-[#e5b13a]">Wonderplays</span>?
             </h2>
-            <p className="text-sm text-[#a09a8e] mt-1">
+            <p className="text-sm text-[#c2bcb0] mt-1">
               Aman, terpercaya, dan mudah — khusus untuk para kolektor sejati.
             </p>
           </motion.div>
@@ -86,7 +86,7 @@ export default function WhyShopSection() {
                   <p className="text-sm font-semibold text-[#f0ece4] group-hover:text-[#e5b13a] transition-colors">
                     {item.title}
                   </p>
-                  <p className="text-xs text-[#a09a8e] mt-1 leading-relaxed">{item.desc}</p>
+                  <p className="text-xs text-[#c2bcb0] mt-1 leading-relaxed">{item.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -103,7 +103,7 @@ export default function WhyShopSection() {
         >
           <motion.div variants={itemVariants} className="mb-8">
             <h2 className="font-display text-2xl font-bold text-[#f0ece4]">Cara Order</h2>
-            <p className="text-sm text-[#a09a8e] mt-1">3 langkah simpel dan kartu kamu segera dikirim.</p>
+            <p className="text-sm text-[#c2bcb0] mt-1">3 langkah simpel dan kartu kamu segera dikirim.</p>
           </motion.div>
 
           <div className="space-y-3">
@@ -120,7 +120,7 @@ export default function WhyShopSection() {
                   <p className="text-sm font-semibold text-[#f0ece4] group-hover:text-[#e5b13a] transition-colors">
                     {step.title}
                   </p>
-                  <p className="text-xs text-[#a09a8e] mt-1 leading-relaxed">{step.desc}</p>
+                  <p className="text-xs text-[#c2bcb0] mt-1 leading-relaxed">{step.desc}</p>
                 </div>
               </motion.div>
             ))}

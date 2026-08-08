@@ -53,7 +53,7 @@ export default function CardDetailPage() {
   if (!card) {
     return (
       <div className="flex flex-col items-center justify-center py-24 text-center">
-        <p className="text-[#a09a8e]">Kartu tidak ditemukan</p>
+        <p className="text-[#c2bcb0]">Kartu tidak ditemukan</p>
         <Link to="/cards" className="text-sm text-[#e5b13a] mt-2 hover:underline">
           Kembali ke katalog
         </Link>
@@ -65,7 +65,7 @@ export default function CardDetailPage() {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <Link
         to="/cards"
-        className="inline-flex items-center gap-2 text-sm text-[#a09a8e] hover:text-[#a09a8e] transition-colors mb-6"
+        className="inline-flex items-center gap-2 text-sm text-[#c2bcb0] hover:text-[#c2bcb0] transition-colors mb-6"
       >
         <ArrowLeft size={14} />
         Kembali ke katalog
@@ -85,7 +85,7 @@ export default function CardDetailPage() {
               alt={card.name}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               fallback={
-                <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-[#a09a8e]">
+                <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-[#c2bcb0]">
                   <div className="w-20 h-20 rounded-full bg-[#2a2a38] flex items-center justify-center">
                     <span className="font-display text-4xl text-[#3a3a4a]">P</span>
                   </div>
@@ -104,19 +104,19 @@ export default function CardDetailPage() {
           transition={{ duration: 0.4 }}
           className="flex flex-col"
         >
-          <p className="text-xs text-[#a09a8e] uppercase tracking-widest font-semibold mb-2">
+          <p className="text-xs text-[#c2bcb0] uppercase tracking-widest font-semibold mb-2">
             {card.category}
           </p>
 
           <h1 className="font-display text-3xl font-bold text-[#f0ece4] mb-4">{card.name}</h1>
 
           <div className="bg-[#16161f] border border-[#2a2a38] rounded-xl p-4 mb-6">
-            <p className="text-xs text-[#a09a8e] uppercase tracking-wide mb-1">Harga</p>
+            <p className="text-xs text-[#c2bcb0] uppercase tracking-wide mb-1">Harga</p>
             <p className="text-4xl font-bold text-[#e5b13a] font-display">{formatPrice(card.price)}</p>
           </div>
 
           {card.description && (
-            <p className="text-sm text-[#a09a8e] leading-relaxed mb-6">{card.description}</p>
+            <p className="text-sm text-[#c2bcb0] leading-relaxed mb-6">{card.description}</p>
           )}
 
           <div className="flex items-center gap-2 mb-6">
@@ -135,7 +135,7 @@ export default function CardDetailPage() {
               <div className="flex items-center border border-[#2a2a38] rounded-lg overflow-hidden">
                 <button
                   onClick={() => setQty(Math.max(1, qty - 1))}
-                  className="px-3 py-2.5 text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-colors text-lg cursor-pointer"
+                  className="px-3 py-2.5 text-[#c2bcb0] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-colors text-lg cursor-pointer"
                 >
                   −
                 </button>
@@ -144,7 +144,7 @@ export default function CardDetailPage() {
                 </span>
                 <button
                   onClick={() => setQty(Math.min(card.stock, qty + 1))}
-                  className="px-3 py-2.5 text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-colors text-lg cursor-pointer"
+                  className="px-3 py-2.5 text-[#c2bcb0] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-colors text-lg cursor-pointer"
                 >
                   +
                 </button>
@@ -158,7 +158,7 @@ export default function CardDetailPage() {
                 className={`h-full aspect-square shrink-0 rounded-lg border flex items-center justify-center transition-all cursor-pointer ${
                   isFav
                     ? 'bg-[#e5b13a] border-[#e5b13a] text-[#0a0a0f]'
-                    : 'border-[#2a2a38] text-[#a09a8e] hover:border-[#e5b13a66] hover:text-[#e5b13a]'
+                    : 'border-[#2a2a38] text-[#c2bcb0] hover:border-[#e5b13a66] hover:text-[#e5b13a]'
                 }`}
                 aria-label={isFav ? 'Hapus dari favorit' : 'Tambah ke favorit'}
                 aria-pressed={isFav}
@@ -175,7 +175,7 @@ export default function CardDetailPage() {
               className={`flex items-center justify-center gap-2 w-full mb-4 py-2.5 rounded-lg border text-sm font-medium transition-all cursor-pointer ${
                 isFav
                   ? 'bg-[#e5b13a] border-[#e5b13a] text-[#0a0a0f]'
-                  : 'border-[#2a2a38] text-[#a09a8e] hover:border-[#e5b13a66] hover:text-[#e5b13a]'
+                  : 'border-[#2a2a38] text-[#c2bcb0] hover:border-[#e5b13a66] hover:text-[#e5b13a]'
               }`}
               aria-pressed={isFav}
             >
@@ -196,7 +196,7 @@ export default function CardDetailPage() {
               { label: 'Stok', value: card.stock.toString() },
             ].map((spec) => (
               <div key={spec.label}>
-                <p className="text-xs text-[#a09a8e] uppercase tracking-wide">{spec.label}</p>
+                <p className="text-xs text-[#c2bcb0] uppercase tracking-wide">{spec.label}</p>
                 <p className="text-sm text-[#f0ece4] font-medium mt-0.5">{spec.value}</p>
               </div>
             ))}

@@ -62,7 +62,7 @@ export default function Navbar() {
               </span>
               <div className="flex items-center gap-1 mt-0.5">
                 <Clock size={9} className="text-[#e5b13a]" />
-                <span className="text-[9px] text-[#a09a8e] font-medium tracking-wide">12.00 – 24.00 WIB</span>
+                <span className="text-[9px] text-[#c2bcb0] font-medium tracking-wide">12.00 – 24.00 WIB</span>
               </div>
             </div>
           </Link>
@@ -78,7 +78,7 @@ export default function Navbar() {
                   `px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
                     isActive
                       ? 'text-[#f0ece4] bg-[#1c1c28] font-medium'
-                      : 'text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28]'
+                      : 'text-[#c2bcb0] hover:text-[#f0ece4] hover:bg-[#1c1c28]'
                   }`
                 }
               >
@@ -93,7 +93,7 @@ export default function Navbar() {
             <div ref={searchRef} className="relative">
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
-                className="p-2 rounded-lg text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all"
+                className="p-2 rounded-lg text-[#c2bcb0] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all"
                 aria-label="Cari"
               >
                 <Search size={18} />
@@ -115,7 +115,7 @@ export default function Navbar() {
                         placeholder="Cari kartu Pokémon..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full bg-transparent text-sm text-[#f0ece4] placeholder-[#a09a8e] outline-none"
+                        className="w-full bg-transparent text-sm text-[#f0ece4] placeholder-[#c2bcb0] outline-none"
                       />
                     </div>
                     {searchResults && searchResults.length > 0 && (
@@ -131,12 +131,12 @@ export default function Navbar() {
                                 alt={card.name}
                                 className="w-8 h-10 object-cover rounded"
                                 fallback={
-                                  <div className="w-8 h-10 bg-[#2a2a38] rounded flex items-center justify-center text-[#a09a8e] text-xs">W</div>
+                                  <div className="w-8 h-10 bg-[#2a2a38] rounded flex items-center justify-center text-[#c2bcb0] text-xs">W</div>
                                 }
                               />
                               <div className="flex-1 min-w-0">
                                 <p className="text-sm text-[#f0ece4] truncate">{card.name}</p>
-                                <p className="text-xs text-[#a09a8e]">{card.category}</p>
+                                <p className="text-xs text-[#c2bcb0]">{card.category}</p>
                               </div>
                               <span className="text-xs text-[#e5b13a] font-semibold shrink-0">{formatPrice(card.price)}</span>
                             </button>
@@ -145,7 +145,7 @@ export default function Navbar() {
                       </ul>
                     )}
                     {debouncedQuery.length >= 2 && (!searchResults || searchResults.length === 0) && (
-                      <p className="text-xs text-[#a09a8e] text-center py-6">Kartu tidak ditemukan</p>
+                      <p className="text-xs text-[#c2bcb0] text-center py-6">Kartu tidak ditemukan</p>
                     )}
                   </motion.div>
                 )}
@@ -155,7 +155,7 @@ export default function Navbar() {
             {/* Favorit */}
             <Link
               to="/favourites"
-              className="relative p-2 rounded-lg text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all"
+              className="relative p-2 rounded-lg text-[#c2bcb0] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all"
               aria-label="Favorit"
             >
               <Heart size={18} />
@@ -169,7 +169,7 @@ export default function Navbar() {
             {/* Cart */}
             <button
               onClick={openCart}
-              className="relative p-2 rounded-lg text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all"
+              className="relative p-2 rounded-lg text-[#c2bcb0] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all"
               aria-label="Keranjang"
             >
               <ShoppingCart size={18} />
@@ -188,7 +188,7 @@ export default function Navbar() {
             {/* Mobile toggle */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden p-2 rounded-lg text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all"
+              className="md:hidden p-2 rounded-lg text-[#c2bcb0] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all"
               aria-label="Menu"
             >
               {mobileOpen ? <X size={18} /> : <Menu size={18} />}
@@ -218,7 +218,7 @@ export default function Navbar() {
                     `px-3 py-2.5 text-sm rounded-lg transition-colors ${
                       isActive
                         ? 'text-[#f0ece4] bg-[#1c1c28] font-medium'
-                        : 'text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28]'
+                        : 'text-[#c2bcb0] hover:text-[#f0ece4] hover:bg-[#1c1c28]'
                     }`
                   }
                 >

@@ -22,13 +22,13 @@ export default function AdminLayout() {
     <>
       <div className="px-5 py-5 border-b border-[#2a2a38] flex items-center justify-between">
         <div>
-          <p className="text-xs text-[#a09a8e] uppercase tracking-widest font-semibold">Panel Admin</p>
+          <p className="text-xs text-[#c2bcb0] uppercase tracking-widest font-semibold">Panel Admin</p>
           <p className="text-sm font-bold text-[#e5b13a] font-display mt-0.5">Wonderplays</p>
         </div>
         {/* Close button — mobile only */}
         <button
           onClick={() => setSidebarOpen(false)}
-          className="lg:hidden p-1.5 rounded-lg text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all cursor-pointer"
+          className="lg:hidden p-1.5 rounded-lg text-[#c2bcb0] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all cursor-pointer"
         >
           <X size={18} />
         </button>
@@ -45,7 +45,7 @@ export default function AdminLayout() {
               `flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-all ${
                 isActive
                   ? 'bg-[#e5b13a] text-[#0a0a0f] font-semibold'
-                  : 'text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28]'
+                  : 'text-[#c2bcb0] hover:text-[#f0ece4] hover:bg-[#1c1c28]'
               }`
             }
           >
@@ -58,7 +58,7 @@ export default function AdminLayout() {
       <div className="p-3 border-t border-[#2a2a38] space-y-0.5">
         <NavLink
           to="/"
-          className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all"
+          className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm text-[#c2bcb0] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all"
         >
           <ArrowLeft size={14} />
           Kembali ke Toko
@@ -112,7 +112,7 @@ export default function AdminLayout() {
         <div className="lg:hidden sticky top-0 z-30 flex items-center gap-3 px-4 h-14 bg-[#111118] border-b border-[#2a2a38]">
           <button
             onClick={() => setSidebarOpen(true)}
-            className="p-2 -ml-2 rounded-lg text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all cursor-pointer"
+            className="p-2 -ml-2 rounded-lg text-[#c2bcb0] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all cursor-pointer"
           >
             <Menu size={20} />
           </button>

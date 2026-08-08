@@ -9,8 +9,8 @@
   --color-accent-hover: #f0c547;
   --color-accent-dim: #e5b13a33;
   --color-text-primary: #f0ece4;
-  --color-text-secondary: #a09a8e;
-  --color-text-muted: #a09a8e;
+  --color-text-secondary: #c2bcb0;
+  --color-text-muted: #c2bcb0;
   --color-border: #2a2a38;
   --color-border-subtle: #1e1e2a;
 
@@ -136,5 +136,5 @@ input, select, textarea {
 }
 
 input::placeholder, textarea::placeholder {
-  color: #a09a8e;
+  color: #c2bcb0;
 }

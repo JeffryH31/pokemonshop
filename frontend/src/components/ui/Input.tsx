@@ -14,13 +14,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="flex flex-col gap-1.5">
         {label && (
-          <label htmlFor={inputId} className="text-sm font-medium text-[#a09a8e]">
+          <label htmlFor={inputId} className="text-sm font-medium text-[#c2bcb0]">
             {label}
           </label>
         )}
         <div className="relative">
           {icon && (
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#a09a8e]">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#c2bcb0]">
               {icon}
             </span>
           )}
@@ -28,7 +28,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             id={inputId}
             className={cn(
-              'w-full rounded-lg border border-[#2a2a38] bg-[#16161f] px-3 py-2.5 text-sm text-[#f0ece4] placeholder-[#a09a8e] transition-colors',
+              'w-full rounded-lg border border-[#2a2a38] bg-[#16161f] px-3 py-2.5 text-sm text-[#f0ece4] placeholder-[#c2bcb0] transition-colors',
               'focus:outline-none focus:border-[#e5b13a] focus:ring-1 focus:ring-[#e5b13a33]',
               'hover:border-[#3a3a4a]',
               icon && 'pl-9',

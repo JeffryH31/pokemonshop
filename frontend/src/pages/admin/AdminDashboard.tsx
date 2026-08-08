@@ -67,7 +67,7 @@ export default function AdminDashboard() {
         {stats.map((stat) => (
           <div key={stat.label} className="bg-[#16161f] border border-[#2a2a38] rounded-xl p-4">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-xs text-[#a09a8e] uppercase tracking-wide">{stat.label}</span>
+              <span className="text-xs text-[#c2bcb0] uppercase tracking-wide">{stat.label}</span>
               <div className={`w-8 h-8 rounded-lg bg-[#1c1c28] flex items-center justify-center ${stat.color}`}>
                 {stat.icon}
               </div>
@@ -96,14 +96,14 @@ export default function AdminDashboard() {
             {Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-10 w-full" />)}
           </div>
         ) : !data?.low_stock_items?.length ? (
-          <p className="text-sm text-[#a09a8e] py-6 text-center">Semua stok dalam kondisi aman 🎉</p>
+          <p className="text-sm text-[#c2bcb0] py-6 text-center">Semua stok dalam kondisi aman 🎉</p>
         ) : (
           <ul className="divide-y divide-[#1e1e2a]">
             {data.low_stock_items.map((item) => (
               <li key={item.id} className="flex items-center justify-between py-2.5">
                 <div className="min-w-0">
                   <p className="text-sm text-[#f0ece4] truncate">{item.name}</p>
-                  <p className="text-xs text-[#a09a8e]">{item.category}</p>
+                  <p className="text-xs text-[#c2bcb0]">{item.category}</p>
                 </div>
                 <span
                   className={`text-sm font-semibold shrink-0 ml-3 ${
