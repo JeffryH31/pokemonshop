@@ -62,7 +62,7 @@ export default function Navbar() {
               </span>
               <div className="flex items-center gap-1 mt-0.5">
                 <Clock size={9} className="text-[#e5b13a]" />
-                <span className="text-[9px] text-[#7a7470] font-medium tracking-wide">12.00 – 24.00 WIB</span>
+                <span className="text-[9px] text-[#a09a8e] font-medium tracking-wide">12.00 – 24.00 WIB</span>
               </div>
             </div>
           </Link>
@@ -115,7 +115,7 @@ export default function Navbar() {
                         placeholder="Cari kartu Pokémon..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full bg-transparent text-sm text-[#f0ece4] placeholder-[#7a7470] outline-none"
+                        className="w-full bg-transparent text-sm text-[#f0ece4] placeholder-[#a09a8e] outline-none"
                       />
                     </div>
                     {searchResults && searchResults.length > 0 && (
@@ -131,12 +131,12 @@ export default function Navbar() {
                                 alt={card.name}
                                 className="w-8 h-10 object-cover rounded"
                                 fallback={
-                                  <div className="w-8 h-10 bg-[#2a2a38] rounded flex items-center justify-center text-[#7a7470] text-xs">W</div>
+                                  <div className="w-8 h-10 bg-[#2a2a38] rounded flex items-center justify-center text-[#a09a8e] text-xs">W</div>
                                 }
                               />
                               <div className="flex-1 min-w-0">
                                 <p className="text-sm text-[#f0ece4] truncate">{card.name}</p>
-                                <p className="text-xs text-[#7a7470]">{card.category}</p>
+                                <p className="text-xs text-[#a09a8e]">{card.category}</p>
                               </div>
                               <span className="text-xs text-[#e5b13a] font-semibold shrink-0">{formatPrice(card.price)}</span>
                             </button>
@@ -145,7 +145,7 @@ export default function Navbar() {
                       </ul>
                     )}
                     {debouncedQuery.length >= 2 && (!searchResults || searchResults.length === 0) && (
-                      <p className="text-xs text-[#7a7470] text-center py-6">Kartu tidak ditemukan</p>
+                      <p className="text-xs text-[#a09a8e] text-center py-6">Kartu tidak ditemukan</p>
                     )}
                   </motion.div>
                 )}
@@ -232,3 +232,4 @@ export default function Navbar() {
     </header>
   )
 }
+

@@ -52,7 +52,7 @@ export default function Footer() {
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-[#f0ece4]">{item.title}</p>
-                  <p className="text-xs text-[#7a7470] mt-0.5">{item.desc}</p>
+                  <p className="text-xs text-[#a09a8e] mt-0.5">{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -72,7 +72,7 @@ export default function Footer() {
               </div>
               <span className="font-display font-bold text-[#f0ece4] text-base">Wonderplays</span>
             </div>
-            <p className="text-xs text-[#7a7470] leading-relaxed mb-4">
+            <p className="text-xs text-[#a09a8e] leading-relaxed mb-4">
               Wonderful Place for All Collectors.<br />
               Terpercaya sejak 2023.
             </p>
@@ -130,7 +130,7 @@ export default function Footer() {
                 { to: '/about', label: 'Tentang Kami' },
               ].map((link) => (
                 <li key={link.to}>
-                  <Link to={link.to} className="text-sm text-[#7a7470] hover:text-[#a09a8e] transition-colors">
+                  <Link to={link.to} className="text-sm text-[#a09a8e] hover:text-[#a09a8e] transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -143,13 +143,13 @@ export default function Footer() {
             <h4 className="text-xs font-semibold text-[#a09a8e] uppercase tracking-widest mb-3">Informasi</h4>
             <ul className="space-y-2">
               <li>
-                <Link to="/about" className="text-sm text-[#7a7470] hover:text-[#a09a8e] transition-colors">
+                <Link to="/about" className="text-sm text-[#a09a8e] hover:text-[#a09a8e] transition-colors">
                   Tentang Kami
                 </Link>
               </li>
               {['Kebijakan Pengiriman', 'Kebijakan Pengembalian', 'Kebijakan Privasi'].map((label) => (
                 <li key={label}>
-                  <span className="text-sm text-[#7a7470] cursor-not-allowed">{label}</span>
+                  <span className="text-sm text-[#a09a8e] cursor-not-allowed">{label}</span>
                 </li>
               ))}
             </ul>
@@ -157,10 +157,11 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-[#1e1e2a] mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-[#7a7470]">© {new Date().getFullYear()} Wonderplays. Hak cipta dilindungi.</p>
-          <p className="text-xs text-[#7a7470]">Pokémon adalah merek dagang Nintendo / Creatures Inc. / GAME FREAK inc. Wonderplays tidak berafiliasi dengan perusahaan apapun.</p>
+          <p className="text-xs text-[#a09a8e]">© {new Date().getFullYear()} Wonderplays. Hak cipta dilindungi.</p>
+          <p className="text-xs text-[#a09a8e]">Pokémon adalah merek dagang Nintendo / Creatures Inc. / GAME FREAK inc. Wonderplays tidak berafiliasi dengan perusahaan apapun.</p>
         </div>
       </div>
     </footer>
   )
 }
+

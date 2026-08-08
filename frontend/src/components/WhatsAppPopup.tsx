@@ -40,7 +40,7 @@ export default function WhatsAppPopup() {
               {/* Close */}
               <button
                 onClick={dismiss}
-                className="absolute top-3 right-3 w-6 h-6 flex items-center justify-center rounded-full text-[#7a7470] hover:text-[#f0ece4] hover:bg-[#2a2a38] transition-all cursor-pointer"
+                className="absolute top-3 right-3 w-6 h-6 flex items-center justify-center rounded-full text-[#a09a8e] hover:text-[#f0ece4] hover:bg-[#2a2a38] transition-all cursor-pointer"
                 aria-label="Tutup"
               >
                 <X size={13} />
@@ -59,7 +59,7 @@ export default function WhatsAppPopup() {
                     Punya pertanyaan soal produk?{' '}
                     <span className="text-[#e5b13a] font-semibold">Langsung tanya kami via WhatsApp!</span>
                     <br />
-                    <span className="text-[#7a7470]">Owner & Admin siap membantu.</span>
+                    <span className="text-[#a09a8e]">Owner & Admin siap membantu.</span>
                   </p>
                 </div>
               </div>
@@ -76,7 +76,7 @@ export default function WhatsAppPopup() {
                 Chat Wonderplays Sekarang
               </a>
 
-              <p className="text-[10px] text-[#7a7470] text-center mt-2">
+              <p className="text-[10px] text-[#a09a8e] text-center mt-2">
                 Buka setiap hari 12.00 – 24.00 WIB
               </p>
             </div>
@@ -86,3 +86,4 @@ export default function WhatsAppPopup() {
     </AnimatePresence>
   )
 }
+

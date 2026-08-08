@@ -121,7 +121,7 @@ export default function AboutPage() {
             Karena kami sangat menjunjung tinggi Nilai <span className="text-[#e5b13a] font-medium">Kejujuran, Etika Bisnis</span>{' '}
             dan <span className="text-[#e5b13a] font-medium">Tanggung Jawab</span> terhadap semua Customer kami.
           </p>
-          <p className="text-[#7a7470] text-xs italic">
+          <p className="text-[#a09a8e] text-xs italic">
             Wonderplays tidak berafiliasi dengan perusahaan apapun.
           </p>
         </div>
@@ -144,7 +144,7 @@ export default function AboutPage() {
                 {v.icon}
               </div>
               <p className="text-sm font-semibold text-[#f0ece4] mb-1">{v.title}</p>
-              <p className="text-xs text-[#7a7470] leading-relaxed">{v.desc}</p>
+              <p className="text-xs text-[#a09a8e] leading-relaxed">{v.desc}</p>
             </div>
           ))}
         </div>
@@ -177,7 +177,7 @@ export default function AboutPage() {
                   <span className="text-xs font-bold text-[#e5b13a] bg-[#e5b13a11] px-2 py-0.5 rounded-full">{m.year}</span>
                   <p className="text-sm font-semibold text-[#f0ece4]">{m.title}</p>
                 </div>
-                <p className="text-xs text-[#7a7470] leading-relaxed">{m.desc}</p>
+                <p className="text-xs text-[#a09a8e] leading-relaxed">{m.desc}</p>
               </div>
             </motion.div>
           ))}
@@ -208,7 +208,7 @@ export default function AboutPage() {
               </svg>
             </div>
             <div>
-              <p className="text-xs text-[#7a7470]">WhatsApp</p>
+              <p className="text-xs text-[#a09a8e]">WhatsApp</p>
               <p className="text-sm font-semibold text-[#25D366] group-hover:text-[#4ade80] transition-colors">{CONTACT.waDisplay}</p>
             </div>
           </a>
@@ -224,7 +224,7 @@ export default function AboutPage() {
               <IgIcon />
             </div>
             <div>
-              <p className="text-xs text-[#7a7470]">Instagram</p>
+              <p className="text-xs text-[#a09a8e]">Instagram</p>
               <p className="text-sm font-semibold text-[#f0ece4] group-hover:text-[#e1306c] transition-colors">{CONTACT.instagram}</p>
             </div>
           </a>
@@ -240,7 +240,7 @@ export default function AboutPage() {
               <TikTokIcon />
             </div>
             <div>
-              <p className="text-xs text-[#7a7470]">TikTok</p>
+              <p className="text-xs text-[#a09a8e]">TikTok</p>
               <p className="text-sm font-semibold text-[#f0ece4] group-hover:text-[#a09a8e] transition-colors">{CONTACT.tiktok}</p>
             </div>
           </a>
@@ -265,7 +265,7 @@ export default function AboutPage() {
         viewport={{ once: true }}
         className="text-center"
       >
-        <p className="text-[#7a7470] text-sm mb-4">Siap mulai koleksimu?</p>
+        <p className="text-[#a09a8e] text-sm mb-4">Siap mulai koleksimu?</p>
         <div className="flex flex-wrap items-center justify-center gap-3">
           <a
             href={WA_LINK}
@@ -289,3 +289,4 @@ export default function AboutPage() {
     </div>
   )
 }
+

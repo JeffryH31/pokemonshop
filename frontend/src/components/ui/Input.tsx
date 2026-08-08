@@ -20,7 +20,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
         <div className="relative">
           {icon && (
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#7a7470]">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#a09a8e]">
               {icon}
             </span>
           )}
@@ -28,7 +28,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             id={inputId}
             className={cn(
-              'w-full rounded-lg border border-[#2a2a38] bg-[#16161f] px-3 py-2.5 text-sm text-[#f0ece4] placeholder-[#7a7470] transition-colors',
+              'w-full rounded-lg border border-[#2a2a38] bg-[#16161f] px-3 py-2.5 text-sm text-[#f0ece4] placeholder-[#a09a8e] transition-colors',
               'focus:outline-none focus:border-[#e5b13a] focus:ring-1 focus:ring-[#e5b13a33]',
               'hover:border-[#3a3a4a]',
               icon && 'pl-9',
@@ -46,3 +46,4 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
 Input.displayName = 'Input'
 export default Input
+
