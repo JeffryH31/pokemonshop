@@ -15,7 +15,7 @@ export default function FavouritesPage() {
             <Heart size={20} className="text-[#e5b13a]" fill="#e5b13a" />
             <div>
               <h1 className="font-display text-2xl font-bold text-[#f0ece4]">Favorit Saya</h1>
-              <p className="text-xs text-[#5a5550] mt-0.5">
+              <p className="text-xs text-[#7a7470] mt-0.5">
                 {items.length > 0 ? `${items.length} kartu tersimpan` : 'Belum ada kartu favorit'}
               </p>
             </div>
@@ -23,7 +23,7 @@ export default function FavouritesPage() {
           {items.length > 0 && (
             <button
               onClick={clear}
-              className="flex items-center gap-1.5 text-sm text-[#5a5550] hover:text-red-400 transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 text-sm text-[#7a7470] hover:text-red-400 transition-colors cursor-pointer"
             >
               <Trash2 size={14} />
               Hapus Semua
@@ -34,7 +34,7 @@ export default function FavouritesPage() {
         {items.length === 0 ? (
           <div className="flex flex-col items-center justify-center gap-4 py-24 text-center">
             <div className="w-16 h-16 rounded-full bg-[#1c1c28] flex items-center justify-center">
-              <Heart size={26} className="text-[#5a5550]" />
+              <Heart size={26} className="text-[#7a7470]" />
             </div>
             <p className="text-[#a09a8e] text-sm max-w-xs">
               Kamu belum menyimpan kartu apa pun. Tekan ikon hati pada kartu untuk menambahkannya ke favorit.

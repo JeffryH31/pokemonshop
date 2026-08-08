@@ -48,7 +48,7 @@ export function CardItem({ card, index = 0 }: CardItemProps) {
               alt={card.name}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               fallback={
-                <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-[#5a5550]">
+                <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-[#7a7470]">
                   <div className="w-12 h-12 rounded-full bg-[#2a2a38] flex items-center justify-center">
                     <span className="font-display text-lg text-[#3a3a4a]">P</span>
                   </div>
@@ -106,7 +106,7 @@ export function CardItem({ card, index = 0 }: CardItemProps) {
             <h3 className="text-sm font-semibold text-[#f0ece4] truncate group-hover:text-[#e5b13a] transition-colors">
               {card.name}
             </h3>
-            <p className="text-xs text-[#5a5550] mt-0.5 truncate">{card.category}</p>
+            <p className="text-xs text-[#7a7470] mt-0.5 truncate">{card.category}</p>
 
             <div className="flex items-center justify-between mt-3">
               <span className="text-base font-bold text-[#e5b13a]">{formatPrice(card.price)}</span>

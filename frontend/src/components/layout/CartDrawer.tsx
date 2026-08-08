@@ -55,12 +55,12 @@ export default function CartDrawer() {
                 <ShoppingCart size={18} className="text-[#e5b13a]" />
                 <h2 className="font-semibold text-[#f0ece4]">Keranjang Saya</h2>
                 {items.length > 0 && (
-                  <span className="text-xs text-[#5a5550]">({items.length} item)</span>
+                  <span className="text-xs text-[#7a7470]">({items.length} item)</span>
                 )}
               </div>
               <button
                 onClick={closeCart}
-                className="p-1.5 rounded-lg text-[#5a5550] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all cursor-pointer"
+                className="p-1.5 rounded-lg text-[#7a7470] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all cursor-pointer"
               >
                 <X size={18} />
               </button>
@@ -71,7 +71,7 @@ export default function CartDrawer() {
               {items.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full gap-4 px-6">
                   <div className="w-16 h-16 rounded-full bg-[#1c1c28] flex items-center justify-center">
-                    <ShoppingCart size={24} className="text-[#5a5550]" />
+                    <ShoppingCart size={24} className="text-[#7a7470]" />
                   </div>
                   <p className="text-[#a09a8e] text-sm text-center">Keranjang kamu masih kosong</p>
                   <button
@@ -91,7 +91,7 @@ export default function CartDrawer() {
                           alt={item.card.name}
                           className="w-14 h-[72px] object-cover rounded-lg border border-[#2a2a38]"
                           fallback={
-                            <div className="w-14 h-[72px] bg-[#1c1c28] rounded-lg border border-[#2a2a38] flex items-center justify-center text-[#5a5550] text-xs">
+                            <div className="w-14 h-[72px] bg-[#1c1c28] rounded-lg border border-[#2a2a38] flex items-center justify-center text-[#7a7470] text-xs">
                               P
                             </div>
                           }
@@ -104,7 +104,7 @@ export default function CartDrawer() {
                             {item.card.name}
                           </p>
                         </Link>
-                        <p className="text-xs text-[#5a5550] mt-0.5">
+                        <p className="text-xs text-[#7a7470] mt-0.5">
                           {item.card.category}
                         </p>
                         <p className="text-sm font-semibold text-[#e5b13a] mt-1">
@@ -150,7 +150,7 @@ export default function CartDrawer() {
                   <span className="text-sm text-[#a09a8e]">Subtotal</span>
                   <span className="font-bold text-[#f0ece4] text-lg">{formatPrice(total)}</span>
                 </div>
-                <p className="text-xs text-[#5a5550]">
+                <p className="text-xs text-[#7a7470]">
                   Checkout akan membuka WhatsApp berisi draft pesananmu untuk dikonfirmasi ke admin.
                 </p>
                 <Button onClick={handleCheckout} className="w-full" size="lg">
@@ -158,7 +158,7 @@ export default function CartDrawer() {
                 </Button>
                 <button
                   onClick={closeCart}
-                  className="w-full text-center text-sm text-[#5a5550] hover:text-[#a09a8e] transition-colors cursor-pointer"
+                  className="w-full text-center text-sm text-[#7a7470] hover:text-[#a09a8e] transition-colors cursor-pointer"
                 >
                   Lanjut Belanja
                 </button>

@@ -43,7 +43,7 @@ export default function AdminLogin() {
             <ShieldCheck className="text-[#0a0a0f]" size={22} />
           </div>
           <h1 className="font-display text-2xl font-bold text-[#f0ece4]">Panel Admin</h1>
-          <p className="text-sm text-[#5a5550] mt-1">Masuk untuk mengelola Wonderplays</p>
+          <p className="text-sm text-[#7a7470] mt-1">Masuk untuk mengelola Wonderplays</p>
         </div>
 
         <form

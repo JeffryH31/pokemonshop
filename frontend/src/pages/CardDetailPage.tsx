@@ -65,7 +65,7 @@ export default function CardDetailPage() {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <Link
         to="/cards"
-        className="inline-flex items-center gap-2 text-sm text-[#5a5550] hover:text-[#a09a8e] transition-colors mb-6"
+        className="inline-flex items-center gap-2 text-sm text-[#7a7470] hover:text-[#a09a8e] transition-colors mb-6"
       >
         <ArrowLeft size={14} />
         Kembali ke katalog
@@ -85,7 +85,7 @@ export default function CardDetailPage() {
               alt={card.name}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               fallback={
-                <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-[#5a5550]">
+                <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-[#7a7470]">
                   <div className="w-20 h-20 rounded-full bg-[#2a2a38] flex items-center justify-center">
                     <span className="font-display text-4xl text-[#3a3a4a]">P</span>
                   </div>
@@ -104,14 +104,14 @@ export default function CardDetailPage() {
           transition={{ duration: 0.4 }}
           className="flex flex-col"
         >
-          <p className="text-xs text-[#5a5550] uppercase tracking-widest font-semibold mb-2">
+          <p className="text-xs text-[#7a7470] uppercase tracking-widest font-semibold mb-2">
             {card.category}
           </p>
 
           <h1 className="font-display text-3xl font-bold text-[#f0ece4] mb-4">{card.name}</h1>
 
           <div className="bg-[#16161f] border border-[#2a2a38] rounded-xl p-4 mb-6">
-            <p className="text-xs text-[#5a5550] uppercase tracking-wide mb-1">Harga</p>
+            <p className="text-xs text-[#7a7470] uppercase tracking-wide mb-1">Harga</p>
             <p className="text-4xl font-bold text-[#e5b13a] font-display">{formatPrice(card.price)}</p>
           </div>
 
@@ -196,7 +196,7 @@ export default function CardDetailPage() {
               { label: 'Stok', value: card.stock.toString() },
             ].map((spec) => (
               <div key={spec.label}>
-                <p className="text-xs text-[#5a5550] uppercase tracking-wide">{spec.label}</p>
+                <p className="text-xs text-[#7a7470] uppercase tracking-wide">{spec.label}</p>
                 <p className="text-sm text-[#f0ece4] font-medium mt-0.5">{spec.value}</p>
               </div>
             ))}

@@ -45,7 +45,7 @@ export default function CardsPage() {
         <div>
           <h1 className="font-display text-2xl font-bold text-[#f0ece4]">Semua Produk</h1>
           {data && (
-            <p className="text-sm text-[#5a5550] mt-1">
+            <p className="text-sm text-[#7a7470] mt-1">
               {data.total.toLocaleString('id-ID')} produk tersedia
             </p>
           )}
@@ -74,7 +74,7 @@ export default function CardsPage() {
               <Layers size={24} className="text-red-400" />
             </div>
             <p className="text-[#a09a8e] font-medium">Gagal memuat produk</p>
-            <p className="text-sm text-[#5a5550] mt-1">Periksa koneksimu lalu coba lagi</p>
+            <p className="text-sm text-[#7a7470] mt-1">Periksa koneksimu lalu coba lagi</p>
             <Button variant="ghost" className="mt-4" onClick={() => window.location.reload()}>
               Muat ulang
             </Button>
@@ -100,7 +100,7 @@ export default function CardsPage() {
                     const current = filters.page ?? 1
                     if (data.last_page > 7) {
                       if (page > 3 && page < data.last_page - 2 && Math.abs(page - current) > 1) {
-                        if (page === 4) return <span key={page} className="text-[#5a5550] px-1">…</span>
+                        if (page === 4) return <span key={page} className="text-[#7a7470] px-1">…</span>
                         return null
                       }
                     }
@@ -134,10 +134,10 @@ export default function CardsPage() {
         ) : (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <div className="w-16 h-16 rounded-full bg-[#1c1c28] flex items-center justify-center mb-4">
-              <Layers size={24} className="text-[#5a5550]" />
+              <Layers size={24} className="text-[#7a7470]" />
             </div>
             <p className="text-[#a09a8e] font-medium">Produk tidak ditemukan</p>
-            <p className="text-sm text-[#5a5550] mt-1">Coba ubah filter pencarian kamu</p>
+            <p className="text-sm text-[#7a7470] mt-1">Coba ubah filter pencarian kamu</p>
             <Button
               variant="ghost"
               className="mt-4"

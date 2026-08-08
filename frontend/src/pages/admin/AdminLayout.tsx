@@ -22,13 +22,13 @@ export default function AdminLayout() {
     <>
       <div className="px-5 py-5 border-b border-[#2a2a38] flex items-center justify-between">
         <div>
-          <p className="text-xs text-[#5a5550] uppercase tracking-widest font-semibold">Panel Admin</p>
+          <p className="text-xs text-[#7a7470] uppercase tracking-widest font-semibold">Panel Admin</p>
           <p className="text-sm font-bold text-[#e5b13a] font-display mt-0.5">Wonderplays</p>
         </div>
         {/* Close button — mobile only */}
         <button
           onClick={() => setSidebarOpen(false)}
-          className="lg:hidden p-1.5 rounded-lg text-[#5a5550] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all cursor-pointer"
+          className="lg:hidden p-1.5 rounded-lg text-[#7a7470] hover:text-[#f0ece4] hover:bg-[#1c1c28] transition-all cursor-pointer"
         >
           <X size={18} />
         </button>

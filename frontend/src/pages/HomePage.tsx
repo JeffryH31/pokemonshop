@@ -132,7 +132,7 @@ export default function HomePage() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="font-display text-xl font-bold text-[#f0ece4]">Kartu Terbaru</h2>
-            <p className="text-xs text-[#5a5550] mt-1">Koleksi baru yang baru ditambahkan</p>
+            <p className="text-xs text-[#7a7470] mt-1">Koleksi baru yang baru ditambahkan</p>
           </div>
           <Link to="/cards?sort=newest" className="flex items-center gap-1 text-sm text-[#e5b13a] hover:text-[#f0c547] transition-colors">
             Lihat semua <ArrowRight size={14} />
@@ -173,7 +173,7 @@ export default function HomePage() {
               </div>
               <div>
                 <h3 className="text-sm font-semibold text-[#f0ece4]">{item.title}</h3>
-                <p className="text-xs text-[#5a5550] mt-1 leading-relaxed">{item.desc}</p>
+                <p className="text-xs text-[#7a7470] mt-1 leading-relaxed">{item.desc}</p>
               </div>
             </div>
           ))}
